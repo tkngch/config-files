@@ -10,10 +10,10 @@ The above command will create symbolic links at home directory.
 
 ## dependencies
 
-.muttrc
+- .muttrc
     - notmuch (http://notmuchmail.org/)
 
-.vimrc
+- .vimrc
     - base16-vim (https://github.com/chriskempson/base16-vim.git)
     - syntastic (https://github.com/scrooloose/syntastic.git)
     - tcomment_vim (https://github.com/tomtom/tcomment_vim)
@@ -23,7 +23,7 @@ The above command will create symbolic links at home directory.
     - vim-pathogen (https://github.com/tpope/vim-pathogen)
     - Vim-R-plugin (https://github.com/vim-scripts/Vim-R-plugin.git)
 
-.zshrc
+- .zshrc
     - zsh-syntax-highlighting (https://github.com/zsh-users/zsh-syntax-highlighting)
 
 
