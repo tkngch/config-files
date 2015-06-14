@@ -13,7 +13,7 @@ LESSHISTFILE=$HOME/.cache/less.hist
 #------------------------------
 ## Variables
 ##------------------------------
-export BROWSER="/bin/firefox"
+export BROWSER="/bin/chromium"
 export EDITOR="/bin/vim"
 export PATH="${PATH}:${HOME}/bin"
 export VISUAL="/bin/vim"

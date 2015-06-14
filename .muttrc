@@ -1,5 +1,5 @@
 
-set nm_default_uri="notmuch:///home/takao/var/emails"
+set nm_default_uri="notmuch://$HOME/var/emails"
 set virtual_spoolfile=yes
 
 set from="tkngch@runbox.com"
