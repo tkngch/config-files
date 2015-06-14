@@ -1,0 +1,186 @@
+
+set nm_default_uri="notmuch:///home/takao/var/emails"
+set virtual_spoolfile=yes
+
+set from="tkngch@runbox.com"
+set realname="Takao Noguchi"
+
+# normal folders
+set mbox_type=Maildir
+set folder="$HOME/var/emails"
+
+set copy=no  # do not save sent email
+set autoedit  # call editor without prompting for To: and Subject:
+set charset="utf-8"
+set delete=ask-yes  # Ask before doing a delete.
+set include  # Include the message in replies.
+set edit_headers  # edit all headers lines in the editor
+unmy_hdr User-Agent
+my_hdr Bcc: tkngch@runbox.com
+# my_hdr User-Agent: Batman
+
+alternates "(t\.noguchi|takao\.noguchi)\@(warwick|ucl)\.ac\.uk|tkngch\@(hotmail|gmx|gmail)\.com"
+
+# set editor="/usr/bin/vim '+/^$' -f"
+set editor="/usr/bin/vim +8 -f"
+# set editor="/usr/bin/gvim +8 -f"
+set include=ask-yes
+set mail_check=60
+set quote_regexp="^>"  # some people just use '>' - *sigh*
+set sort=threads  # use the threaded view
+set sort_aux=last-date-received
+set strict_threads=no
+set index_format="%[%d/%b/%Y]  %-15.15n %s (%g)"
+set pager_format="%[%d/%b/%Y %H:%m]  %-20.20n %s (%g)"
+set nomarkers
+set wrap=150  # When set to a positive value, mutt will wrap text at $wrap characters. When set to a negative value, mutt will wrap text so that there are $wrap characters of empty space on the right side of the terminal. Setting it to zero makes mutt wrap at the terminal width.
+unset help  # turns off the handy keyboard command hints
+
+set status_on_top  # set: present the status bar at top, ie before the index
+set tilde  # show non-existant lines of text with a tilde at begin-of-line
+set tmpdir="/tmp"  # directory where temporary files are to be placed
+set status_format="%f [%n new and %u unread messages] %?V?[%V]?"
+set compose_format="Compose [Approx. msg size: %l Atts: %a]%>-"
+set sleep_time = 0  # Speed up folders switch
+
+auto_view text/html
+
+set sidebar_delim = " | "
+set sidebar_width = 20
+set sidebar_visible = yes
+
+## unbind problematic keys
+bind index,pager \# noop
+bind index,pager d noop
+
+## unbind all unneccesary
+bind index \Ck noop
+bind index \Cd noop
+bind index \Cn noop
+bind index \Cp noop
+bind index \Cu noop
+bind index \Ct noop
+bind index <esc><tab> noop
+bind index,pager <esc>c noop
+bind index,pager <esc>P noop
+bind index,pager <esc>d noop
+bind index,pager <esc>k noop
+bind index,pager <esc>p noop
+bind index,pager <esc>n noop
+bind index,pager <esc>s noop
+bind index <esc>t noop
+bind index,pager <esc>u noop
+bind index,pager $ noop
+bind index % noop
+bind index,pager & noop
+bind index . noop
+bind index D noop
+bind browser C noop
+bind index,pager F noop
+bind index,pager,browser N noop
+bind browser O noop
+bind index,pager Q noop
+bind index,pager R noop
+bind index,pager,browser T noop
+bind index U noop
+bind index,pager V noop
+bind pager X noop
+bind index,pager W noop
+bind index,pager,browser c noop
+bind index,pager,browser b noop
+bind pager i noop
+bind browser m noop
+bind browser o noop
+bind browser r noop
+bind index,pager s noop
+bind pager t noop
+bind index,pager,browser u noop
+bind index,pager w noop
+bind index x noop
+bind pager y noop
+
+bind pager <down> noop
+bind pager <up> noop
+bind pager <left> noop
+bind pager <right> noop
+bind pager <tab> noop
+bind pager <Return> noop
+bind pager \CK noop
+bind pager \CN noop
+bind pager \CP noop
+bind pager <esc>/ noop
+bind pager <esc>C noop
+bind pager <esc>X noop
+bind pager <space> noop
+bind pager ! noop
+bind pager - noop
+bind pager . noop
+bind pager 1 noop
+bind pager 2 noop
+bind pager 3 noop
+bind pager 4 noop
+bind pager 5 noop
+bind pager 6 noop
+bind pager 7 noop
+bind pager 8 noop
+bind pager 9 noop
+bind pager ^ noop
+bind pager ` noop
+bind pager <backspace> noop
+
+
+## bind keys
+bind index,pager \Cb previous-page
+bind index,pager \Cf next-page
+
+bind index k previous-entry
+bind index,pager K previous-line
+bind index j next-entry
+bind index,pager J next-line
+bind index gg first-entry
+bind index G last-entry
+bind index,pager \CB sidebar-prev
+bind index,pager \CF sidebar-next
+bind index,pager zz sidebar-open
+bind index,pager t modify-labels
+bind index x change-vfolder
+
+bind pager k previous-line
+bind pager j next-line
+bind pager \Cu half-up
+bind pager \Cd half-down
+
+bind attach <return>    view-mailcap
+
+# virtual folders
+virtual-mailboxes \
+   "INBOX"                "notmuch://?query=tag:inbox and tag:to-me and NOT tag:archive" \
+   "MLIST"                "notmuch://?query=tag:inbox and NOT tag:to-me and NOT tag:archive" \
+   "RSS"                "notmuch://?query=tag:rss and NOT tag:archive" \
+
+macro index,pager a "<modify-labels-then-hide>+archive\n<sync-mailbox>"
+macro index,pager \\ "<vfolder-from-query>"
+macro attach s <save-entry><bol>$HOME/tmp/  # directory to save attachments
+
+
+# source /home/takao/.mutt/colors
+
+# Default color definitions
+color normal default default
+color hdrdefault brightblue default
+# color quoted white default
+color indicator black blue
+color indicator black yellow
+color error brightred default
+color status black green
+color tree brightmagenta default
+color attachment yellow  default
+color message brightred default
+color search brightmagenta default
+color bold brightwhite default
+
+## new message
+color index cyan default "~N"
+
+# sidebar
+color sidebar black default
