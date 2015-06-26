@@ -11,6 +11,23 @@ set nocompatible
 execute pathogen#infect()
 
 
+"""""""""""""""""""
+" Persistent Undo "
+"""""""""""""""""""
+
+" create undodir
+if !isdirectory($HOME."/.cache/vim_undo")
+    call mkdir($HOME."/.cache/vim_undo", "", 0700)
+endif
+
+" List of directory names for undo files, separated with commas.
+set undodir=~/.cache/vim_undo
+
+" automatically saves undo history to an undo file when writing a buffer to a
+" file, and restores undo history from the same file on buffer read
+set undofile
+
+
 """""""""""""
 " File Type "
 """""""""""""
@@ -96,7 +113,7 @@ set autoindent
 set smartindent
 
 " when in unclosed parentheses, indent to the unclosed parentheses
-set cino=(0
+" set cino=(0
 
 " number of spaces to use for each step of (auto)indent
 set shiftwidth=4
@@ -295,12 +312,30 @@ autocmd FileType mail setlocal complete+=k,kspell
 """""""""""""""""""""""""
 
 " global config file
-let g:ycm_global_ycm_extra_conf="$HOME/.vim/.ycm_extra_conf.py"
+" let g:ycm_global_ycm_extra_conf="$HOME/.vim/.ycm_extra_conf.py"
+let g:ycm_global_ycm_extra_conf="~/.vim/.ycm_extra_conf.py"
 
 " use <c-n> and <c-p> instead of <tab>
 let g:ycm_key_list_select_completion=[]
 let g:ycm_key_list_previous_completion=[]
 
+" YCM will populate the location list automatically every time it gets new diagnostic data.
+" See :help location-list in Vim to learn more about the location list.
+let g:ycm_always_populate_location_list = 1
+
+let g:ycm_filetype_blacklist = {
+      \ 'tagbar' : 1,
+      \ 'qf' : 1,
+      \ 'notes' : 1,
+      \ 'markdown' : 1,
+      \ 'unite' : 1,
+      \ 'text' : 1,
+      \ 'vimwiki' : 1,
+      \ 'pandoc' : 1,
+      \ 'infolog' : 1,
+      \ 'mail' : 1,
+      \ 'tex': 1
+      \}
 
 """""""""""""""""""""
 " plugin: UltiSnips "
@@ -352,12 +387,12 @@ map <silent> $ g$
 
 " switch between buffers
 noremap <C-a> :bnext<CR>
-" noremap <C-S-a> :bprevious<CR>
+noremap <C-S-a> :bprevious<CR>
 
 nnoremap ; :
 " nnoremap <C-a> :buffers<CR>:buffer<Space>
 noremap <C-p> :Explore<CR>
-noremap <C-m> :wall<CR>:make!<CR>
+" noremap <C-m> :wall<CR>:make!<CR>
 
 " Dictionary Lookup        "
 " depends: sdcv (stardict) "
@@ -437,6 +472,10 @@ if has("gui_running")
     set guicursor+=a:blinkon0
 endif
 
+" This autocommand jumps to the last known position in a file just after
+" opening it, if the '" mark is set: >
+autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
+
 
 augroup encrypted
     au!
@@ -467,7 +506,6 @@ augroup encrypted
     autocmd BufReadPre,FileReadPre      *.gpg set foldlevel=0
 
 augroup END
-
 
 " Last but not least, allow for local overrides
 if filereadable(expand("~/.vimrc.local"))
