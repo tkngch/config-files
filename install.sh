@@ -2,7 +2,7 @@
 
 here=$PWD
 
-for file in ".clang-format" ".gitconfig" ".mailcap" ".muttrc" ".sqliterc" ".vimrc" ".zshrc";
+for file in ".gitconfig" ".mailcap" ".muttrc" ".sqliterc" ".tmux.conf" ".vimrc" ".zshrc";
 do
     if [[ $(readlink -f $HOME/$file) != $(readlink -f $here/$file) ]]; then
         ln -i -s -T $here/$file $HOME/$file

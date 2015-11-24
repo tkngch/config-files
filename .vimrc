@@ -110,7 +110,7 @@ set smartcase
 set autoindent
 
 " do smart autoindenting when starting a new line
-set smartindent
+" set smartindent  " this messes up gqap
 
 " when in unclosed parentheses, indent to the unclosed parentheses
 " set cino=(0
@@ -234,12 +234,13 @@ set t_Co=256
 if has("gui_running")
     colorscheme base16-atelierforest
 else
-    colorscheme molokai
-    " molokai's diff coloring is terrible
-    highlight DiffAdd    ctermbg=22
-    highlight DiffDelete ctermbg=52
-    highlight DiffChange ctermbg=17
-    highlight DiffText   ctermbg=53
+    colorscheme hybrid
+    " colorscheme molokai
+    " " molokai's diff coloring is terrible
+    " highlight DiffAdd    ctermbg=22
+    " highlight DiffDelete ctermbg=52
+    " highlight DiffChange ctermbg=17
+    " highlight DiffText   ctermbg=53
 endif
 
 " autocmd FileType javascript colorscheme lucius
@@ -386,11 +387,11 @@ map <silent> 0 g0
 map <silent> $ g$
 
 " switch between buffers
-noremap <C-a> :bnext<CR>
-noremap <C-S-a> :bprevious<CR>
+noremap <C-a> :bprevious<CR>
+noremap <C-S-a> :bnext<CR>
 
 nnoremap ; :
-" nnoremap <C-a> :buffers<CR>:buffer<Space>
+nnoremap <C-z> :buffers<CR>:buffer<Space>
 noremap <C-p> :Explore<CR>
 " noremap <C-m> :wall<CR>:make!<CR>
 
@@ -441,6 +442,10 @@ command CDC cd %:p:h
 """"""""
 " Misc "
 """"""""
+
+" When a file has been detected to have been changed outside of Vim and it has
+" not been changed inside of Vim, automatically read it again.
+set autoread
 
 " allow backspacing over everything in insert mode
 set backspace=eol,start,indent

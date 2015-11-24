@@ -13,6 +13,7 @@ LESSHISTFILE=$HOME/.cache/less.hist
 #------------------------------
 ## Variables
 ##------------------------------
+export TERM="xterm-256color"
 export BROWSER="/bin/chromium"
 export EDITOR="/bin/vim"
 export PATH="${PATH}:${HOME}/bin"
@@ -28,6 +29,7 @@ export R_LIBS_USER="$HOME/lib/R/"
 # color grep output
 export GREP_COLOR='1;33'  # yellow
 # export CPLUS_INCLUDE_PATH="$CPLUS_INCLUDE_PATH:$HOME/lib/cpp/:/usr/include/"
+export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$HOME/lib/cpp/"
 
 
 #------------------------------
@@ -141,6 +143,7 @@ alias handbrake='ghb'
 alias qtpython='ipython qtconsole'
 alias R='$HOME/bin/R'
 alias grep='grep --color=always'
+alias matlab='LD_LIBRARY_PATH="/home/takao/etc/matlab_libs/" /usr/local/bin/matlab -nosplash -nodesktop'
 
 
 #------------------------------
