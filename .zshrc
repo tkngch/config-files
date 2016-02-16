@@ -26,10 +26,16 @@ export PYTHONUSERBASE="$HOME/lib/python/"  # directory for pip -user
 export XDG_CONFIG_HOME="$HOME/.config"
 export MATPLOTLIBRC="$HOME/.config/matplotlib/"
 export R_LIBS_USER="$HOME/lib/R/"
+export R_PROFILE_USER="$XDG_CONFIG_HOME/Rprofile.R"
 # color grep output
 export GREP_COLOR='1;33'  # yellow
 # export CPLUS_INCLUDE_PATH="$CPLUS_INCLUDE_PATH:$HOME/lib/cpp/:/usr/include/"
 export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$HOME/lib/cpp/"
+export IPYTHONDIR="$XDG_CONFIG_HOME/ipython"
+export JUPYTER_CONFIG_DIR="$XDG_CONFIG_HOME/jupyter"
+
+# do not let R preload databases and else
+export R_DEFAULT_PACKAGES=NULL
 
 
 #------------------------------
@@ -140,7 +146,7 @@ alias mv='mv -iv'
 alias cp='cp -i -p'
 alias rm='rm -iv'
 alias handbrake='ghb'
-alias qtpython='ipython qtconsole'
+# alias qtpython='ipython qtconsole'
 alias R='$HOME/bin/R'
 alias grep='grep --color=always'
 alias matlab='LD_LIBRARY_PATH="/home/takao/etc/matlab_libs/" /usr/local/bin/matlab -nosplash -nodesktop'
