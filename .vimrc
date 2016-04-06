@@ -8,7 +8,21 @@ set nocompatible
 " Plugins "
 """""""""""
 
-execute pathogen#infect()
+filetype off
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+
+Plugin 'VundleVim/Vundle.vim'
+Plugin 'chriskempson/base16-vim'
+Plugin 'scrooloose/syntastic'
+Plugin 'tomtom/tcomment_vim'
+Plugin 'SirVer/ultisnips'
+Plugin 'honza/vim-snippets'
+" Plugin 'Valloric/YouCompleteMe'
+
+call vundle#end()
+filetype plugin indent on
 
 
 """""""""""""""""""
@@ -26,6 +40,22 @@ set undodir=~/.cache/vim_undo
 " automatically saves undo history to an undo file when writing a buffer to a
 " file, and restores undo history from the same file on buffer read
 set undofile
+
+
+"""""""""""""""
+" Status Line "
+"""""""""""""""
+" the last window always have the statusline
+set laststatus=2
+
+set statusline=
+set statusline+=%n:  " buffer number
+set statusline+=\ %f  " relative path
+set statusline+=\ %m%r%h%w  " flags
+set statusline+=%=  " seperate between right- and left-aligned
+set statusline+=%{&spelllang}
+set statusline+=\ %y  " file type
+set statusline+=\ (row:%l/%L,\ col:%c)  " line and column
 
 
 """""""""""""
@@ -223,6 +253,7 @@ set wildignore+=*.o,*.pyc
 if &t_Co > 2 || has("gui_running")
     syntax enable
     set background=dark
+    colorscheme base16-eighties
 
     " when there is a previous search pattern, highlight all its matches
     set hlsearch
@@ -230,18 +261,6 @@ endif
 
 " number of colors
 set t_Co=256
-
-if has("gui_running")
-    colorscheme base16-atelierforest
-else
-    colorscheme hybrid
-    " colorscheme molokai
-    " " molokai's diff coloring is terrible
-    " highlight DiffAdd    ctermbg=22
-    " highlight DiffDelete ctermbg=52
-    " highlight DiffChange ctermbg=17
-    " highlight DiffText   ctermbg=53
-endif
 
 " autocmd FileType javascript colorscheme lucius
 " autocmd FileType tex colorscheme zenburn
@@ -269,10 +288,10 @@ let g:syntastic_check_on_wq = 0
 let g:syntastic_python_checkers = ['flake8']
 let g:syntastic_cpp_compiler_options = ' -std=c++11'
 
-let g:syntastic_error_symbol = "☠"
-let g:syntastic_warning_symbol = "⚠"
-let g:syntastic_style_error_symbol = "☢"
-let g:syntastic_style_warning_symbol = "☹"
+" let g:syntastic_error_symbol = "☠"
+" let g:syntastic_warning_symbol = "⚠"
+" let g:syntastic_style_error_symbol = "☢"
+" let g:syntastic_style_warning_symbol = "☹"
 
 
 """"""""""""""""""
@@ -280,12 +299,23 @@ let g:syntastic_style_warning_symbol = "☹"
 """"""""""""""""""
 
 autocmd FileType rst setlocal spell spelllang=en_gb
+autocmd FileType rst syntax spell toplevel  " spell check
+
+autocmd FileType markdown setlocal spell spelllang=en_gb
+autocmd FileType markdown syntax spell toplevel  " spell check
+
 autocmd FileType text setlocal spell spelllang=en_gb
-autocmd FileType tex syntax spell toplevel
+autocmd FileType text syntax spell toplevel  " spell check
+
 autocmd FileType tex setlocal spell spelllang=en_us
-autocmd FileType help syntax spell notoplevel
+autocmd FileType tex syntax spell toplevel  " spell check
+
+autocmd FileType help syntax spell notoplevel  " no spell check
+
 autocmd FileType vim syntax spell notoplevel
+
 autocmd FileType mail setlocal spell spelllang=en_gb
+autocmd FileType mail syntax spell toplevel  " spell check
 
 
 """""""""""""""""""
@@ -315,6 +345,7 @@ autocmd FileType mail setlocal complete+=k,kspell
 " global config file
 " let g:ycm_global_ycm_extra_conf="$HOME/.vim/.ycm_extra_conf.py"
 let g:ycm_global_ycm_extra_conf="~/.vim/.ycm_extra_conf.py"
+let g:ycm_server_python_interpreter="/usr/bin/python"
 
 " use <c-n> and <c-p> instead of <tab>
 let g:ycm_key_list_select_completion=[]
@@ -342,8 +373,8 @@ let g:ycm_filetype_blacklist = {
 " plugin: UltiSnips "
 """""""""""""""""""""
 
-let g:UltiSnipsSnippetsDir="$HOME/.vim/ultisnips"
-let g:UltiSnipsSnippetDirectories=["UltiSnips", "ultisnips"]
+" let g:UltiSnipsSnippetDirectories=['UltiSnips', 'ultisnips']
+let g:UltiSnipsSnippetDirectories=['ultisnips']
 let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsListSnippets="<s-tab>"
 let g:UltiSnipsJumpForwardTrigger="<tab>"
@@ -358,16 +389,11 @@ let vimrplugin_screenplugin = 0 " no R integration
 let vimrplugin_assign = 0  " dont't replace underscore with arrow
 
 
-"""""""""""""""""""""""
-" plugin: vim-airline "
-"""""""""""""""""""""""
+""""""""""""""""""""
+" plugin: tcomment "
+""""""""""""""""""""
 
-let g:airline_theme="lucius"
-let g:airline_left_sep=''
-let g:airline_right_sep=''
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#left_sep = ''
-let g:airline#extensions#tabline#left_alt_sep = ''
+autocmd FileType pyrex setlocal commentstring=#\ %s
 
 
 """"""""""""
@@ -387,8 +413,8 @@ map <silent> 0 g0
 map <silent> $ g$
 
 " switch between buffers
-noremap <C-a> :bprevious<CR>
-noremap <C-S-a> :bnext<CR>
+noremap <C-S-t> :bprevious<CR>
+noremap <C-t> :bnext<CR>
 
 nnoremap ; :
 nnoremap <C-z> :buffers<CR>:buffer<Space>
@@ -455,9 +481,6 @@ set history=100
 
 " command history file
 set viminfo+=n/home/takao/.cache/viminfo
-
-" the last window always have the statusline
-set laststatus=2
 
 " end-of-line (<EOL>) formats
 set fileformats=unix,dos

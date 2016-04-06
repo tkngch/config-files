@@ -13,7 +13,8 @@ LESSHISTFILE=$HOME/.cache/less.hist
 #------------------------------
 ## Variables
 ##------------------------------
-export TERM="xterm-256color"
+# export TERM="xterm-256color"
+export TERM="screen-256color"
 export BROWSER="/bin/chromium"
 export EDITOR="/bin/vim"
 export PATH="${PATH}:${HOME}/bin"
@@ -147,7 +148,7 @@ alias cp='cp -i -p'
 alias rm='rm -iv'
 alias handbrake='ghb'
 # alias qtpython='ipython qtconsole'
-alias R='$HOME/bin/R'
+# alias R='$HOME/bin/R'
 alias grep='grep --color=always'
 alias matlab='LD_LIBRARY_PATH="/home/takao/etc/matlab_libs/" /usr/local/bin/matlab -nosplash -nodesktop'
 
