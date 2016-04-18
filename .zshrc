@@ -21,7 +21,7 @@ export PATH="${PATH}:${HOME}/bin"
 export VISUAL="/bin/vim"
 export PAGER="/bin/less"
 export LESS="-r"  # color support
-export DISPLAY=:0.0
+# export DISPLAY=:0.0
 export PYTHONPATH="$HOME/lib/python/"
 export PYTHONUSERBASE="$HOME/lib/python/"  # directory for pip -user
 export XDG_CONFIG_HOME="$HOME/.config"
@@ -34,6 +34,7 @@ export GREP_COLOR='1;33'  # yellow
 export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$HOME/lib/cpp/"
 export IPYTHONDIR="$XDG_CONFIG_HOME/ipython"
 export JUPYTER_CONFIG_DIR="$XDG_CONFIG_HOME/jupyter"
+export STARDICT_DATA_DIR="$HOME/var/stardict/dic"
 
 # do not let R preload databases and else
 export R_DEFAULT_PACKAGES=NULL

@@ -14,14 +14,7 @@ The above command will create symbolic links at home directory.
     - notmuch (http://notmuchmail.org/)
 
 - .vimrc
-    - base16-vim (https://github.com/chriskempson/base16-vim.git)
-    - syntastic (https://github.com/scrooloose/syntastic.git)
-    - tcomment_vim (https://github.com/tomtom/tcomment_vim)
-    - UltiSnips (https://github.com/vim-scripts/UltiSnips.git)
-    - vim-airline (https://github.com/bling/vim-airline)
-    - vim-colorschemes (https://github.com/flazz/vim-colorschemes)
-    - vim-pathogen (https://github.com/tpope/vim-pathogen)
-    - Vim-R-plugin (https://github.com/vim-scripts/Vim-R-plugin.git)
+    - Vundle (https://github.com/VundleVim/Vundle.vim)
 
 - .zshrc
     - zsh-syntax-highlighting (https://github.com/zsh-users/zsh-syntax-highlighting)

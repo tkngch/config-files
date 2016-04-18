@@ -88,7 +88,10 @@ set nobackup
 """"""""""""""""""""
 
 " redraw the screen while executing macros, registers and other commands
-set nolazyredraw
+" set nolazyredraw
+
+" do not redraw the screen while executing macros, registers and other commands
+set lazyredraw
 
 " when a bracket is inserted, briefly jump to the matching one
 set showmatch
@@ -418,7 +421,7 @@ noremap <C-t> :bnext<CR>
 
 nnoremap ; :
 nnoremap <C-z> :buffers<CR>:buffer<Space>
-noremap <C-p> :Explore<CR>
+" noremap <C-e> :Explore<CR>
 " noremap <C-m> :wall<CR>:make!<CR>
 
 " Dictionary Lookup        "
@@ -427,13 +430,13 @@ function! SearchWord()
     let expl=system('sdcv -n ' . expand("<cword>"))
     windo if expand("%")=="dictionary" | q! | endif
     " 25vsp diCt-tmp
-    10sp dictionary
+    20sp dictionary
     setlocal buftype=nofile bufhidden=hide noswapfile
     1s/^/\=expl/
     1
 endfunction
 
-noremap <C-e> :call SearchWord()<CR>
+noremap <C-m> :call SearchWord()<CR>
 
 
 " delete buffer, but do no exit
@@ -455,7 +458,7 @@ noremap <C-x> :call DeleteBufferNotExit() <CR>
 
 
 " clear highlight and clear the screen
-noremap <C-s> :nohlsearch<CR>:redraw!<CR>
+noremap <C-s> :nohlsearch<CR>:edit<CR>:redraw!<CR>
 
 "By pressing ctrl + r in the visual mode you will be prompted to enter text to
 "replace with.
