@@ -1,11 +1,7 @@
 
-set nm_default_uri="notmuch://$HOME/var/emails"
-set virtual_spoolfile=yes
-
 set from="tkngch@runbox.com"
 set realname="Takao Noguchi"
 
-# normal folders
 set mbox_type=Maildir
 set folder="$HOME/var/emails"
 
@@ -28,7 +24,8 @@ set include=ask-yes
 set mail_check=60
 set quote_regexp="^>"  # some people just use '>' - *sigh*
 set sort=threads  # use the threaded view
-set sort_aux=last-date-received
+# set sort_aux=last-date-received
+set sort_aux=reverse-last-date-received
 set strict_threads=no
 set index_format="%[%d/%b/%Y]  %-15.15n %s (%g)"
 set pager_format="%[%d/%b/%Y %H:%m]  %-20.20n %s (%g)"
@@ -46,8 +43,12 @@ set sleep_time = 0  # Speed up folders switch
 auto_view text/html
 
 set sidebar_delim = " | "
-set sidebar_width = 20
+set sidebar_width = 30
 set sidebar_visible = yes
+
+###############
+# Key binding #
+###############
 
 ## unbind problematic keys
 bind index,pager \# noop
@@ -128,7 +129,6 @@ bind pager ^ noop
 bind pager ` noop
 bind pager <backspace> noop
 
-
 ## bind keys
 bind index,pager \Cb previous-page
 bind index,pager \Cf next-page
@@ -142,8 +142,6 @@ bind index G last-entry
 bind index,pager \CB sidebar-prev
 bind index,pager \CF sidebar-next
 bind index,pager zz sidebar-open
-bind index,pager t modify-labels
-bind index x change-vfolder
 
 bind pager k previous-line
 bind pager j next-line
@@ -152,16 +150,47 @@ bind pager \Cd half-down
 
 bind attach <return>    view-mailcap
 
-# virtual folders
-virtual-mailboxes \
-   "INBOX"                "notmuch://?query=tag:inbox and tag:to-me and NOT tag:archive" \
-   "MLIST"                "notmuch://?query=tag:inbox and NOT tag:to-me and NOT tag:archive" \
-   "RSS"                "notmuch://?query=tag:rss and NOT tag:archive" \
 
-macro index,pager a "<modify-labels-then-hide>+archive\n<sync-mailbox>"
+###################
+# notmuch options #
+###################
+
+# one or more virtual folder
+virtual-mailboxes \
+   "Inbox: Personal"    "notmuch://?query=tag:inbox and tag:to-me and NOT tag:archive" \
+   "Inbox: Others"      "notmuch://?query=tag:inbox and NOT tag:to-me and NOT tag:archive" \
+   "Archive"   "notmuch://?query=tag:archive&type=threads" \
+   "Sent"      "notmuch://?query=tag:sent" \
+
+# When set, mutt will use the first virtual mailbox (see virtual-mailboxes) as a spoolfile.
+set virtual_spoolfile=yes
+
+# Add messages stored to the mutt record (see $record in the mutt docs) also to notmuch DB.
+set nm_record=no
+
+# the default Notmuch database in format notmuch://<absolute path>
+set nm_default_uri="notmuch://$HOME/var/emails"
+
+# notmuch query limit.
+set nm_db_limit=100
+
+# notmuch query type, supported types: 'threads' and 'messages'.
+set nm_query_type=messages
+
+# customize the file browser display for virtual folders to your personal taste.
+set vfolder_format="%f %N"
+
+# virtual folders
+bind index,pager t modify-labels
+# bind index \Ct change-vfolder
+macro index,pager a "<modify-labels-then-hide>-inbox +archive\n<sync-mailbox>"
 macro index,pager \\ "<vfolder-from-query>"
 macro attach s <save-entry><bol>$HOME/tmp/  # directory to save attachments
 
+
+###########
+# colours #
+###########
 
 # source /home/takao/.mutt/colors
 
