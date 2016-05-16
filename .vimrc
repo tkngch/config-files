@@ -436,7 +436,7 @@ function! SearchWord()
     1
 endfunction
 
-" <F2> is [12~ (check with Ctrl-V than F2)
+" <F2> is [12~ (check with Ctrl-V then F2)
 noremap [12~ :call SearchWord()<CR>
 
 
