@@ -438,6 +438,7 @@ endfunction
 
 " <F2> is [12~ (check with Ctrl-V then F2)
 noremap [12~ :call SearchWord()<CR>
+noremap <F2> :call SearchWord()<CR>
 
 
 " delete buffer, but do no exit
@@ -461,6 +462,7 @@ noremap <C-x> :call DeleteBufferNotExit() <CR>
 " clear highlight and clear the screen
 " <F5> is [15~
 noremap <1b>[15~ :nohlsearch<CR>:edit<CR>:redraw!<CR>
+noremap <F5> :nohlsearch<CR>:edit<CR>:redraw!<CR>
 
 "By pressing ctrl + r in the visual mode you will be prompted to enter text to
 "replace with.
