@@ -27,7 +27,7 @@ export PYTHONUSERBASE="$HOME/lib/python/"  # directory for pip -user
 export XDG_CONFIG_HOME="$HOME/.config"
 export MATPLOTLIBRC="$HOME/.config/matplotlib/"
 export R_LIBS_USER="$HOME/lib/R/"
-export R_PROFILE_USER="$XDG_CONFIG_HOME/Rprofile.R"
+export R_PROFILE_USER="$HOME/.Rprofile"
 # color grep output
 export GREP_COLOR='1;33'  # yellow
 # export CPLUS_INCLUDE_PATH="$CPLUS_INCLUDE_PATH:$HOME/lib/cpp/:/usr/include/"
