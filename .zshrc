@@ -1,18 +1,17 @@
+# .zshrc
 
-#------------------------------
-# History
-#------------------------------
+
+### History ###
+
 HISTFILE=$HOME/.cache/zsh.hist
 HISTSIZE=1000
 SAVEHIST=1000
-# ignore duplicate
-# setopt histignorealldups
 
 LESSHISTFILE=$HOME/.cache/less.hist
 
-#------------------------------
-## Variables
-##------------------------------
+
+### Variables ###
+
 # export TERM="xterm-256color"
 export TERM="screen-256color"
 export BROWSER="/bin/chromium"
@@ -28,24 +27,22 @@ export XDG_CONFIG_HOME="$HOME/.config"
 export MATPLOTLIBRC="$HOME/.config/matplotlib/"
 export R_LIBS_USER="$HOME/lib/R/"
 export R_PROFILE_USER="$HOME/.Rprofile"
+export R_DEFAULT_PACKAGES=NULL  # do not let R preload anything
 # color grep output
 export GREP_COLOR='1;33'  # yellow
-# export CPLUS_INCLUDE_PATH="$CPLUS_INCLUDE_PATH:$HOME/lib/cpp/:/usr/include/"
 export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$HOME/lib/cpp/"
 export IPYTHONDIR="$XDG_CONFIG_HOME/ipython"
 export JUPYTER_CONFIG_DIR="$XDG_CONFIG_HOME/jupyter"
 export STARDICT_DATA_DIR="$HOME/var/stardict/dic"
 
-# do not let R preload databases and else
-export R_DEFAULT_PACKAGES=NULL
 
+### Keybindings ###
 
-#------------------------------
-## Keybindings
-##------------------------------
+# use vi mode
 bindkey -v
-typeset -g -A key
-#bindkey '\e[3~' delete-char
+# typeset -g -A key
+
+# #bindkey '\e[3~' delete-char
 bindkey '\e[1~' beginning-of-line
 bindkey '\e[4~' end-of-line
 #bindkey '\e[2~' overwrite-mode
@@ -73,9 +70,8 @@ bindkey -M vicmd "k" history-beginning-search-backward
 bindkey -M vicmd "j" history-beginning-search-forward
 
 
-#------------------------------
-# Auto completion
-#------------------------------
+### Auto completion ###
+
 autoload -Uz compinit
 compinit -d $HOME/.cache/zsh.compdump
 # move the cursor around the list of completions to select one
@@ -87,9 +83,8 @@ zstyle ':completion:*' accept-exact '*(N)'
 setopt completealiases
 
 
-#------------------------------
-# Window title
-#------------------------------
+### Window title ###
+
 case $TERM in
     termite|*xterm*|rxvt*)
         precmd () { print -Pn '\e]0;%n@%m:%4d\a' }
@@ -97,9 +92,7 @@ case $TERM in
 esac
 
 
-#------------------------------
-# Prompt
-#------------------------------
+### Prompt ###
 
 PROMPT='
 %F{white}%d
@@ -119,9 +112,8 @@ zle -N zle-line-init
 zle -N zle-keymap-select
 
 
-#------------------------------
-# Dirstack
-#------------------------------
+### Dirstack ###
+
 DIRSTACKFILE="$HOME/.cache/zsh.dirs"
 DIRSTACKSIZE=10
 setopt autopushd pushdsilent pushdtohome
@@ -136,27 +128,21 @@ chpwd() {
 }
 
 
-#------------------------------
-# Aliases
-#------------------------------
+### Aliases ###
+
 alias ls='/bin/ls --color=auto'
-# alias l='ls -Alh'
 alias ds='dirs -v'
-alias dic='sdcv'
 alias mkdir='mkdir -v'
 alias mv='mv -iv'
 alias cp='cp -i -p'
 alias rm='rm -iv'
 alias handbrake='ghb'
-# alias qtpython='ipython qtconsole'
-# alias R='$HOME/bin/R'
 alias grep='grep --color=always'
-alias matlab='LD_LIBRARY_PATH="/home/takao/etc/matlab_libs/" /usr/local/bin/matlab -nosplash -nodesktop'
+# alias matlab='LD_LIBRARY_PATH="/home/takao/etc/matlab_libs/" /usr/local/bin/matlab -nosplash -nodesktop'
 
 
-#------------------------------
-# Misc
-#------------------------------
+### Misc ###
+
 unsetopt beep
 
 # disable XON/XOFF flow control (^s/^q)
