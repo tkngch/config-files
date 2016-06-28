@@ -19,6 +19,7 @@ Plugin 'scrooloose/syntastic'
 Plugin 'tomtom/tcomment_vim'
 Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
+Plugin 'majutsushi/tagbar'
 " Plugin 'Valloric/YouCompleteMe'
 
 call vundle#end()
@@ -52,6 +53,7 @@ set statusline=
 set statusline+=%n:  " buffer number
 set statusline+=\ %f  " relative path
 set statusline+=\ %m%r%h%w  " flags
+set statusline+=\ %{tagbar#currenttag('>\ %s','','f')}  " show current tag's full hierarchy
 set statusline+=%=  " seperate between right- and left-aligned
 set statusline+=%{&spelllang}
 set statusline+=\ %y  " file type
@@ -399,6 +401,17 @@ let vimrplugin_assign = 0  " dont't replace underscore with arrow
 autocmd FileType pyrex setlocal commentstring=#\ %s
 
 
+""""""""""""""""""
+" plugin: tagbar "
+""""""""""""""""""
+
+" Open the tagbar on the left.
+let g:tagbar_left = 1
+
+" sort tags according to their order in the source file
+let g:tagbar_sort = 0
+
+
 """"""""""""
 " Bindings "
 """"""""""""
@@ -470,6 +483,9 @@ vnoremap <C-r> "hy:%s/<C-r>h//g<left><left><left>
 
 " :CDC to change to directory of current file
 command CDC cd %:p:h
+
+noremap [19~ :TagbarToggle<CR>
+noremap <F8> :TagbarToggle<CR>
 
 
 """"""""
