@@ -1,6 +1,11 @@
 # text/html; lynx -assume_charset=utf-8 -display_charset=utf-8 -dump %s; nametemplate=%s.html; copiousoutput
 # text/html; firefox %s; needsterminal;
+
+# press v, then navigate to html attachment, and press "enter" to open in w3m
+text/html; w3m %s -T text/html; needsterminal;
+# default html handing
 text/html; w3m -I %{charset} -T text/html; copiousoutput;
+
 image/*; sxiv %s
 application/pdf; evince %s
 application/msword; libreoffice %s

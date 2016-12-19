@@ -212,7 +212,11 @@ set mouse=a
 set foldlevelstart=99
 
 " the kind of folding used for the current window
-set foldmethod=indent
+set foldmethod=syntax
+
+" index based folding for python
+autocmd FileType python set foldmethod=index
+
 
 " fold out of paragraphs separated by blank lines: >
 autocmd FileType tex set foldexpr=getline(v:lnum)=~'^\\s*$'&&getline(v:lnum+1)=~'\\S'?'<1':1
@@ -433,7 +437,10 @@ noremap <C-S-t> :bprevious<CR>
 noremap <C-t> :bnext<CR>
 
 nnoremap ; :
-nnoremap <C-z> :buffers<CR>:buffer<Space>
+
+" switch between buffers
+nnoremap <C-a> :buffers<CR>:buffer<Space>
+
 " noremap <C-e> :Explore<CR>
 " noremap <C-m> :wall<CR>:make!<CR>
 
