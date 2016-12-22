@@ -499,15 +499,6 @@ noremap <F8> :TagbarToggle<CR>
 " Misc "
 """"""""
 
-" If this many milliseconds nothing is typed the swap file will be written to
-" disk.  Also used for the CursorHold autocommand event.
-set updatetime=1000
-
-" When the user doesn't press a key for the time specified with 'updatetime'.
-autocmd CursorHold * set nohlsearch
-" After the cursor was moved in Normal or Visual mode.
-autocmd CursorMoved * set hlsearch
-
 " Use visual bell instead of beeping.
 set visualbell
 
