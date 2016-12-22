@@ -3,6 +3,9 @@
 # Bug in GNOME does not source /etc/profile, resulting in an incomplete $PATH.
 # Because of this bug, biber (and other commands) cannot be found.
 # Source it manually here.
+# https://bbs.archlinux.org/viewtopic.php?id=218767
+# https://bbs.archlinux.org/viewtopic.php?id=218197
+# https://bugzilla.gnome.org/show_bug.cgi?id=736660
 for file in /etc/profile.d/*.sh; do source "${file}"; done
 
 
