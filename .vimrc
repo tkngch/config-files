@@ -215,7 +215,7 @@ set foldlevelstart=99
 set foldmethod=syntax
 
 " index based folding for python
-autocmd FileType python set foldmethod=index
+autocmd FileType python set foldmethod=indent
 
 
 " fold out of paragraphs separated by blank lines: >
