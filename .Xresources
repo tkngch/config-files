@@ -2,7 +2,8 @@
 Xterm*termName: xterm-256color
 URxvt*termName: rxvt-unicode-256color
 
-URxvt.cursorBlink: 0
+! URxvt.cursorBlink: 0
+URxvt.cursorBlink: 1
 URxvt.scrollBar: false
 URxvt.font: xft:DejaVu Sans Mono:style=Book:pixelsize=12, \
             xft:WenQuanYi Bitmap Song:size=8, \
@@ -50,7 +51,8 @@ URxvt.intensityStyles: false
 
 *.foreground: base05
 *.background: base00
-*.cursorColor: base05
+*.cursorColor: base04
+! *.cursorColor: base0A
 *.color0: base00
 *.color1: base08
 *.color2: base0B
