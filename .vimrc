@@ -439,7 +439,7 @@ noremap <C-t> :bnext<CR>
 nnoremap ; :
 
 " switch between buffers
-nnoremap <C-a> :buffers<CR>:buffer<Space>
+nnoremap <C-m> :buffers<CR>:buffer<Space>
 
 " noremap <C-e> :Explore<CR>
 " noremap <C-m> :wall<CR>:make!<CR>
