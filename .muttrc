@@ -42,9 +42,13 @@ set sleep_time = 0  # Speed up folders switch
 
 auto_view text/html
 
-set sidebar_delim = " | "
+# set sidebar_delim = " | "
+set sidebar_visible
+set sidebar_divider_char = " │ "
 set sidebar_width = 30
-set sidebar_visible = yes
+set sidebar_format = "%B%* %N"
+set mail_check_stats
+
 
 ###############
 # Key binding #
@@ -178,11 +182,14 @@ set nm_db_limit=100
 set nm_query_type=messages
 
 # customize the file browser display for virtual folders to your personal taste.
-set vfolder_format="%f %N"
+set vfolder_format="%f %n"
+# set vfolder_format = "%6n(%6N) %f"
+
 
 # virtual folders
 bind index,pager t modify-labels
 # bind index \Ct change-vfolder
+exec sidebar-toggle-virtual  # toggle between mailboxes and virtual mailboxes
 macro index,pager a "<modify-labels-then-hide>-inbox +archive\n<sync-mailbox>"
 macro index,pager \\ "<vfolder-from-query>"
 macro attach s <save-entry><bol>$HOME/tmp/  # directory to save attachments
@@ -212,4 +219,4 @@ color bold brightwhite default
 color index cyan default "~N"
 
 # sidebar
-color sidebar black default
+# color sidebar black default
