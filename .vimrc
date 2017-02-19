@@ -15,11 +15,17 @@ call vundle#begin()
 
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'chriskempson/base16-vim'
-Plugin 'scrooloose/syntastic'
+" Plugin 'scrooloose/syntastic'
 Plugin 'tomtom/tcomment_vim'
 Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
 Plugin 'majutsushi/tagbar'
+Plugin 'w0rp/ale'  " Asynchronous Lint Engine
+" Plugin 'reedes/vim-wordy'  " Uncover usage problems in your writing
+" Plugin 'vim-scripts/LanguageTool'  " Grammar checker for English, French, German (etc.)
+Plugin 'rhysd/vim-grammarous'  " A powerful grammar checker for Vim using LanguageTool
+
+
 " Plugin 'Valloric/YouCompleteMe'
 
 call vundle#end()
@@ -290,17 +296,17 @@ autocmd FileType python call matchadd('ColorColumn', '\%80v', 100)
 autocmd FileType python highlight ColorColumn ctermbg=magenta
 
 
-"""""""""""""""""""""
-" plugin: syntastic "
-"""""""""""""""""""""
-let g:syntastic_check_on_wq = 0
-let g:syntastic_python_checkers = ['flake8']
-let g:syntastic_cpp_compiler_options = ' -std=c++11'
-
-" let g:syntastic_error_symbol = "☠"
-" let g:syntastic_warning_symbol = "⚠"
-" let g:syntastic_style_error_symbol = "☢"
-" let g:syntastic_style_warning_symbol = "☹"
+" """""""""""""""""""""
+" " plugin: syntastic "
+" """""""""""""""""""""
+" let g:syntastic_check_on_wq = 0
+" let g:syntastic_python_checkers = ['flake8']
+" let g:syntastic_cpp_compiler_options = ' -std=c++11'
+"
+" " let g:syntastic_error_symbol = "☠"
+" " let g:syntastic_warning_symbol = "⚠"
+" " let g:syntastic_style_error_symbol = "☢"
+" " let g:syntastic_style_warning_symbol = "☹"
 
 
 """"""""""""""""""
@@ -334,6 +340,27 @@ autocmd FileType mail syntax spell toplevel  " spell check
 " This option specifies a function to be used for Insert mode omni completion with CTRL-X CTRL-O.
 " set omnifunc=syntaxcomplete#Complete
 
+" This option specifies how keyword completion |ins-completion| works when CTRL-P or CTRL-N are used.  It is also used for whole-line completion |i_CTRL-X_CTRL-L|.
+" . scan the current buffer ('wrapscan' is ignored)
+" w scan buffers from other windows
+" b scan other loaded buffers that are in the buffer list
+" u scan the unloaded buffers that are in the buffer list
+" U scan the buffers that are not in the buffer list
+" k scan the files given with the 'dictionary' option
+" kspell  use the currently active spell checking |spell|
+" k{dict} scan the file {dict}.  Several "k" flags can be given, patterns are valid too.
+" s scan the files given with the 'thesaurus' option
+" s{tsr} scan the file {tsr}.  Several "s" flags can be given, patterns are valid too.
+" i scan current and included files
+" d scan current and included files for defined name or macro |i_CTRL-X_CTRL-D|
+" ] tag completion
+" t same as "]"
+" The default is ".,w,b,u,t,i"
+
+" Do not scan included files (can be very slow with C++)
+set complete-=i
+
+
 " list of file names, that are used to lookup words for keyword completion commands
 " pacman -S words
 set dictionary+=/usr/share/dict/words
@@ -347,36 +374,36 @@ autocmd FileType tex setlocal complete+=k,kspell
 autocmd FileType mail setlocal complete+=k,kspell
 
 
-"""""""""""""""""""""""""
-" plugin: YouCompleteMe "
-"""""""""""""""""""""""""
-
-" global config file
-" let g:ycm_global_ycm_extra_conf="$HOME/.vim/.ycm_extra_conf.py"
-let g:ycm_global_ycm_extra_conf="~/.vim/.ycm_extra_conf.py"
-let g:ycm_server_python_interpreter="/usr/bin/python"
-
-" use <c-n> and <c-p> instead of <tab>
-let g:ycm_key_list_select_completion=[]
-let g:ycm_key_list_previous_completion=[]
-
-" YCM will populate the location list automatically every time it gets new diagnostic data.
-" See :help location-list in Vim to learn more about the location list.
-let g:ycm_always_populate_location_list = 1
-
-let g:ycm_filetype_blacklist = {
-      \ 'tagbar' : 1,
-      \ 'qf' : 1,
-      \ 'notes' : 1,
-      \ 'markdown' : 1,
-      \ 'unite' : 1,
-      \ 'text' : 1,
-      \ 'vimwiki' : 1,
-      \ 'pandoc' : 1,
-      \ 'infolog' : 1,
-      \ 'mail' : 1,
-      \ 'tex': 1
-      \}
+" """""""""""""""""""""""""
+" " plugin: YouCompleteMe "
+" """""""""""""""""""""""""
+"
+" " global config file
+" " let g:ycm_global_ycm_extra_conf="$HOME/.vim/.ycm_extra_conf.py"
+" let g:ycm_global_ycm_extra_conf="~/.vim/.ycm_extra_conf.py"
+" let g:ycm_server_python_interpreter="/usr/bin/python"
+"
+" " use <c-n> and <c-p> instead of <tab>
+" let g:ycm_key_list_select_completion=[]
+" let g:ycm_key_list_previous_completion=[]
+"
+" " YCM will populate the location list automatically every time it gets new diagnostic data.
+" " See :help location-list in Vim to learn more about the location list.
+" let g:ycm_always_populate_location_list = 1
+"
+" let g:ycm_filetype_blacklist = {
+"       \ 'tagbar' : 1,
+"       \ 'qf' : 1,
+"       \ 'notes' : 1,
+"       \ 'markdown' : 1,
+"       \ 'unite' : 1,
+"       \ 'text' : 1,
+"       \ 'vimwiki' : 1,
+"       \ 'pandoc' : 1,
+"       \ 'infolog' : 1,
+"       \ 'mail' : 1,
+"       \ 'tex': 1
+"       \}
 
 """""""""""""""""""""
 " plugin: UltiSnips "
@@ -390,12 +417,12 @@ let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 
 
-""""""""""""""""""""""""
-" plugin: Vim-R-plugin "
-""""""""""""""""""""""""
-
-let vimrplugin_screenplugin = 0 " no R integration
-let vimrplugin_assign = 0  " dont't replace underscore with arrow
+" """"""""""""""""""""""""
+" " plugin: Vim-R-plugin "
+" """"""""""""""""""""""""
+"
+" let vimrplugin_screenplugin = 0 " no R integration
+" let vimrplugin_assign = 0  " dont't replace underscore with arrow
 
 
 """"""""""""""""""""
@@ -414,6 +441,14 @@ let g:tagbar_left = 1
 
 " sort tags according to their order in the source file
 let g:tagbar_sort = 0
+
+
+""""""""""""""""""""""""""
+" plugin: vim-grammarous "
+""""""""""""""""""""""""""
+let g:grammarous#languagetool_cmd='/usr/bin/languagetool'
+command GC GrammarousCheck
+command GR GrammarousReset
 
 
 """"""""""""
@@ -439,7 +474,7 @@ noremap <C-t> :bnext<CR>
 nnoremap ; :
 
 " switch between buffers
-nnoremap <C-m> :buffers<CR>:buffer<Space>
+" nnoremap <C-m> :buffers<CR>:buffer<Space>
 
 " noremap <C-e> :Explore<CR>
 " noremap <C-m> :wall<CR>:make!<CR>
@@ -494,6 +529,8 @@ command CDC cd %:p:h
 noremap [19~ :TagbarToggle<CR>
 noremap <F8> :TagbarToggle<CR>
 
+command Make AsyncRun make
+
 
 """"""""
 " Misc "
@@ -501,6 +538,9 @@ noremap <F8> :TagbarToggle<CR>
 
 " Use visual bell instead of beeping.
 set visualbell
+" When no beep or flash is wanted, use ":set vb t_vb="
+set t_vb=
+autocmd GUIEnter * set vb t_vb=
 
 " When a file has been detected to have been changed outside of Vim and it has
 " not been changed inside of Vim, automatically read it again.
