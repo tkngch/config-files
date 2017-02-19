@@ -42,9 +42,9 @@ set sleep_time = 0  # Speed up folders switch
 
 auto_view text/html
 
-# set sidebar_delim = " | "
 set sidebar_visible
-set sidebar_divider_char = " │ "
+# set sidebar_divider_char = " │ "
+set sidebar_divider_char = "   "
 set sidebar_width = 30
 set sidebar_format = "%B%* %N"
 set mail_check_stats
@@ -146,6 +146,8 @@ bind index G last-entry
 bind index,pager \CB sidebar-prev
 bind index,pager \CF sidebar-next
 bind index,pager zz sidebar-open
+macro index,pager \Cn "<sidebar-next><sidebar-open>"
+macro index,pager \Cp "<sidebar-prev><sidebar-open>"
 
 bind pager k previous-line
 bind pager j next-line
@@ -203,9 +205,9 @@ macro attach s <save-entry><bol>$HOME/tmp/  # directory to save attachments
 
 # Default color definitions
 color normal default default
-color hdrdefault brightblue default
+color hdrdefault blue default
 # color quoted white default
-color indicator black blue
+# color indicator black blue
 color indicator black yellow
 color error brightred default
 color status black green
@@ -218,5 +220,11 @@ color bold brightwhite default
 ## new message
 color index cyan default "~N"
 
+# color index_date default default
+# color index_author green default "~A"
+# color index_subject default default "~A"
+
 # sidebar
-# color sidebar black default
+color sidebar_new cyan default
+color sidebar_highlight yellow default
+color sidebar_ordinary default default
