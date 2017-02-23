@@ -9,3 +9,9 @@ do
         echo "linked $file"
     fi
 done
+
+for file in "user-dirs.dirs";
+do
+    ln -i -s -T $here/$file $XDG_CONFIG_HOME/$file
+    echo "linked $file"
+done
