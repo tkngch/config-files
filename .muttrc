@@ -15,7 +15,7 @@ unmy_hdr User-Agent
 my_hdr Bcc: tkngch@runbox.com
 # my_hdr User-Agent: Batman
 
-alternates "(t\.noguchi|takao\.noguchi)\@(warwick|ucl)\.ac\.uk|tkngch\@(hotmail|gmx|gmail)\.com"
+alternates "(t\.noguchi|takao\.noguchi)\@(warwick|ucl|qmul)\.ac\.uk|tkngch\@(hotmail|gmx|gmail)\.com"
 
 # set editor="/usr/bin/vim '+/^$' -f"
 set editor="/usr/bin/vim +8 -f"
