@@ -11,12 +11,11 @@ URxvt.font: xft:DejaVu Sans Mono:style=Book:pixelsize=12, \
             xft:unifont:style=Medium:antialias=false
 
 ! URxvt.perl-ext-common: default,url-select
-URxvt.perl-ext-common: default
-URxvt.keysym.M-u: perl:url-select:select_next
-URxvt.keysym.M-Escape: perl:keyboard-select:activate
-URxvt.keysym.M-s: perl:keyboard-select:search
+! URxvt.keysym.M-u: perl:url-select:select_next
+! URxvt.keysym.M-Escape: perl:keyboard-select:activate
+! URxvt.keysym.M-s: perl:keyboard-select:search
 
-URxvt.url-select.launcher: /usr/bin/firefox
+! URxvt.url-select.launcher: /usr/bin/firefox
 URxvt.url-select.underline: true
 
 ! ibus input
