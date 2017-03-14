@@ -21,6 +21,7 @@ Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
 Plugin 'majutsushi/tagbar'
 Plugin 'w0rp/ale'  " Asynchronous Lint Engine
+Plugin 'ap/vim-buftabline'  " takes over the tabline and renders the buffer list in it
 " Plugin 'reedes/vim-wordy'  " Uncover usage problems in your writing
 " Plugin 'vim-scripts/LanguageTool'  " Grammar checker for English, French, German (etc.)
 Plugin 'rhysd/vim-grammarous'  " A powerful grammar checker for Vim using LanguageTool
@@ -417,14 +418,6 @@ let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 
 
-" """"""""""""""""""""""""
-" " plugin: Vim-R-plugin "
-" """"""""""""""""""""""""
-"
-" let vimrplugin_screenplugin = 0 " no R integration
-" let vimrplugin_assign = 0  " dont't replace underscore with arrow
-
-
 """"""""""""""""""""
 " plugin: tcomment "
 """"""""""""""""""""
@@ -468,8 +461,8 @@ map <silent> 0 g0
 map <silent> $ g$
 
 " switch between buffers
-noremap <C-S-t> :bprevious<CR>
-noremap <C-t> :bnext<CR>
+noremap <C-p> :bprevious<CR>
+noremap <C-n> :bnext<CR>
 
 nnoremap ; :
 
