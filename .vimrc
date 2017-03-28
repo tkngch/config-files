@@ -444,6 +444,14 @@ command GC GrammarousCheck
 command GR GrammarousReset
 
 
+"""""""""""""""
+" plugin: ale "
+"""""""""""""""
+
+" enable  all linters available for a given filetype
+let g:ale_linters = {'cpp': 'all'}
+
+
 """"""""""""
 " Bindings "
 """"""""""""

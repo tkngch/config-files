@@ -24,6 +24,7 @@ LESSHISTFILE=$HOME/.cache/less.hist
 export TERM="screen-256color"
 export BROWSER="/bin/chromium"
 export EDITOR="/bin/vim"
+export SYSTEMD_EDITOR="/bin/vim"
 export PATH="${PATH}:${HOME}/bin"
 export VISUAL="/bin/vim"
 export PAGER="/bin/less"

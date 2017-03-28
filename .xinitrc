@@ -14,6 +14,9 @@ unclutter &
 # adjusts the color temperature of your screen according to your surroundings.
 redshift-gtk &
 
+# file synchronization
+syncthing-gtk --minimized &
+
 ## register the input method modules with fcitx and support xim programs
 # For Japanese input, remember to uncomment ja_JP.UTF-8 in /etc/locale.gen and run locale-gen as su
 export GTK_IM_MODULE=fcitx
