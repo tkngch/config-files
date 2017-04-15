@@ -19,7 +19,7 @@ library(stats)
 # options(warn=1)  # print warnings as they occur
 options(warn=2)  # treat warnings as errors
 
-chooseCRANmirror(ind=17)  # Bristol HTTPS
+# chooseCRANmirror(ind=17)  # Bristol HTTPS
 
 
 #########################
