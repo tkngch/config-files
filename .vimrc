@@ -22,6 +22,7 @@ Plugin 'honza/vim-snippets'
 Plugin 'majutsushi/tagbar'
 Plugin 'w0rp/ale'  " Asynchronous Lint Engine
 Plugin 'ap/vim-buftabline'  " takes over the tabline and renders the buffer list in it
+Plugin 'scrooloose/nerdtree'  " allows you to explore your filesystem and to open files and directories
 " Plugin 'reedes/vim-wordy'  " Uncover usage problems in your writing
 " Plugin 'vim-scripts/LanguageTool'  " Grammar checker for English, French, German (etc.)
 Plugin 'rhysd/vim-grammarous'  " A powerful grammar checker for Vim using LanguageTool
@@ -430,7 +431,7 @@ autocmd FileType pyrex setlocal commentstring=#\ %s
 """"""""""""""""""
 
 " Open the tagbar on the left.
-let g:tagbar_left = 1
+" let g:tagbar_left = 1
 
 " sort tags according to their order in the source file
 let g:tagbar_sort = 0
@@ -529,6 +530,9 @@ command CDC cd %:p:h
 
 noremap [19~ :TagbarToggle<CR>
 noremap <F8> :TagbarToggle<CR>
+
+noremap [18~ :NERDTreeToggle<CR>
+noremap <F7> :NERDTreeToggle<CR>
 
 command Make AsyncRun make
 

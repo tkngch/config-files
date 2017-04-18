@@ -19,7 +19,6 @@ LESSHISTFILE=$HOME/.cache/less.hist
 
 
 ### Variables ###
-
 # export TERM="xterm-256color"
 export TERM="screen-256color"
 export BROWSER="/bin/chromium"
@@ -46,7 +45,6 @@ export STARDICT_DATA_DIR="$HOME/var/stardict/dic"
 
 
 ### Keybindings ###
-
 # use vi mode
 bindkey -v
 # typeset -g -A key
@@ -80,7 +78,6 @@ bindkey -M vicmd "j" history-beginning-search-forward
 
 
 ### Auto completion ###
-
 autoload -Uz compinit
 compinit -d $HOME/.cache/zsh.compdump
 # move the cursor around the list of completions to select one
@@ -93,7 +90,6 @@ setopt completealiases
 
 
 ### Window title ###
-
 case $TERM in
     termite|*xterm*|rxvt*)
         precmd () { print -Pn '\e]0;%n@%m:%4d\a' }
@@ -102,7 +98,6 @@ esac
 
 
 ### Prompt ###
-
 PROMPT='
 %F{white}%d
 %B%F{magenta}>%F{yellow}>%F{blue}>%b%F{white} '
@@ -122,7 +117,6 @@ zle -N zle-keymap-select
 
 
 ### Dirstack ###
-
 DIRSTACKFILE="$HOME/.cache/zsh.dirs"
 DIRSTACKSIZE=10
 setopt autopushd pushdsilent pushdtohome
@@ -138,7 +132,6 @@ chpwd() {
 
 
 ### Aliases ###
-
 alias ls='/bin/ls --color=auto'
 alias ds='dirs -v'
 alias mkdir='mkdir -v'
@@ -150,8 +143,36 @@ alias grep='grep --color=always'
 # alias matlab='LD_LIBRARY_PATH="/home/takao/etc/matlab_libs/" /usr/local/bin/matlab -nosplash -nodesktop'
 
 
-### Misc ###
+### Notify after long processes ###
+preexec () {
+    # Note the date when the command started, in unix time.
+    CMD_START_DATE=$(date +%s)
+    # Store the command that we're running.
+    CMD_NAME=$1
+}
 
+precmd () {
+    # Proceed only if we've ran a command in the current shell.
+    if ! [[ -z $CMD_START_DATE ]]; then
+        # Note current date in unix time
+        CMD_END_DATE=$(date +%s)
+        # Store the difference between the last command start date vs. current date.
+        CMD_ELAPSED_TIME=$(($CMD_END_DATE - $CMD_START_DATE))
+        # Store an arbitrary threshold, in seconds.
+        CMD_NOTIFY_THRESHOLD=10
+
+        if [[ $CMD_ELAPSED_TIME -gt $CMD_NOTIFY_THRESHOLD ]]; then
+            # print elapsed time if the elapsed time (in seconds) is greater than threshold
+            echo "Elapsed time: ${CMD_ELAPSED_TIME} seconds."
+
+            # Send a notification
+            notify-send "Job Finished" "\"$CMD_NAME\" in ${CMD_ELAPSED_TIME} seconds."
+        fi
+    fi
+}
+
+
+### Misc ###
 unsetopt beep
 
 # disable XON/XOFF flow control (^s/^q)
