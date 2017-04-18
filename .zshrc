@@ -163,7 +163,9 @@ precmd () {
 
         if [[ $CMD_ELAPSED_TIME -gt $CMD_NOTIFY_THRESHOLD ]]; then
             # print elapsed time if the elapsed time (in seconds) is greater than threshold
-            echo "Elapsed time: ${CMD_ELAPSED_TIME} seconds."
+            echo -e ""
+            echo -e "---"
+            echo -e "\033[0mElapsed time: ${CMD_ELAPSED_TIME} seconds.\033[0m"
 
             # Send a notification
             # notify-send "Job Finished" "\"$CMD_NAME\" in ${CMD_ELAPSED_TIME} seconds."
