@@ -166,7 +166,7 @@ precmd () {
             echo "Elapsed time: ${CMD_ELAPSED_TIME} seconds."
 
             # Send a notification
-            notify-send "Job Finished" "\"$CMD_NAME\" in ${CMD_ELAPSED_TIME} seconds."
+            # notify-send "Job Finished" "\"$CMD_NAME\" in ${CMD_ELAPSED_TIME} seconds."
         fi
     fi
 }
