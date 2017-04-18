@@ -19,7 +19,20 @@ library(stats)
 # options(warn=1)  # print warnings as they occur
 options(warn=2)  # treat warnings as errors
 
-chooseCRANmirror(ind=17)  # Bristol HTTPS
+# choose CRAN mirror
+# ind changes without notice, so the following line is deprecated
+# chooseCRANmirror(ind=17)  # Bristol HTTPS
+(function() {  # anonymous function
+    # roughly follows chooseCRANmirror and .chooseMirror functions in R
+    # https://github.com/wch/r-source/blob/trunk/src/library/utils/R/packages.R
+    # written in March 2017
+    mirrors <- getCRANmirrors()
+    isHttpsUK <- startsWith(mirrors[, "URL"], "https") & (mirrors[, "Country"] == "UK")
+    mirror <- mirrors[sample(which(isHttpsUK), 1),]  # randomly select one
+    repos <- getOption("repos")
+    repos["CRAN"] <- sub("/$", "", mirror["URL"])
+    options(repos = repos)
+})()
 
 
 #########################
