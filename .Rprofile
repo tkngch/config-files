@@ -22,7 +22,7 @@ options(warn=2)  # treat warnings as errors
 # choose CRAN mirror
 # ind changes without notice, so the following line is deprecated
 # chooseCRANmirror(ind=17)  # Bristol HTTPS
-(function() {  # anonymous function
+chooseMirror <- function() {  # anonymous function
     # roughly follows chooseCRANmirror and .chooseMirror functions in R
     # https://github.com/wch/r-source/blob/trunk/src/library/utils/R/packages.R
     # written in March 2017
@@ -32,7 +32,7 @@ options(warn=2)  # treat warnings as errors
     repos <- getOption("repos")
     repos["CRAN"] <- sub("/$", "", mirror["URL"])
     options(repos = repos)
-})()
+}
 
 
 #########################
@@ -73,12 +73,14 @@ compare <- function(fm1, fm0, confint=TRUE) {
 
 
 install_package <- function(pkg) {
+    chooseMirror()
     install.packages(pkg,
                      lib=Sys.getenv("R_LIBS_USER"))
 }
 
 
 update_packages <- function() {
+    chooseMirror()
     update.packages(lib.loc=Sys.getenv("R_LIBS_USER"))
 }
 
@@ -100,43 +102,59 @@ install_irkernel <- function() {
 }
 
 
+# adapted from https://github.com/stan-dev/rstan/wiki/Installing-RStan-on-Mac-or-Linux
+# on 1 May 2017
+install_rstan <- function() {
+    # compile with 4 core support
+    Sys.setenv(MAKEFLAGS = "-j4")
+
+    chooseMirror()
+
+    install.packages(
+        "rstan",
+        repos="https://cloud.r-project.org/",
+        dependencies=TRUE,
+        lib=Sys.getenv("R_LIBS_USER")
+    )
+}
+
 # retrieved from http://mc-stan.org/rstan/install.R
 # then modifed to allow user installation and to specify the number of cores
 # on 24 September 2014
-install_rstan <- function() {
-    Sys.setenv(MAKEFLAGS = "-j4")  # 4 cores
-
-  on.exit(Sys.unsetenv("R_MAKEVARS_USER"))
-  on.exit(Sys.unsetenv("R_MAKEVARS_SITE"), add = TRUE)
-
-  try(remove.packages("rstan", lib=Sys.getenv("R_LIBS_USER")), silent = TRUE)
-  Sys.setenv(R_MAKEVARS_USER = "foobar")
-  Sys.setenv(R_MAKEVARS_SITE = "foobar")
-  install.packages(c("inline", "BH", "RcppEigen"),
-                   lib=Sys.getenv("R_LIBS_USER"))
-  install.packages("Rcpp", type = "source",
-                   lib=Sys.getenv("R_LIBS_USER"))
-  library(inline)
-  library(Rcpp)
-  src <- '
-    std::vector<std::string> s;
-    s.push_back("hello");
-    s.push_back("world");
-    return Rcpp::wrap(s);
-  '
-  hellofun <- cxxfunction(body = src, includes = '', plugin = 'Rcpp', verbose = FALSE)
-  test <- try(hellofun())
-  if(inherits(test, "try-error")) stop("hello world failed; ask for help on Rcpp list")
-
-  options(repos = c(getOption("repos"),
-          rstan = "http://rstan.org/repo/"))
-  install.packages("rstan", type = 'source',
-                   lib=Sys.getenv("R_LIBS_USER"))
-  library(rstan)
-  set_cppo("fast")
-  if (any(grepl("^darwin", R.version$os, ignore.case = TRUE))) {
-    cat('\nCC=clang', 'CXX=clang++ -arch x86_64 -ftemplate-depth-256',
-        file = "~/.R/Makevars", sep = "\n", append = TRUE)
-  }
-  return(invisible(NULL))
-}
+# install_rstan <- function() {
+#     Sys.setenv(MAKEFLAGS = "-j4")  # 4 cores
+#
+#   on.exit(Sys.unsetenv("R_MAKEVARS_USER"))
+#   on.exit(Sys.unsetenv("R_MAKEVARS_SITE"), add = TRUE)
+#
+#   try(remove.packages("rstan", lib=Sys.getenv("R_LIBS_USER")), silent = TRUE)
+#   Sys.setenv(R_MAKEVARS_USER = "foobar")
+#   Sys.setenv(R_MAKEVARS_SITE = "foobar")
+#   install.packages(c("inline", "BH", "RcppEigen"),
+#                    lib=Sys.getenv("R_LIBS_USER"))
+#   install.packages("Rcpp", type = "source",
+#                    lib=Sys.getenv("R_LIBS_USER"))
+#   library(inline)
+#   library(Rcpp)
+#   src <- '
+#     std::vector<std::string> s;
+#     s.push_back("hello");
+#     s.push_back("world");
+#     return Rcpp::wrap(s);
+#   '
+#   hellofun <- cxxfunction(body = src, includes = '', plugin = 'Rcpp', verbose = FALSE)
+#   test <- try(hellofun())
+#   if(inherits(test, "try-error")) stop("hello world failed; ask for help on Rcpp list")
+#
+#   options(repos = c(getOption("repos"),
+#           rstan = "http://rstan.org/repo/"))
+#   install.packages("rstan", type = 'source',
+#                    lib=Sys.getenv("R_LIBS_USER"))
+#   library(rstan)
+#   set_cppo("fast")
+#   if (any(grepl("^darwin", R.version$os, ignore.case = TRUE))) {
+#     cat('\nCC=clang', 'CXX=clang++ -arch x86_64 -ftemplate-depth-256',
+#         file = "~/.R/Makevars", sep = "\n", append = TRUE)
+#   }
+#   return(invisible(NULL))
+# }
