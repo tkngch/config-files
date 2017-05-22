@@ -14,7 +14,8 @@ set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
 Plugin 'VundleVim/Vundle.vim'
-Plugin 'chriskempson/base16-vim'
+" Plugin 'chriskempson/base16-vim'
+Plugin 'flazz/vim-colorschemes'
 " Plugin 'scrooloose/syntastic'
 Plugin 'tomtom/tcomment_vim'
 Plugin 'SirVer/ultisnips'
@@ -25,7 +26,7 @@ Plugin 'ap/vim-buftabline'  " takes over the tabline and renders the buffer list
 Plugin 'scrooloose/nerdtree'  " allows you to explore your filesystem and to open files and directories
 " Plugin 'reedes/vim-wordy'  " Uncover usage problems in your writing
 " Plugin 'vim-scripts/LanguageTool'  " Grammar checker for English, French, German (etc.)
-Plugin 'rhysd/vim-grammarous'  " A powerful grammar checker for Vim using LanguageTool
+" Plugin 'rhysd/vim-grammarous'  " A powerful grammar checker for Vim using LanguageTool
 
 
 " Plugin 'Valloric/YouCompleteMe'
@@ -49,6 +50,49 @@ set undodir=~/.cache/vim_undo
 " automatically saves undo history to an undo file when writing a buffer to a
 " file, and restores undo history from the same file on buffer read
 set undofile
+
+
+""""""""""""""""""""""""""""""""""""""""""""
+" Color Scheme                             "
+" depends: base16-vim and vim-colorschemes "
+""""""""""""""""""""""""""""""""""""""""""""
+
+syntax enable
+set background=dark
+" colorscheme gruvbox
+colorscheme lucius
+" colorscheme Tomorrow-Night-Eighties
+
+" " in GUI or color console, enable coloring and search highlighting
+" if &t_Co > 2 || has("gui_running")
+"     " syntax enable
+"     " set background=dark
+"     colorscheme base16-eighties
+"
+"     " when there is a previous search pattern, highlight all its matches
+"     set hlsearch
+" endif
+
+" number of colors
+set t_Co=256
+
+" autocmd FileType javascript colorscheme lucius
+" autocmd FileType tex colorscheme zenburn
+" autocmd FileType sh colorscheme hemisu
+" autocmd FileType bib colorscheme zenburn
+" autocmd FileType python colorscheme wombat256mod
+
+" trailing whitespace and column; must define AFTER colorscheme, setf, etc!
+hi ColorColumn ctermbg=black guibg=darkgray
+hi WhitespaceEOL ctermbg=red guibg=red
+match WhitespaceEOL /\s\+\%#\@<!$/
+
+" a comma separated list of screen columns that are highlighted with ColorColumn hl-ColorColumn
+" highligh only when the line is too long
+autocmd FileType python call matchadd('ColorColumn', '\%80v', 100)
+
+" highlight too long line
+autocmd FileType python highlight ColorColumn ctermbg=magenta
 
 
 """""""""""""""
@@ -104,10 +148,17 @@ set nobackup
 set lazyredraw
 
 " when a bracket is inserted, briefly jump to the matching one
-set showmatch
+" set showmatch
+set noshowmatch
 
 " tenths of a second to show the matching paren, when 'showmatch' is set
-set matchtime=2
+" set matchtime=1
+
+" highlight the character under the cursor if it is a paird bracket.
+" cterm determines the style, which can be none, underline or bold, while
+" ctermbg and ctermfg are, as their names suggest, background and foreground
+" colors
+highlight MatchParen cterm=underline ctermbg=none ctermfg=none
 
 
 """"""""""""""""""
@@ -260,44 +311,6 @@ set wildmode=longest:full
 " a file that matches with one of these patterns is ignored when expanding wildcards
 set wildignore+=*.o,*.pyc
 
-
-""""""""""""""""""""""""""""""""""""""""""""
-" Color Scheme                             "
-" depends: base16-vim and vim-colorschemes "
-""""""""""""""""""""""""""""""""""""""""""""
-
-" in GUI or color console, enable coloring and search highlighting
-if &t_Co > 2 || has("gui_running")
-    syntax enable
-    set background=dark
-    colorscheme base16-eighties
-
-    " when there is a previous search pattern, highlight all its matches
-    set hlsearch
-endif
-
-" number of colors
-set t_Co=256
-
-" autocmd FileType javascript colorscheme lucius
-" autocmd FileType tex colorscheme zenburn
-" autocmd FileType sh colorscheme hemisu
-" autocmd FileType bib colorscheme zenburn
-" autocmd FileType python colorscheme wombat256mod
-
-" trailing whitespace and column; must define AFTER colorscheme, setf, etc!
-hi ColorColumn ctermbg=black guibg=darkgray
-hi WhitespaceEOL ctermbg=red guibg=red
-match WhitespaceEOL /\s\+\%#\@<!$/
-
-" a comma separated list of screen columns that are highlighted with ColorColumn hl-ColorColumn
-" highligh only when the line is too long
-autocmd FileType python call matchadd('ColorColumn', '\%80v', 100)
-
-" highlight too long line
-autocmd FileType python highlight ColorColumn ctermbg=magenta
-
-
 " """""""""""""""""""""
 " " plugin: syntastic "
 " """""""""""""""""""""
@@ -440,9 +453,9 @@ let g:tagbar_sort = 0
 """"""""""""""""""""""""""
 " plugin: vim-grammarous "
 """"""""""""""""""""""""""
-let g:grammarous#languagetool_cmd='/usr/bin/languagetool'
-command GC GrammarousCheck
-command GR GrammarousReset
+" let g:grammarous#languagetool_cmd='/usr/bin/languagetool'
+" command GC GrammarousCheck
+" command GR GrammarousReset
 
 
 """""""""""""""
@@ -571,47 +584,47 @@ set listchars=tab:↹·,extends:⇉,precedes:⇇,nbsp:␠,trail:␠,nbsp:␣
 set scrolloff=7
 
 " Set extra options when running in GUI mode
-if has("gui_running")
-    set guioptions-=T  " remove toolbar at the top with icons
-    set guioptions-=r  " remove right-hand scrollbar
-    set guioptions-=L  " remove left-hand scrollbar
-    set guicursor+=a:blinkon0
-endif
+" if has("gui_running")
+"     set guioptions-=T  " remove toolbar at the top with icons
+"     set guioptions-=r  " remove right-hand scrollbar
+"     set guioptions-=L  " remove left-hand scrollbar
+"     set guicursor+=a:blinkon0
+" endif
 
 " This autocommand jumps to the last known position in a file just after
 " opening it, if the '" mark is set: >
 autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
 
 
-augroup encrypted
-    au!
-
-    " First make sure nothing is written to ~/.viminfo while editing
-    " an encrypted file.
-    autocmd BufReadPre,FileReadPre      *.gpg set viminfo=
-    " We don't want a swap file, as it writes unencrypted data to disk
-    autocmd BufReadPre,FileReadPre      *.gpg set noswapfile
-    " Switch to binary mode to read the encrypted file
-    autocmd BufReadPre,FileReadPre      *.gpg set bin
-    autocmd BufReadPre,FileReadPre      *.gpg let ch_save = &ch|set ch=2
-    autocmd BufReadPost,FileReadPost    *.gpg '[,']!gpg1 --decrypt 2> /dev/null
-    " Switch to normal mode for editing
-    autocmd BufReadPost,FileReadPost    *.gpg set nobin
-    autocmd BufReadPost,FileReadPost    *.gpg let &ch = ch_save|unlet ch_save
-    autocmd BufReadPost,FileReadPost    *.gpg execute ":doautocmd BufReadPost " . expand("%:r")
-
-    " Convert all text to encrypted text before writing
-    autocmd BufWritePre,FileWritePre    *.gpg   '[,']!gpg1 --default-recipient-self -ae 2>/dev/null
-    " Undo the encryption so we are back in the normal text, directly
-    " after the file has been written.
-    autocmd BufWritePost,FileWritePost  *.gpg   u
-
-    " Fold entries by default
-    autocmd BufReadPre,FileReadPre      *.gpg set foldmethod=indent
-    autocmd BufReadPre,FileReadPre      *.gpg set foldlevelstart=0
-    autocmd BufReadPre,FileReadPre      *.gpg set foldlevel=0
-
-augroup END
+" augroup encrypted
+"     au!
+"
+"     " First make sure nothing is written to ~/.viminfo while editing
+"     " an encrypted file.
+"     autocmd BufReadPre,FileReadPre      *.gpg set viminfo=
+"     " We don't want a swap file, as it writes unencrypted data to disk
+"     autocmd BufReadPre,FileReadPre      *.gpg set noswapfile
+"     " Switch to binary mode to read the encrypted file
+"     autocmd BufReadPre,FileReadPre      *.gpg set bin
+"     autocmd BufReadPre,FileReadPre      *.gpg let ch_save = &ch|set ch=2
+"     autocmd BufReadPost,FileReadPost    *.gpg '[,']!gpg1 --decrypt 2> /dev/null
+"     " Switch to normal mode for editing
+"     autocmd BufReadPost,FileReadPost    *.gpg set nobin
+"     autocmd BufReadPost,FileReadPost    *.gpg let &ch = ch_save|unlet ch_save
+"     autocmd BufReadPost,FileReadPost    *.gpg execute ":doautocmd BufReadPost " . expand("%:r")
+"
+"     " Convert all text to encrypted text before writing
+"     autocmd BufWritePre,FileWritePre    *.gpg   '[,']!gpg1 --default-recipient-self -ae 2>/dev/null
+"     " Undo the encryption so we are back in the normal text, directly
+"     " after the file has been written.
+"     autocmd BufWritePost,FileWritePost  *.gpg   u
+"
+"     " Fold entries by default
+"     autocmd BufReadPre,FileReadPre      *.gpg set foldmethod=indent
+"     autocmd BufReadPre,FileReadPre      *.gpg set foldlevelstart=0
+"     autocmd BufReadPre,FileReadPre      *.gpg set foldlevel=0
+"
+" augroup END
 
 " Last but not least, allow for local overrides
 if filereadable(expand("~/.vimrc.local"))

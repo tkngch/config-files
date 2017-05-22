@@ -118,6 +118,17 @@ install_rstan <- function() {
     )
 }
 
+# adapted from https://stat.ethz.ch/pipermail/r-help/2016-December/443572.html
+# on May 2017
+install_pki <- function() {
+    chooseMirror()
+    install.packages(
+        'PKI',
+        repos='https://www.rforge.net/',
+        lib=Sys.getenv("R_LIBS_USER")
+    )
+}
+
 # retrieved from http://mc-stan.org/rstan/install.R
 # then modifed to allow user installation and to specify the number of cores
 # on 24 September 2014

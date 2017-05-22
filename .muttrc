@@ -13,7 +13,8 @@ set delete=ask-yes  # Ask before doing a delete.
 set include  # Include the message in replies.
 set edit_headers  # edit all headers lines in the editor
 unmy_hdr User-Agent
-my_hdr Bcc: t.noguchi@qmul.ac.uk, tkngch@runbox.com
+# my_hdr Bcc: t.noguchi@qmul.ac.uk, tkngch@runbox.com
+my_hdr Bcc: tkngch@runbox.com
 # my_hdr User-Agent: Batman
 
 alternates "(t\.noguchi|takao\.noguchi)\@(warwick|ucl|qmul)\.ac\.uk|tkngch\@(hotmail|gmx|gmail)\.com"
