@@ -27,6 +27,7 @@ Plugin 'scrooloose/nerdtree'  " allows you to explore your filesystem and to ope
 " Plugin 'reedes/vim-wordy'  " Uncover usage problems in your writing
 " Plugin 'vim-scripts/LanguageTool'  " Grammar checker for English, French, German (etc.)
 " Plugin 'rhysd/vim-grammarous'  " A powerful grammar checker for Vim using LanguageTool
+Plugin 'maverickg/stan.vim'  " Vim syntax highlighting for Stan modeling language
 
 
 " Plugin 'Valloric/YouCompleteMe'
@@ -51,7 +52,6 @@ set undodir=~/.cache/vim_undo
 " file, and restores undo history from the same file on buffer read
 set undofile
 
-
 """"""""""""""""""""""""""""""""""""""""""""
 " Color Scheme                             "
 " depends: base16-vim and vim-colorschemes "
@@ -59,6 +59,8 @@ set undofile
 
 syntax enable
 set background=dark
+" lucius does not seem to define the color of buffer tab, but gruvbox does.
+" Load gruvbox first and let lucius over-ride some colours.
 " colorscheme gruvbox
 colorscheme lucius
 " colorscheme Tomorrow-Night-Eighties
@@ -425,7 +427,7 @@ autocmd FileType mail setlocal complete+=k,kspell
 """""""""""""""""""""
 
 " let g:UltiSnipsSnippetDirectories=['UltiSnips', 'ultisnips']
-let g:UltiSnipsSnippetDirectories=['ultisnips']
+let g:UltiSnipsSnippetDirectories=['ultisnips', 'bundle/vim-snippets/UltiSnips']
 let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsListSnippets="<s-tab>"
 let g:UltiSnipsJumpForwardTrigger="<tab>"
@@ -437,6 +439,7 @@ let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 """"""""""""""""""""
 
 autocmd FileType pyrex setlocal commentstring=#\ %s
+autocmd FileType stan setlocal commentstring=//\ %s
 
 
 """"""""""""""""""
@@ -549,6 +552,10 @@ noremap <F7> :NERDTreeToggle<CR>
 
 command Make AsyncRun make
 
+" press the bound key and clang-format will format the current line in NORMAL
+" mode or the selected region in VISUAL mode.
+map <F10> :pyf /usr/share/clang/clang-format.py<cr>
+
 
 """"""""
 " Misc "
@@ -625,6 +632,8 @@ autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "norm
 "     autocmd BufReadPre,FileReadPre      *.gpg set foldlevel=0
 "
 " augroup END
+"
+highlight MatchParen cterm=underline ctermbg=none ctermfg=none
 
 " Last but not least, allow for local overrides
 if filereadable(expand("~/.vimrc.local"))

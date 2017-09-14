@@ -1,7 +1,19 @@
-Language:        Cpp
-Standard:        Cpp11
+---
+# Default. Applies to all the languages, unless overridden.
 BasedOnStyle:  LLVM
 IndentWidth: 4
+
+# Always break after an open bracket, if the parameters don’t fit on a single line.
+AlignAfterOpenBracket: AlwaysBreak
+
+# break before braces on function, namespace and class definitions.
+BreakBeforeBraces: Linux
+
+# column limit
+ColumnLimit: 110
+---
+Language:        Cpp
+Standard:        Cpp11
 
 # AccessModifierOffset: -2
 # AlignAfterOpenBracket: true

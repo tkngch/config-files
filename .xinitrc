@@ -12,7 +12,8 @@ setxkbmap gb -option ctrl:nocaps
 unclutter &
 
 # adjusts the color temperature of your screen according to your surroundings.
-redshift-gtk &
+# use latitude and longitude of London UK
+redshift-gtk -l 51.50:0.12 &
 
 # file synchronization
 syncthing-gtk --minimized &

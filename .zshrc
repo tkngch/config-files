@@ -165,7 +165,32 @@ precmd () {
             # print elapsed time if the elapsed time (in seconds) is greater than threshold
             echo -e ""
             echo -e "---"
-            echo -e "\033[0mElapsed time: ${CMD_ELAPSED_TIME} seconds.\033[0m"
+            # echo -e "\033[0mElapsed time: ${CMD_ELAPSED_TIME} seconds.\033[0m"
+            hours=$(($CMD_ELAPSED_TIME / 3600))
+            remaining_seconds=$(($CMD_ELAPSED_TIME % 3600))
+            minutes=$(($remaining_seconds / 60))
+            seconds=$(($remaining_seconds % 60))
+
+            output="Elapsed time:"
+            if [[ $hours -gt 1 ]]; then
+                output="${output} ${hours} hours"
+            elif [[ $hours -gt 0 ]]; then
+                output="${output} ${hours} hour"
+            fi
+
+            if [[ $minutes -gt 1 ]]; then
+                output="${output} ${minutes} minutes and"
+            elif [[ $hours -gt 0 ]]; then
+                output="${output} ${minutes} minute and"
+            fi
+
+            if [[ $seconds -gt 1 ]]; then
+                output="${output} ${seconds} seconds"
+            else
+                output="${output} ${minutes} second"
+            fi
+
+            echo -e "\033[0m${output}.\033[0m"
 
             # Send a notification
             # notify-send "Job Finished" "\"$CMD_NAME\" in ${CMD_ELAPSED_TIME} seconds."
