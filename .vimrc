@@ -249,6 +249,7 @@ set showbreak=↳\
 " set textwidth=80
 " autocmd FileType text set textwidth=100
 autocmd FileType tex set textwidth=100
+autocmd FileType rnoweb set textwidth=100  " Rnw file
 " autocmd FileType python set textwidth=78
 " autocmd FileType mail set textwidth=72
 
@@ -282,6 +283,8 @@ autocmd FileType python set foldmethod=indent
 " fold out of paragraphs separated by blank lines: >
 autocmd FileType tex set foldexpr=getline(v:lnum)=~'^\\s*$'&&getline(v:lnum+1)=~'\\S'?'<1':1
 autocmd FileType tex set foldmethod=expr
+autocmd FileType rnoweb set foldexpr=getline(v:lnum)=~'^\\s*$'&&getline(v:lnum+1)=~'\\S'?'<1':1
+autocmd FileType rnoweb set foldmethod=expr
 
 
 
@@ -341,6 +344,8 @@ autocmd FileType text syntax spell toplevel  " spell check
 
 autocmd FileType tex setlocal spell spelllang=en_us
 autocmd FileType tex syntax spell toplevel  " spell check
+autocmd FileType rnoweb setlocal spell spelllang=en_us
+autocmd FileType rnoweb syntax spell toplevel  " spell check
 
 autocmd FileType help syntax spell notoplevel  " no spell check
 
@@ -388,6 +393,7 @@ set dictionary+=/usr/share/dict/words
 autocmd FileType rst setlocal complete+=k,kspell
 autocmd FileType text setlocal complete+=k,kspell
 autocmd FileType tex setlocal complete+=k,kspell
+autocmd FileType rnoweb setlocal complete+=k,kspell
 autocmd FileType mail setlocal complete+=k,kspell
 
 
