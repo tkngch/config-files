@@ -17,8 +17,8 @@ unmy_hdr User-Agent
 my_hdr Bcc: tkngch@runbox.com
 # my_hdr User-Agent: Batman
 
-alternates "(t\.noguchi|takao\.noguchi)\@(warwick|ucl|qmul)\.ac\.uk|tkngch\@(hotmail|gmx|gmail)\.com"
-# alternates "t\.noguchi\@qmul\.ac\.uk"
+# alternates "(t\.noguchi|takao\.noguchi)\@(warwick|ucl|qmul)\.ac\.uk|tkngch\@(hotmail|gmx|gmail)\.com"
+alternates "t\.noguchi\@qmul\.ac\.uk"
 
 # set editor="/usr/bin/vim '+/^$' -f"
 set editor="/usr/bin/vim +8 -f"
@@ -62,6 +62,8 @@ bind index,pager \# noop
 bind index,pager d noop
 
 ## unbind all unneccesary
+bind pager p noop
+bind index g noop
 bind index \Ck noop
 bind index \Cd noop
 bind index \Cn noop
@@ -74,6 +76,8 @@ bind index,pager <esc>P noop
 bind index,pager <esc>d noop
 bind index,pager <esc>k noop
 bind index,pager <esc>p noop
+bind index,pager p noop
+bind index g noop
 bind index,pager <esc>n noop
 bind index,pager <esc>s noop
 bind index <esc>t noop
@@ -194,7 +198,7 @@ set vfolder_format="%f %n"
 # virtual folders
 bind index,pager t modify-labels
 # bind index \Ct change-vfolder
-exec sidebar-toggle-virtual  # toggle between mailboxes and virtual mailboxes
+# exec sidebar-toggle-virtual  # toggle between mailboxes and virtual mailboxes
 macro index,pager a "<modify-labels-then-hide>-inbox +archive\n<sync-mailbox>"
 macro index,pager \\ "<vfolder-from-query>"
 macro attach s <save-entry><bol>$HOME/tmp/  # directory to save attachments
