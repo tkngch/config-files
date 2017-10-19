@@ -15,3 +15,6 @@ do
     ln -i -s -T $here/$file $XDG_CONFIG_HOME/$file
     echo "linked $file"
 done
+
+mkdir -p $XDG_CONFIG_HOME/nvim
+ln -i -s -T $here/init.vim $XDG_CONFIG_HOME/nvim/init.vim

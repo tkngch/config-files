@@ -23,7 +23,7 @@ Plugin 'honza/vim-snippets'
 Plugin 'majutsushi/tagbar'
 Plugin 'w0rp/ale'  " Asynchronous Lint Engine
 Plugin 'ap/vim-buftabline'  " takes over the tabline and renders the buffer list in it
-Plugin 'scrooloose/nerdtree'  " allows you to explore your filesystem and to open files and directories
+" Plugin 'scrooloose/nerdtree'  " allows you to explore your filesystem and to open files and directories
 " Plugin 'reedes/vim-wordy'  " Uncover usage problems in your writing
 " Plugin 'vim-scripts/LanguageTool'  " Grammar checker for English, French, German (etc.)
 " Plugin 'rhysd/vim-grammarous'  " A powerful grammar checker for Vim using LanguageTool
@@ -54,7 +54,7 @@ set undofile
 
 """"""""""""""""""""""""""""""""""""""""""""
 " Color Scheme                             "
-" depends: base16-vim and vim-colorschemes "
+" depends: vim-colorschemes "
 """"""""""""""""""""""""""""""""""""""""""""
 
 syntax enable
@@ -63,7 +63,6 @@ set background=dark
 " Load gruvbox first and let lucius over-ride some colours.
 " colorscheme gruvbox
 colorscheme lucius
-" colorscheme Tomorrow-Night-Eighties
 
 " " in GUI or color console, enable coloring and search highlighting
 " if &t_Co > 2 || has("gui_running")
@@ -259,7 +258,10 @@ autocmd FileType rnoweb set textwidth=100  " Rnw file
 """""""""
 
 " name of the terminal type for which mouse codes are to be recognized
-set ttymouse=xterm2
+if !has('nvim')
+    " This option is removed in neovim
+    set ttymouse=xterm2
+endif
 
 " enable the use of the mouse in all modes
 set mouse=a
@@ -584,7 +586,12 @@ set backspace=eol,start,indent
 set history=100
 
 " command history file
-set viminfo+=n/home/takao/.cache/viminfo
+if !has('nvim')
+    set viminfo+=n/home/takao/.cache/viminfo
+else
+    " for neovim
+    set viminfo+=n/home/takao/.cache/nviminfo
+endif
 
 " end-of-line (<EOL>) formats
 set fileformats=unix,dos
