@@ -477,6 +477,15 @@ let g:tagbar_sort = 0
 let g:ale_linters = {'cpp': 'all'}
 
 
+" Formatter
+"
+" when you select lines and hit gq (the default mapping unless you remapped
+" it). It will filter the lines through autopep8 and writes the nicely
+" formatted version in place.  The hyphen '-' at the end of the command is
+" required for autopep8 to read the lines from the standard in.
+autocmd FileType python setlocal formatprg=autopep8\ -
+autocmd FileType java setlocal formatprg=astyle\ --style=java
+
 """"""""""""
 " Bindings "
 """"""""""""
