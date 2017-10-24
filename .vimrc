@@ -124,6 +124,7 @@ let g:tex_flavor = "latex"
 autocmd BufRead sup.* set filetype=mail
 autocmd BufRead alot.* set filetype=mail
 autocmd BufRead mutt-* set filetype=mail
+autocmd BufRead neomutt-* set filetype=mail
 autocmd BufRead *.R set filetype=r
 
 
@@ -246,6 +247,7 @@ set showbreak=↳\
 
 " maximum width of text that is being inserted.  A longer line will be broken after white space to get this width.
 " set textwidth=80
+set textwidth=1000000
 " autocmd FileType text set textwidth=100
 autocmd FileType tex set textwidth=100
 autocmd FileType rnoweb set textwidth=100  " Rnw file
