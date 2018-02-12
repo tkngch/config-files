@@ -14,23 +14,16 @@ set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
 Plugin 'VundleVim/Vundle.vim'
-" Plugin 'chriskempson/base16-vim'
-Plugin 'flazz/vim-colorschemes'
-" Plugin 'scrooloose/syntastic'
+" Plugin 'flazz/vim-colorschemes'
+Plugin 'jonathanfilip/vim-lucius'  " Lucius color scheme for vim
 Plugin 'tomtom/tcomment_vim'
 Plugin 'SirVer/ultisnips'
-Plugin 'honza/vim-snippets'
+" Plugin 'honza/vim-snippets'
 Plugin 'majutsushi/tagbar'
 Plugin 'w0rp/ale'  " Asynchronous Lint Engine
 Plugin 'ap/vim-buftabline'  " takes over the tabline and renders the buffer list in it
-" Plugin 'scrooloose/nerdtree'  " allows you to explore your filesystem and to open files and directories
-" Plugin 'reedes/vim-wordy'  " Uncover usage problems in your writing
-" Plugin 'vim-scripts/LanguageTool'  " Grammar checker for English, French, German (etc.)
-" Plugin 'rhysd/vim-grammarous'  " A powerful grammar checker for Vim using LanguageTool
 Plugin 'maverickg/stan.vim'  " Vim syntax highlighting for Stan modeling language
-
-
-" Plugin 'Valloric/YouCompleteMe'
+" Plugin 'maralla/completor.vim'  " Async completion framework
 
 call vundle#end()
 filetype plugin indent on
@@ -52,27 +45,18 @@ set undodir=~/.cache/vim_undo
 " file, and restores undo history from the same file on buffer read
 set undofile
 
-""""""""""""""""""""""""""""""""""""""""""""
-" Color Scheme                             "
-" depends: vim-colorschemes "
-""""""""""""""""""""""""""""""""""""""""""""
+
+"""""""""""""""""""""""
+" Color Scheme        "
+" depends: vim-lucius "
+"""""""""""""""""""""""
 
 syntax enable
 set background=dark
-" lucius does not seem to define the color of buffer tab, but gruvbox does.
-" Load gruvbox first and let lucius over-ride some colours.
-" colorscheme gruvbox
-colorscheme lucius
 
-" " in GUI or color console, enable coloring and search highlighting
-" if &t_Co > 2 || has("gui_running")
-"     " syntax enable
-"     " set background=dark
-"     colorscheme base16-eighties
-"
-"     " when there is a previous search pattern, highlight all its matches
-"     set hlsearch
-" endif
+" This option determines the contrast to use for text/ui elements. It can be set to 'low', 'normal', or 'high'.
+let g:lucius_contrast = "low"
+colorscheme lucius
 
 " number of colors
 set t_Co=256
@@ -120,7 +104,6 @@ set statusline+=\ (row:%l/%L,\ col:%c)  " line and column
 " when this option is set, the FileType autocommand event is triggered
 filetype on
 
-let g:tex_flavor = "latex"
 autocmd BufRead sup.* set filetype=mail
 autocmd BufRead alot.* set filetype=mail
 autocmd BufRead mutt-* set filetype=mail
@@ -251,7 +234,7 @@ set textwidth=1000000
 " autocmd FileType text set textwidth=100
 autocmd FileType tex set textwidth=100
 autocmd FileType rnoweb set textwidth=100  " Rnw file
-" autocmd FileType python set textwidth=78
+autocmd FileType python set textwidth=78
 " autocmd FileType mail set textwidth=72
 
 
@@ -320,18 +303,6 @@ set wildmode=longest:full
 " a file that matches with one of these patterns is ignored when expanding wildcards
 set wildignore+=*.o,*.pyc
 
-" """""""""""""""""""""
-" " plugin: syntastic "
-" """""""""""""""""""""
-" let g:syntastic_check_on_wq = 0
-" let g:syntastic_python_checkers = ['flake8']
-" let g:syntastic_cpp_compiler_options = ' -std=c++11'
-"
-" " let g:syntastic_error_symbol = "☠"
-" " let g:syntastic_warning_symbol = "⚠"
-" " let g:syntastic_style_error_symbol = "☢"
-" " let g:syntastic_style_warning_symbol = "☹"
-
 
 """"""""""""""""""
 " Spell Checking "
@@ -346,9 +317,11 @@ autocmd FileType markdown syntax spell toplevel  " spell check
 autocmd FileType text setlocal spell spelllang=en_gb
 autocmd FileType text syntax spell toplevel  " spell check
 
-autocmd FileType tex setlocal spell spelllang=en_us
+" autocmd FileType tex setlocal spell spelllang=en_us
+autocmd FileType tex setlocal spell spelllang=en_gb
 autocmd FileType tex syntax spell toplevel  " spell check
-autocmd FileType rnoweb setlocal spell spelllang=en_us
+" autocmd FileType rnoweb setlocal spell spelllang=en_us
+autocmd FileType rnoweb setlocal spell spelllang=en_gb
 autocmd FileType rnoweb syntax spell toplevel  " spell check
 
 autocmd FileType help syntax spell notoplevel  " no spell check
@@ -401,43 +374,13 @@ autocmd FileType rnoweb setlocal complete+=k,kspell
 autocmd FileType mail setlocal complete+=k,kspell
 
 
-" """""""""""""""""""""""""
-" " plugin: YouCompleteMe "
-" """""""""""""""""""""""""
-"
-" " global config file
-" " let g:ycm_global_ycm_extra_conf="$HOME/.vim/.ycm_extra_conf.py"
-" let g:ycm_global_ycm_extra_conf="~/.vim/.ycm_extra_conf.py"
-" let g:ycm_server_python_interpreter="/usr/bin/python"
-"
-" " use <c-n> and <c-p> instead of <tab>
-" let g:ycm_key_list_select_completion=[]
-" let g:ycm_key_list_previous_completion=[]
-"
-" " YCM will populate the location list automatically every time it gets new diagnostic data.
-" " See :help location-list in Vim to learn more about the location list.
-" let g:ycm_always_populate_location_list = 1
-"
-" let g:ycm_filetype_blacklist = {
-"       \ 'tagbar' : 1,
-"       \ 'qf' : 1,
-"       \ 'notes' : 1,
-"       \ 'markdown' : 1,
-"       \ 'unite' : 1,
-"       \ 'text' : 1,
-"       \ 'vimwiki' : 1,
-"       \ 'pandoc' : 1,
-"       \ 'infolog' : 1,
-"       \ 'mail' : 1,
-"       \ 'tex': 1
-"       \}
-
 """""""""""""""""""""
 " plugin: UltiSnips "
 """""""""""""""""""""
 
 " let g:UltiSnipsSnippetDirectories=['UltiSnips', 'ultisnips']
-let g:UltiSnipsSnippetDirectories=['ultisnips', 'bundle/vim-snippets/UltiSnips']
+" let g:UltiSnipsSnippetDirectories=['ultisnips', 'bundle/vim-snippets/UltiSnips']
+let g:UltiSnipsSnippetDirectories=['ultisnips']
 let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsListSnippets="<s-tab>"
 let g:UltiSnipsJumpForwardTrigger="<tab>"
@@ -463,14 +406,6 @@ autocmd FileType stan setlocal commentstring=//\ %s
 let g:tagbar_sort = 0
 
 
-""""""""""""""""""""""""""
-" plugin: vim-grammarous "
-""""""""""""""""""""""""""
-" let g:grammarous#languagetool_cmd='/usr/bin/languagetool'
-" command GC GrammarousCheck
-" command GR GrammarousReset
-
-
 """""""""""""""
 " plugin: ale "
 """""""""""""""
@@ -479,14 +414,16 @@ let g:tagbar_sort = 0
 let g:ale_linters = {'cpp': 'all'}
 
 
-" Formatter
-"
+"""""""""""""
+" Formatter "
+"""""""""""""
 " when you select lines and hit gq (the default mapping unless you remapped
 " it). It will filter the lines through autopep8 and writes the nicely
 " formatted version in place.  The hyphen '-' at the end of the command is
 " required for autopep8 to read the lines from the standard in.
 autocmd FileType python setlocal formatprg=autopep8\ -
 autocmd FileType java setlocal formatprg=astyle\ --style=java
+
 
 """"""""""""
 " Bindings "
@@ -566,8 +503,8 @@ command CDC cd %:p:h
 noremap [19~ :TagbarToggle<CR>
 noremap <F8> :TagbarToggle<CR>
 
-noremap [18~ :NERDTreeToggle<CR>
-noremap <F7> :NERDTreeToggle<CR>
+" noremap [18~ :NERDTreeToggle<CR>
+" noremap <F7> :NERDTreeToggle<CR>
 
 command Make AsyncRun make
 
@@ -627,36 +564,6 @@ set scrolloff=7
 autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
 
 
-" augroup encrypted
-"     au!
-"
-"     " First make sure nothing is written to ~/.viminfo while editing
-"     " an encrypted file.
-"     autocmd BufReadPre,FileReadPre      *.gpg set viminfo=
-"     " We don't want a swap file, as it writes unencrypted data to disk
-"     autocmd BufReadPre,FileReadPre      *.gpg set noswapfile
-"     " Switch to binary mode to read the encrypted file
-"     autocmd BufReadPre,FileReadPre      *.gpg set bin
-"     autocmd BufReadPre,FileReadPre      *.gpg let ch_save = &ch|set ch=2
-"     autocmd BufReadPost,FileReadPost    *.gpg '[,']!gpg1 --decrypt 2> /dev/null
-"     " Switch to normal mode for editing
-"     autocmd BufReadPost,FileReadPost    *.gpg set nobin
-"     autocmd BufReadPost,FileReadPost    *.gpg let &ch = ch_save|unlet ch_save
-"     autocmd BufReadPost,FileReadPost    *.gpg execute ":doautocmd BufReadPost " . expand("%:r")
-"
-"     " Convert all text to encrypted text before writing
-"     autocmd BufWritePre,FileWritePre    *.gpg   '[,']!gpg1 --default-recipient-self -ae 2>/dev/null
-"     " Undo the encryption so we are back in the normal text, directly
-"     " after the file has been written.
-"     autocmd BufWritePost,FileWritePost  *.gpg   u
-"
-"     " Fold entries by default
-"     autocmd BufReadPre,FileReadPre      *.gpg set foldmethod=indent
-"     autocmd BufReadPre,FileReadPre      *.gpg set foldlevelstart=0
-"     autocmd BufReadPre,FileReadPre      *.gpg set foldlevel=0
-"
-" augroup END
-"
 highlight MatchParen cterm=underline ctermbg=none ctermfg=none
 
 " Last but not least, allow for local overrides

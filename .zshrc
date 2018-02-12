@@ -85,6 +85,8 @@ zstyle ':completion:*' menu select
 # This way you tell zsh comp to take the first part of the path to be exact,
 # and to avoid partial globs. Now path completions became nearly immediate.
 zstyle ':completion:*' accept-exact '*(N)'
+# When completing for openpdf script, match only *.pdf files.
+zstyle ":completion:*:*:openpdf:*" file-patterns "*.pdf *(-/)"
 # autocomplete aliases
 setopt completealiases
 
