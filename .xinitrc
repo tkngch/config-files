@@ -16,7 +16,7 @@ unclutter &
 redshift-gtk -l 51.50:0.12 &
 
 # file synchronization
-syncthing-gtk --minimized &
+# syncthing-gtk --minimized &
 
 ## register the input method modules with fcitx and support xim programs
 # For Japanese input, remember to uncomment ja_JP.UTF-8 in /etc/locale.gen and run locale-gen as su

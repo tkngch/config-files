@@ -21,10 +21,12 @@ LESSHISTFILE=$HOME/.cache/less.hist
 ### Variables ###
 # export TERM="xterm-256color"
 export TERM="screen-256color"
-export BROWSER="/bin/chromium"
+# export BROWSER="/bin/chromium"
+export BROWSER=""
 export EDITOR="/bin/vim"
 export SYSTEMD_EDITOR="/bin/vim"
-export PATH="${PATH}:${HOME}/bin"
+# export PATH="${PATH}:${HOME}/bin"
+export PATH="${HOME}/bin:${PATH}"
 export VISUAL="/bin/vim"
 export PAGER="/bin/less"
 export LESS="-r"  # color support
