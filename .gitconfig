@@ -22,3 +22,5 @@
 [credential]
     # Number of seconds to cache credentials
     helper = cache --timeout=360000
+[pager]
+    branch = false
