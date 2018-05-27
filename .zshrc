@@ -10,7 +10,6 @@ for file in /etc/profile.d/*.sh; do source "${file}"; done
 
 
 ### History ###
-
 HISTFILE=$HOME/.cache/zsh.hist
 HISTSIZE=1000
 SAVEHIST=1000
@@ -21,7 +20,6 @@ LESSHISTFILE=$HOME/.cache/less.hist
 ### Variables ###
 # export TERM="xterm-256color"
 export TERM="screen-256color"
-# export BROWSER="/bin/chromium"
 export BROWSER=""
 export EDITOR="/bin/vim"
 export SYSTEMD_EDITOR="/bin/vim"
@@ -101,25 +99,6 @@ case $TERM in
 esac
 
 
-### Prompt ###
-PROMPT='
-%F{white}%d
-%B%F{magenta}>%F{yellow}>%F{blue}>%b%F{white} '
-
-function indicate_mode {
-    RPS1="${${KEYMAP/vicmd/-- NORMAL --}/(main|viins)/-- INSERT --}"
-    RPS2=$RPS1
-}
-indicate_mode
-
-function zle-line-init zle-keymap-select {
-    indicate_mode
-    zle reset-prompt
-}
-zle -N zle-line-init
-zle -N zle-keymap-select
-
-
 ### Dirstack ###
 DIRSTACKFILE="$HOME/.cache/zsh.dirs"
 DIRSTACKSIZE=10
@@ -147,7 +126,9 @@ alias grep='grep --color=always'
 # alias matlab='LD_LIBRARY_PATH="/home/takao/etc/matlab_libs/" /usr/local/bin/matlab -nosplash -nodesktop'
 
 
+### Prompt ###
 ### Notify after long processes ###
+autoload -Uz vcs_info
 preexec () {
     # Note the date when the command started, in unix time.
     CMD_START_DATE=$(date +%s)
@@ -156,6 +137,8 @@ preexec () {
 }
 
 precmd () {
+    vcs_info
+
     # Proceed only if we've ran a command in the current shell.
     if ! [[ -z $CMD_START_DATE ]]; then
         # Note current date in unix time
@@ -200,7 +183,31 @@ precmd () {
             # notify-send "Job Finished" "\"$CMD_NAME\" in ${CMD_ELAPSED_TIME} seconds."
         fi
     fi
+    echo -e ""
 }
+
+
+### Prompt ###
+# Format the vcs_info_msg_0_ variable
+zstyle ':vcs_info:git:*' formats 'branch:%b'
+setopt PROMPT_SUBST
+PROMPT='${vcs_info_msg_0_}
+%F{white}%d
+%B%F{magenta}>%F{yellow}>%F{blue}>%b%F{white} '
+
+function indicate_mode {
+    RPS1="${${KEYMAP/vicmd/-- NORMAL --}/(main|viins)/-- INSERT --}"
+    RPS2=$RPS1
+}
+indicate_mode
+
+function zle-line-init zle-keymap-select {
+    indicate_mode
+    zle reset-prompt
+}
+zle -N zle-line-init
+zle -N zle-keymap-select
+
 
 
 ### Misc ###
