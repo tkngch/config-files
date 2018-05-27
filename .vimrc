@@ -15,7 +15,7 @@ call vundle#begin()
 
 Plugin 'VundleVim/Vundle.vim'
 " Plugin 'flazz/vim-colorschemes'
-Plugin 'jonathanfilip/vim-lucius'  " Lucius color scheme for vim
+" Plugin 'jonathanfilip/vim-lucius'  " Lucius color scheme for vim
 Plugin 'tomtom/tcomment_vim'
 Plugin 'SirVer/ultisnips'
 " Plugin 'honza/vim-snippets'
@@ -48,24 +48,15 @@ set undofile
 
 """""""""""""""""""""""
 " Color Scheme        "
-" depends: vim-lucius "
 """""""""""""""""""""""
 
 syntax enable
 set background=dark
 
-" This option determines the contrast to use for text/ui elements. It can be set to 'low', 'normal', or 'high'.
-let g:lucius_contrast = "low"
-colorscheme lucius
+colorscheme default
 
 " number of colors
 set t_Co=256
-
-" autocmd FileType javascript colorscheme lucius
-" autocmd FileType tex colorscheme zenburn
-" autocmd FileType sh colorscheme hemisu
-" autocmd FileType bib colorscheme zenburn
-" autocmd FileType python colorscheme wombat256mod
 
 " trailing whitespace and column; must define AFTER colorscheme, setf, etc!
 hi ColorColumn ctermbg=black guibg=darkgray
