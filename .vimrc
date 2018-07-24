@@ -155,7 +155,7 @@ set relativenumber
 set showcmd
 
 " highlight the screen line of the cursor
-set cursorline
+" set cursorline
 
 
 """"""""""
