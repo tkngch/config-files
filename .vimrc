@@ -412,7 +412,8 @@ let g:ale_linters = {'cpp': 'all'}
 let g:ale_fixers = {}
 let g:ale_fixers['markdown'] = ['prettier']
 let g:ale_fixers['javascript'] = ['prettier']
-let g:ale_fixers['python'] = ['autopep8']
+let g:ale_fixers['json'] = ['prettier']
+let g:ale_fixers['python'] = ['autopep8', 'yapf']
 
 " Fix files when they are saved.
 let g:ale_fix_on_save = 1
