@@ -18,7 +18,7 @@ Plugin 'VundleVim/Vundle.vim'
 " Plugin 'jonathanfilip/vim-lucius'  " Lucius color scheme for vim
 Plugin 'tomtom/tcomment_vim'
 Plugin 'SirVer/ultisnips'
-" Plugin 'honza/vim-snippets'
+Plugin 'honza/vim-snippets'
 Plugin 'majutsushi/tagbar'
 Plugin 'w0rp/ale'  " Asynchronous Lint Engine
 Plugin 'ap/vim-buftabline'  " takes over the tabline and renders the buffer list in it
@@ -65,10 +65,15 @@ match WhitespaceEOL /\s\+\%#\@<!$/
 
 " a comma separated list of screen columns that are highlighted with ColorColumn hl-ColorColumn
 " highligh only when the line is too long
-autocmd FileType python call matchadd('ColorColumn', '\%80v', 100)
+" autocmd FileType python call matchadd('ColorColumn', '\%80v', 100)
 
 " highlight too long line
-autocmd FileType python highlight ColorColumn ctermbg=magenta
+" autocmd FileType python highlight ColorColumn ctermbg=magenta
+
+" highlight column 80 and onward
+hi ColorColumn ctermbg=darkgray guibg=darkgray
+autocmd FileType python let &colorcolumn=join(range(80,999),",")
+
 
 
 """""""""""""""
@@ -404,6 +409,15 @@ let g:tagbar_sort = 0
 " enable  all linters available for a given filetype
 let g:ale_linters = {'cpp': 'all'}
 
+let g:ale_fixers = {}
+let g:ale_fixers['markdown'] = ['prettier']
+let g:ale_fixers['javascript'] = ['prettier']
+let g:ale_fixers['json'] = ['prettier']
+let g:ale_fixers['python'] = ['autopep8', 'yapf']
+
+" Fix files when they are saved.
+let g:ale_fix_on_save = 1
+
 
 """""""""""""
 " Formatter "
@@ -412,7 +426,7 @@ let g:ale_linters = {'cpp': 'all'}
 " it). It will filter the lines through autopep8 and writes the nicely
 " formatted version in place.  The hyphen '-' at the end of the command is
 " required for autopep8 to read the lines from the standard in.
-autocmd FileType python setlocal formatprg=autopep8\ -
+" autocmd FileType python setlocal formatprg=autopep8\ -
 autocmd FileType java setlocal formatprg=astyle\ --style=java
 
 
