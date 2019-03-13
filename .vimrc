@@ -407,7 +407,9 @@ let g:tagbar_sort = 0
 """""""""""""""
 
 " enable  all linters available for a given filetype
-let g:ale_linters = {'cpp': 'all'}
+let g:ale_linters = {}
+let g:ale_linters['cpp'] = ['all']
+let g:ale_linters['python'] = ['flake8', 'pydocstyle']
 
 let g:ale_fixers = {}
 let g:ale_fixers['markdown'] = ['prettier']
@@ -511,7 +513,8 @@ noremap <F8> :TagbarToggle<CR>
 " noremap [18~ :NERDTreeToggle<CR>
 " noremap <F7> :NERDTreeToggle<CR>
 
-command Make AsyncRun make
+" nmap <silent> <C-h> <Plug>(ale_previous_wrap)
+nmap <silent> <C-i> <Plug>(ale_next_wrap)
 
 " press the bound key and clang-format will format the current line in NORMAL
 " mode or the selected region in VISUAL mode.
