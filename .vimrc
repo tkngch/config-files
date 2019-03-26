@@ -571,6 +571,9 @@ set scrolloff=7
 " opening it, if the '" mark is set: >
 autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
 
+" Call make after every tex file save.
+autocmd BufWritePost *.tex make
+
 
 highlight MatchParen cterm=underline ctermbg=none ctermfg=none
 
