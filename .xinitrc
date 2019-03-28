@@ -1,6 +1,7 @@
 xrdb -merge ~/.Xresources
 
 # xset dpms 0 0 0  # disable standby, suspend, and off
+xset s 1200 1200  # Change screen save blank time to 20 minutes
 # xset s 0 0  # disable screen saver blanking
 
 # capslock as ctrl key
@@ -13,20 +14,32 @@ unclutter &
 
 # adjusts the color temperature of your screen according to your surroundings.
 # use latitude and longitude of London UK
-# redshift-gtk -l 51.50:0.12 &
+redshift-gtk -l 51.50:0.12 &
 
 # file synchronization
 # syncthing-gtk --minimized &
 
-## register the input method modules with fcitx and support xim programs
+# register the input method modules with fcitx and support xim programs
 # For Japanese input, remember to uncomment ja_JP.UTF-8 in /etc/locale.gen and run locale-gen as su
-# export GTK_IM_MODULE=fcitx
-# export QT_IM_MODULE=fcitx
-# export XMODIFIERS=@im=fcitx
+export GTK_IM_MODULE=fcitx
+export QT_IM_MODULE=fcitx
+export XMODIFIERS=@im=fcitx
 
-exec startxfce4
+# dwm
+export _JAVA_AWT_WM_NONREPARENTING=1
+fcitx -d
+test $(pgrep -x 'xset_status') || ${HOME}/bin/xset_status &
+xsetroot -solid "#0080FF"  # solid colour background
+while true
+do
+    exec ${HOME}/bin/start_dwm
+done
 
-# feh --bg-fill /home/takao/etc/background.jpg
+# xfce
+# exec startxfce4
+
+# bspwm
+# feh --bg-fill ${HOME}/etc/background.jpg
 # if [ -x /usr/bin/nm-applet ]; then
 #    nm-applet --sm-disable &
 # fi
