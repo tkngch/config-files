@@ -29,7 +29,7 @@ export XMODIFIERS=@im=fcitx
 export _JAVA_AWT_WM_NONREPARENTING=1
 fcitx -d
 test $(pgrep -x 'xset_status') || ${HOME}/bin/xset_status &
-xsetroot -solid "#0080FF"  # solid colour background
+xsetroot -solid "#2d2c28"  # solid colour background
 while true
 do
     exec ${HOME}/bin/start_dwm
