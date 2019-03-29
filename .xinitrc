@@ -1,3 +1,7 @@
+# for nvidia optimus
+xrandr --setprovideroutputsource modesetting NVIDIA-0
+xrandr --auto
+
 xrdb -merge ~/.Xresources
 
 # xset dpms 0 0 0  # disable standby, suspend, and off
@@ -27,7 +31,7 @@ export XMODIFIERS=@im=fcitx
 
 # dwm
 export _JAVA_AWT_WM_NONREPARENTING=1
-fcitx -d
+test $(command -v fcitx) && fcitx -d
 test $(pgrep -x 'xset_status') || ${HOME}/bin/xset_status &
 xsetroot -solid "#0080FF"  # solid colour background
 while true
