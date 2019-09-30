@@ -14,8 +14,6 @@ set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
 Plugin 'VundleVim/Vundle.vim'
-" Plugin 'flazz/vim-colorschemes'
-" Plugin 'jonathanfilip/vim-lucius'  " Lucius color scheme for vim
 Plugin 'tomtom/tcomment_vim'
 Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
@@ -23,7 +21,6 @@ Plugin 'majutsushi/tagbar'
 Plugin 'w0rp/ale'  " Asynchronous Lint Engine
 Plugin 'ap/vim-buftabline'  " takes over the tabline and renders the buffer list in it
 Plugin 'maverickg/stan.vim'  " Vim syntax highlighting for Stan modeling language
-" Plugin 'maralla/completor.vim'  " Async completion framework
 
 call vundle#end()
 filetype plugin indent on
@@ -63,16 +60,16 @@ hi ColorColumn ctermbg=black guibg=darkgray
 hi WhitespaceEOL ctermbg=red guibg=red
 match WhitespaceEOL /\s\+\%#\@<!$/
 
-" a comma separated list of screen columns that are highlighted with ColorColumn hl-ColorColumn
-" highligh only when the line is too long
-" autocmd FileType python call matchadd('ColorColumn', '\%80v', 100)
-
-" highlight too long line
-" autocmd FileType python highlight ColorColumn ctermbg=magenta
-
 " highlight column 80 and onward
 hi ColorColumn ctermbg=darkgray guibg=darkgray
 autocmd FileType python let &colorcolumn=join(range(80,999),",")
+
+" Change the vimdiff highlighting colours, to be easier on eyes.
+" https://stackoverflow.com/questions/2019281/load-different-colorscheme-when-using-vimdiff
+highlight DiffAdd    cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=bg guibg=Red
+highlight DiffDelete cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=bg guibg=Red
+highlight DiffChange cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=bg guibg=Red
+highlight DiffText   cterm=bold ctermfg=10 ctermbg=88 gui=none guifg=bg guibg=Red
 
 
 
@@ -225,13 +222,10 @@ set linebreak
 set showbreak=↳\
 
 " maximum width of text that is being inserted.  A longer line will be broken after white space to get this width.
-" set textwidth=80
-set textwidth=1000000
-" autocmd FileType text set textwidth=100
+set textwidth=100
 autocmd FileType tex set textwidth=100
 autocmd FileType rnoweb set textwidth=100  " Rnw file
 autocmd FileType python set textwidth=78
-" autocmd FileType mail set textwidth=72
 
 
 """""""""
@@ -262,13 +256,11 @@ set foldmethod=syntax
 " index based folding for python
 autocmd FileType python set foldmethod=indent
 
-
 " fold out of paragraphs separated by blank lines: >
 autocmd FileType tex set foldexpr=getline(v:lnum)=~'^\\s*$'&&getline(v:lnum+1)=~'\\S'?'<1':1
 autocmd FileType tex set foldmethod=expr
 autocmd FileType rnoweb set foldexpr=getline(v:lnum)=~'^\\s*$'&&getline(v:lnum+1)=~'\\S'?'<1':1
 autocmd FileType rnoweb set foldmethod=expr
-
 
 
 """"""""""""
@@ -374,8 +366,6 @@ autocmd FileType mail setlocal complete+=k,kspell
 " plugin: UltiSnips "
 """""""""""""""""""""
 
-" let g:UltiSnipsSnippetDirectories=['UltiSnips', 'ultisnips']
-" let g:UltiSnipsSnippetDirectories=['ultisnips', 'bundle/vim-snippets/UltiSnips']
 let g:UltiSnipsSnippetDirectories=['ultisnips']
 let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsListSnippets="<s-tab>"
@@ -395,9 +385,6 @@ autocmd FileType stan setlocal commentstring=//\ %s
 " plugin: tagbar "
 """"""""""""""""""
 
-" Open the tagbar on the left.
-" let g:tagbar_left = 1
-
 " sort tags according to their order in the source file
 let g:tagbar_sort = 0
 
@@ -416,6 +403,7 @@ let g:ale_fixers['markdown'] = ['prettier']
 let g:ale_fixers['javascript'] = ['prettier']
 let g:ale_fixers['json'] = ['prettier']
 let g:ale_fixers['python'] = ['autopep8', 'yapf']
+let g:ale_fixers['c'] = ['clang-format']
 
 " Fix files when they are saved.
 let g:ale_fix_on_save = 1
@@ -454,12 +442,6 @@ noremap <C-n> :bnext<CR>
 
 nnoremap ; :
 
-" switch between buffers
-" nnoremap <C-m> :buffers<CR>:buffer<Space>
-
-" noremap <C-e> :Explore<CR>
-" noremap <C-m> :wall<CR>:make!<CR>
-
 " Dictionary Lookup        "
 " depends: sdcv (stardict) "
 function! SearchWord()
@@ -475,7 +457,6 @@ endfunction
 " <F2> is [12~ (check with Ctrl-V then F2)
 noremap [12~ :call SearchWord()<CR>
 noremap <F2> :call SearchWord()<CR>
-
 
 " delete buffer, but do no exit
 function! DeleteBufferNotExit()
@@ -494,7 +475,6 @@ endfunction
 
 noremap <C-x> :call DeleteBufferNotExit() <CR>
 
-
 " clear highlight and clear the screen
 " <F5> is [15~
 noremap <1b>[15~ :nohlsearch<CR>:edit<CR>:redraw!<CR>
@@ -509,9 +489,6 @@ command CDC cd %:p:h
 
 noremap [19~ :TagbarToggle<CR>
 noremap <F8> :TagbarToggle<CR>
-
-" noremap [18~ :NERDTreeToggle<CR>
-" noremap <F7> :NERDTreeToggle<CR>
 
 " nmap <silent> <C-h> <Plug>(ale_previous_wrap)
 nmap <silent> <C-i> <Plug>(ale_next_wrap)
@@ -560,12 +537,12 @@ set listchars=tab:↹·,extends:⇉,precedes:⇇,nbsp:␠,trail:␠,nbsp:␣
 set scrolloff=7
 
 " Set extra options when running in GUI mode
-" if has("gui_running")
-"     set guioptions-=T  " remove toolbar at the top with icons
-"     set guioptions-=r  " remove right-hand scrollbar
-"     set guioptions-=L  " remove left-hand scrollbar
-"     set guicursor+=a:blinkon0
-" endif
+if has("gui_running")
+    set guioptions-=T  " remove toolbar at the top with icons
+    set guioptions-=r  " remove right-hand scrollbar
+    set guioptions-=L  " remove left-hand scrollbar
+    set guicursor+=a:blinkon0
+endif
 
 " This autocommand jumps to the last known position in a file just after
 " opening it, if the '" mark is set: >
@@ -573,7 +550,6 @@ autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "norm
 
 " Call make after every tex file save.
 autocmd BufWritePost *.tex make
-
 
 highlight MatchParen cterm=underline ctermbg=none ctermfg=none
 
