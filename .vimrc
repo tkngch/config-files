@@ -73,6 +73,7 @@ match WhitespaceEOL /\s\+\%#\@<!$/
 " highlight column 80 and onward
 hi ColorColumn ctermbg=darkgray guibg=darkgray
 autocmd FileType python let &colorcolumn=join(range(80,999),",")
+autocmd FileType r let &colorcolumn=join(range(80,999),",")
 
 
 
@@ -226,11 +227,12 @@ set showbreak=↳\
 
 " maximum width of text that is being inserted.  A longer line will be broken after white space to get this width.
 " set textwidth=80
-set textwidth=1000000
+set textwidth=100
 " autocmd FileType text set textwidth=100
-autocmd FileType tex set textwidth=100
-autocmd FileType rnoweb set textwidth=100  " Rnw file
+" autocmd FileType tex set textwidth=100
+" autocmd FileType rnoweb set textwidth=100  " Rnw file
 autocmd FileType python set textwidth=78
+autocmd FileType r set textwidth=78
 " autocmd FileType mail set textwidth=72
 
 
@@ -573,6 +575,7 @@ autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "norm
 
 " Call make after every tex file save.
 autocmd BufWritePost *.tex make
+autocmd BufWritePost *.Rnw make
 
 
 highlight MatchParen cterm=underline ctermbg=none ctermfg=none
