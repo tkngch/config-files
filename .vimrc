@@ -63,6 +63,7 @@ match WhitespaceEOL /\s\+\%#\@<!$/
 " highlight column 80 and onward
 hi ColorColumn ctermbg=darkgray guibg=darkgray
 autocmd FileType python let &colorcolumn=join(range(80,999),",")
+autocmd FileType r let &colorcolumn=join(range(80,999),",")
 
 " Change the vimdiff highlighting colours, to be easier on eyes.
 " https://stackoverflow.com/questions/2019281/load-different-colorscheme-when-using-vimdiff
@@ -212,7 +213,8 @@ set smarttab
 " uhex		Show unprintable characters hexadecimal as <xx> instead of using ^C and ~C
 set display=lastline,uhex
 
-" wrap long lines at a character in 'breakat' rather than at the last character that fits on the screen
+" wrap long lines at a character in 'breakat' rather than at the last character that fits on the
+" screen
 set linebreak
 
 " lines longer than the width of the window will wrap and displaying continues on the next line
@@ -221,11 +223,9 @@ set linebreak
 " string to put at the start of lines that have been wrapped
 set showbreak=↳\
 
-" maximum width of text that is being inserted.  A longer line will be broken after white space to get this width.
-set textwidth=100
-autocmd FileType tex set textwidth=100
-autocmd FileType rnoweb set textwidth=100  " Rnw file
-autocmd FileType python set textwidth=78
+" maximum width of text that is being inserted.  A longer line will be broken after white space to
+" get this width.
+set textwidth=78
 
 
 """""""""
@@ -305,10 +305,8 @@ autocmd FileType markdown syntax spell toplevel  " spell check
 autocmd FileType text setlocal spell spelllang=en_gb
 autocmd FileType text syntax spell toplevel  " spell check
 
-" autocmd FileType tex setlocal spell spelllang=en_us
 autocmd FileType tex setlocal spell spelllang=en_gb
 autocmd FileType tex syntax spell toplevel  " spell check
-" autocmd FileType rnoweb setlocal spell spelllang=en_us
 autocmd FileType rnoweb setlocal spell spelllang=en_gb
 autocmd FileType rnoweb syntax spell toplevel  " spell check
 
@@ -550,6 +548,7 @@ autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "norm
 
 " Call make after every tex file save.
 autocmd BufWritePost *.tex make
+autocmd BufWritePost *.Rnw make
 
 highlight MatchParen cterm=underline ctermbg=none ctermfg=none
 
