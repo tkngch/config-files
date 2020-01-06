@@ -8,6 +8,11 @@ set nocompatible
 " Plugins "
 """""""""""
 
+" Remember to install latex package for amsmath.
+" Step 1. Download the package from here: http://www.drchip.org/astronaut/vim/index.html#LATEXPKGS
+" Step 2. Open amsmath.vba with vim
+" Step 3. :so %
+
 filetype off
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
