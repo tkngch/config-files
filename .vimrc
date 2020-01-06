@@ -1,7 +1,5 @@
-" vimrc
-
-" make vim more useful than vi. this option needs to come first in vimrc.
-set nocompatible
+set encoding=utf-8
+scriptencoding utf-8
 
 
 """""""""""
@@ -15,7 +13,7 @@ set nocompatible
 
 filetype off
 " set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
+set runtimepath+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
 Plugin 'VundleVim/Vundle.vim'
@@ -36,8 +34,8 @@ filetype plugin indent on
 """""""""""""""""""
 
 " create undodir
-if !isdirectory($HOME."/.cache/vim_undo")
-    call mkdir($HOME."/.cache/vim_undo", "", 0700)
+if !isdirectory($HOME.'/.cache/vim_undo')
+    call mkdir($HOME.'/.cache/vim_undo', '', 0700)
 endif
 
 " List of directory names for undo files, separated with commas.
@@ -67,8 +65,10 @@ match WhitespaceEOL /\s\+\%#\@<!$/
 
 " highlight column 80 and onward
 hi ColorColumn ctermbg=darkgray guibg=darkgray
-autocmd FileType python let &colorcolumn=join(range(80,999),",")
-autocmd FileType r let &colorcolumn=join(range(80,999),",")
+augroup highlight_first_columns
+    autocmd FileType python let &colorcolumn=join(range(80,999),',')
+    autocmd FileType r let &colorcolumn=join(range(80,999),',')
+augroup end
 
 " Change the vimdiff highlighting colours, to be easier on eyes.
 " https://stackoverflow.com/questions/2019281/load-different-colorscheme-when-using-vimdiff
@@ -103,11 +103,13 @@ set statusline+=\ (row:%l/%L,\ col:%c)  " line and column
 " when this option is set, the FileType autocommand event is triggered
 filetype on
 
-autocmd BufRead sup.* set filetype=mail
-autocmd BufRead alot.* set filetype=mail
-autocmd BufRead mutt-* set filetype=mail
-autocmd BufRead neomutt-* set filetype=mail
-autocmd BufRead *.R set filetype=r
+augroup set_mail_filetype
+    autocmd BufRead sup.* set filetype=mail
+    autocmd BufRead alot.* set filetype=mail
+    autocmd BufRead mutt-* set filetype=mail
+    autocmd BufRead neomutt-* set filetype=mail
+    autocmd BufRead *.R set filetype=r
+augroup end
 
 
 """"""""""""""""
@@ -151,7 +153,7 @@ highlight MatchParen cterm=underline ctermbg=none ctermfg=none
 
 " line numbers
 set number
-autocmd FileType mail set nonumber
+" autocmd FileType mail set nonumber
 
 " show the line number relative to the line with the cursor in front of each line
 set relativenumber
@@ -258,22 +260,21 @@ set foldlevelstart=99
 " the kind of folding used for the current window
 set foldmethod=syntax
 
-" index based folding for python
-autocmd FileType python set foldmethod=indent
+augroup set_folding_option
+    " index based folding for python
+    autocmd FileType python set foldmethod=indent
 
-" fold out of paragraphs separated by blank lines: >
-autocmd FileType tex set foldexpr=getline(v:lnum)=~'^\\s*$'&&getline(v:lnum+1)=~'\\S'?'<1':1
-autocmd FileType tex set foldmethod=expr
-autocmd FileType rnoweb set foldexpr=getline(v:lnum)=~'^\\s*$'&&getline(v:lnum+1)=~'\\S'?'<1':1
-autocmd FileType rnoweb set foldmethod=expr
+    " fold out of paragraphs separated by blank lines: >
+    autocmd FileType tex set foldexpr=getline(v:lnum)=~'^\\s*$'&&getline(v:lnum+1)=~'\\S'?'<1':1
+    autocmd FileType tex set foldmethod=expr
+    autocmd FileType rnoweb set foldexpr=getline(v:lnum)=~'^\\s*$'&&getline(v:lnum+1)=~'\\S'?'<1':1
+    autocmd FileType rnoweb set foldmethod=expr
+augroup end
 
 
 """"""""""""
 " Encoding "
 """"""""""""
-
-" sets the character encoding used inside Vim
-set encoding=utf-8
 
 " sets the character encoding for the file of this buffer.
 setglobal fileencoding=utf-8
@@ -301,26 +302,28 @@ set wildignore+=*.o,*.pyc
 " Spell Checking "
 """"""""""""""""""
 
-autocmd FileType rst setlocal spell spelllang=en_gb
-autocmd FileType rst syntax spell toplevel  " spell check
+augroup set_spellcheck_options
+    autocmd FileType rst setlocal spell spelllang=en_gb
+    autocmd FileType rst syntax spell toplevel  " spell check
 
-autocmd FileType markdown setlocal spell spelllang=en_gb
-autocmd FileType markdown syntax spell toplevel  " spell check
+    autocmd FileType markdown setlocal spell spelllang=en_gb
+    autocmd FileType markdown syntax spell toplevel  " spell check
 
-autocmd FileType text setlocal spell spelllang=en_gb
-autocmd FileType text syntax spell toplevel  " spell check
+    autocmd FileType text setlocal spell spelllang=en_gb
+    autocmd FileType text syntax spell toplevel  " spell check
 
-autocmd FileType tex setlocal spell spelllang=en_gb
-autocmd FileType tex syntax spell toplevel  " spell check
-autocmd FileType rnoweb setlocal spell spelllang=en_gb
-autocmd FileType rnoweb syntax spell toplevel  " spell check
+    autocmd FileType tex setlocal spell spelllang=en_gb
+    autocmd FileType tex syntax spell toplevel  " spell check
+    autocmd FileType rnoweb setlocal spell spelllang=en_gb
+    autocmd FileType rnoweb syntax spell toplevel  " spell check
 
-autocmd FileType help syntax spell notoplevel  " no spell check
+    autocmd FileType help syntax spell notoplevel  " no spell check
 
-autocmd FileType vim syntax spell notoplevel
+    autocmd FileType vim syntax spell notoplevel
 
-autocmd FileType mail setlocal spell spelllang=en_gb
-autocmd FileType mail syntax spell toplevel  " spell check
+    autocmd FileType mail setlocal spell spelllang=en_gb
+    autocmd FileType mail syntax spell toplevel  " spell check
+augroup end
 
 
 """""""""""""""""""
@@ -350,7 +353,6 @@ autocmd FileType mail syntax spell toplevel  " spell check
 " Do not scan included files (can be very slow with C++)
 set complete-=i
 
-
 " list of file names, that are used to lookup words for keyword completion commands
 " pacman -S words
 set dictionary+=/usr/share/dict/words
@@ -358,11 +360,13 @@ set dictionary+=/usr/share/dict/words
 " this option specifies how keyword completion ins-completion works when CTRL-P or CTRL-N are used.
 " k	scan the files given with the 'dictionary' option
 " kspell  use the currently active spell checking spell
-autocmd FileType rst setlocal complete+=k,kspell
-autocmd FileType text setlocal complete+=k,kspell
-autocmd FileType tex setlocal complete+=k,kspell
-autocmd FileType rnoweb setlocal complete+=k,kspell
-autocmd FileType mail setlocal complete+=k,kspell
+augroup set_autocomplete_options
+    autocmd FileType rst setlocal complete+=k,kspell
+    autocmd FileType text setlocal complete+=k,kspell
+    autocmd FileType tex setlocal complete+=k,kspell
+    autocmd FileType rnoweb setlocal complete+=k,kspell
+    autocmd FileType mail setlocal complete+=k,kspell
+augroup end
 
 
 """""""""""""""""""""
@@ -370,18 +374,20 @@ autocmd FileType mail setlocal complete+=k,kspell
 """""""""""""""""""""
 
 let g:UltiSnipsSnippetDirectories=['ultisnips']
-let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsListSnippets="<s-tab>"
-let g:UltiSnipsJumpForwardTrigger="<tab>"
-let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
+let g:UltiSnipsExpandTrigger='<tab>'
+let g:UltiSnipsListSnippets='<s-tab>'
+let g:UltiSnipsJumpForwardTrigger='<tab>'
+let g:UltiSnipsJumpBackwardTrigger='<s-tab>'
 
 
 """"""""""""""""""""
 " plugin: tcomment "
 """"""""""""""""""""
 
-autocmd FileType pyrex setlocal commentstring=#\ %s
-autocmd FileType stan setlocal commentstring=//\ %s
+augroup set_tcomment_options
+    autocmd FileType pyrex setlocal commentstring=#\ %s
+    autocmd FileType stan setlocal commentstring=//\ %s
+augroup end
 
 
 """"""""""""""""""
@@ -397,15 +403,26 @@ let g:tagbar_sort = 0
 """""""""""""""
 
 " enable  all linters available for a given filetype
+" See [here](https://github.com/dense-analysis/ale/tree/master/ale_linters)
+" for available options.
 let g:ale_linters = {}
 let g:ale_linters['cpp'] = ['all']
-let g:ale_linters['python'] = ['flake8', 'pydocstyle']
+let g:ale_linters['python'] = ['pylint', 'flake8', 'pydocstyle']
+let g:ale_linters['sh'] = ['shell', 'shellcheck']
+let g:ale_linters['r'] = ['lintr']
+let g:ale_linters['vim'] = ['vint']
 
+" See
+" [here](https://github.com/dense-analysis/ale/tree/master/autoload/ale/fixers)
+" for available options.
 let g:ale_fixers = {}
+let g:ale_fixers['*'] = ['remove_trailing_lines', 'trim_whitespace']
 let g:ale_fixers['markdown'] = ['prettier']
 let g:ale_fixers['javascript'] = ['prettier']
 let g:ale_fixers['json'] = ['prettier']
-let g:ale_fixers['python'] = ['autopep8', 'yapf']
+let g:ale_fixers['python'] = ['black']
+let g:ale_python_black_options = '--line-length=79'
+let g:ale_fixers['r'] = ['styler']
 let g:ale_fixers['c'] = ['clang-format']
 
 " Fix files when they are saved.
@@ -419,9 +436,10 @@ let g:ale_fix_on_save = 1
 " it). It will filter the lines through autopep8 and writes the nicely
 " formatted version in place.  The hyphen '-' at the end of the command is
 " required for autopep8 to read the lines from the standard in.
-" autocmd FileType python setlocal formatprg=autopep8\ -
-autocmd FileType java setlocal formatprg=astyle\ --style=java
-
+augroup set_formatter_options
+    " autocmd FileType python setlocal formatprg=autopep8\ -
+    autocmd FileType java setlocal formatprg=astyle\ --style=java
+augroup end
 
 """"""""""""
 " Bindings "
@@ -448,12 +466,11 @@ nnoremap ; :
 " Dictionary Lookup        "
 " depends: sdcv (stardict) "
 function! SearchWord()
-    let expl=system('sdcv -n ' . expand("<cword>"))
+    let expl=system('sdcv -n ' . expand('<cword>'))
     windo if expand("%")=="dictionary" | q! | endif
-    " 25vsp diCt-tmp
     20sp dictionary
     setlocal buftype=nofile bufhidden=hide noswapfile
-    1s/^/\=expl/
+    " 1s/^/\=expl/
     1
 endfunction
 
@@ -467,7 +484,7 @@ function! DeleteBufferNotExit()
     echo n_listed_buffers
     " let n_open_windows = winnr("$")
     if (n_listed_buffers == 0)
-        echo "No buffer to delete"
+        echo 'No buffer to delete'
     elseif (n_listed_buffers == 1)
         bd
         Explore
@@ -509,7 +526,9 @@ map <F10> :pyf /usr/share/clang/clang-format.py<cr>
 set visualbell
 " When no beep or flash is wanted, use ":set vb t_vb="
 set t_vb=
-autocmd GUIEnter * set vb t_vb=
+augroup set_beep_options
+    autocmd GUIEnter * set vb t_vb=
+augroup end
 
 " When a file has been detected to have been changed outside of Vim and it has
 " not been changed inside of Vim, automatically read it again.
@@ -540,7 +559,7 @@ set listchars=tab:↹·,extends:⇉,precedes:⇇,nbsp:␠,trail:␠,nbsp:␣
 set scrolloff=7
 
 " Set extra options when running in GUI mode
-if has("gui_running")
+if has('gui_running')
     set guioptions-=T  " remove toolbar at the top with icons
     set guioptions-=r  " remove right-hand scrollbar
     set guioptions-=L  " remove left-hand scrollbar
@@ -549,15 +568,17 @@ endif
 
 " This autocommand jumps to the last known position in a file just after
 " opening it, if the '" mark is set: >
-autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
+" autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
 
-" Call make after every tex file save.
-autocmd BufWritePost *.tex make
-autocmd BufWritePost *.Rnw make
+augroup make_on_save
+    " Call make after every tex file save.
+    autocmd BufWritePost *.tex make
+    autocmd BufWritePost *.Rnw make
+augroup end
 
 highlight MatchParen cterm=underline ctermbg=none ctermfg=none
 
 " Last but not least, allow for local overrides
-if filereadable(expand("~/.vimrc.local"))
+if filereadable(expand('~/.vimrc.local'))
     source ~/.vimrc.local
 endif
