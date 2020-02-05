@@ -24,6 +24,11 @@ Plugin 'majutsushi/tagbar'
 Plugin 'w0rp/ale'  " Asynchronous Lint Engine
 Plugin 'ap/vim-buftabline'  " takes over the tabline and renders the buffer list in it
 Plugin 'maverickg/stan.vim'  " Vim syntax highlighting for Stan modeling language
+Plugin 'Shougo/deoplete.nvim'
+Plugin 'deoplete-plugins/deoplete-jedi'  " python completion for deoplete
+Plugin 'roxma/nvim-yarp'  " deoplete dependency
+Plugin 'roxma/vim-hug-neovim-rpc'  " deplete dependency
+Plugin 'ctrlpvim/ctrlp.vim'
 
 call vundle#end()
 filetype plugin indent on
@@ -210,6 +215,14 @@ set shiftround
 " a <Tab> in front of a line inserts blanks according to 'shiftwidth'
 set smarttab
 
+" Disable auto-indentation when editing Python scripts.
+" By default, when you insert :, for example, vim indents the line you are
+" editing. I find this annoying.
+augroup disable_python_autoindentation
+    autocmd FileType python setlocal indentkeys=
+augroup end
+
+
 
 """""""""""""""""
 " Line Wrapping "
@@ -232,7 +245,10 @@ set showbreak=↳\
 
 " maximum width of text that is being inserted.  A longer line will be broken after white space to
 " get this width.
-set textwidth=78
+set textwidth=88
+augroup set_textwidth
+    autocmd FileType python setlocal textwidth=79
+augroup end
 
 
 """""""""
@@ -407,7 +423,7 @@ let g:tagbar_sort = 0
 " for available options.
 let g:ale_linters = {}
 let g:ale_linters['cpp'] = ['all']
-let g:ale_linters['python'] = ['pylint', 'flake8', 'pydocstyle']
+let g:ale_linters['python'] = ['pylint', 'pydocstyle']
 let g:ale_linters['sh'] = ['shell', 'shellcheck']
 let g:ale_linters['r'] = ['lintr']
 let g:ale_linters['vim'] = ['vint']
@@ -428,6 +444,15 @@ let g:ale_fixers['c'] = ['clang-format']
 " Fix files when they are saved.
 let g:ale_fix_on_save = 1
 
+
+"""""""""""""""""""
+" plugin: deplete "
+"""""""""""""""""""
+
+let g:deoplete#enable_at_startup = 1
+" augroup enable_deoplete
+"     autocmd FileType python let g:deoplete#enable()
+" augroup end
 
 """""""""""""
 " Formatter "
@@ -502,7 +527,7 @@ noremap <F5> :nohlsearch<CR>:edit<CR>:redraw!<CR>
 
 "By pressing ctrl + r in the visual mode you will be prompted to enter text to
 "replace with.
-vnoremap <C-r> "hy:%s/<C-r>h//g<left><left><left>
+" vnoremap <C-r> "hy:%s/<C-r>h//g<left><left><left>
 
 " :CDC to change to directory of current file
 command CDC cd %:p:h
@@ -511,7 +536,7 @@ noremap [19~ :TagbarToggle<CR>
 noremap <F8> :TagbarToggle<CR>
 
 " nmap <silent> <C-h> <Plug>(ale_previous_wrap)
-nmap <silent> <C-i> <Plug>(ale_next_wrap)
+" nmap <silent> <C-i> <Plug>(ale_next_wrap)
 
 " press the bound key and clang-format will format the current line in NORMAL
 " mode or the selected region in VISUAL mode.
