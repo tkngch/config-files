@@ -28,7 +28,8 @@ Plugin 'Shougo/deoplete.nvim'  " Async auto-completion
 Plugin 'deoplete-plugins/deoplete-jedi'  " python completion for deoplete
 Plugin 'roxma/nvim-yarp'  " deoplete dependency
 Plugin 'roxma/vim-hug-neovim-rpc'  " deplete dependency
-Plugin 'ctrlpvim/ctrlp.vim'
+" Plugin 'ctrlpvim/ctrlp.vim'
+Plugin 'junegunn/fzf.vim'  " Requires fzf on $PATH
 
 call vundle#end()
 filetype plugin indent on
@@ -462,6 +463,15 @@ let g:ctrlp_show_hidden = 1
 " In addition to |'wildignore'| and |g:ctrlp_show_hidden|, use this for files and
 " directories you want only CtrlP to not show. Use regexp to specify the patterns.
 let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
+
+
+"""""""""""""""
+" plugin: fzf "
+"""""""""""""""
+nnoremap f :FZF<CR>
+nnoremap b :Buffers<CR>
+" Requires ripgrep
+nnoremap s :Rg<CR>
 
 
 """""""""""""
