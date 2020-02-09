@@ -22,9 +22,9 @@ Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
 Plugin 'majutsushi/tagbar'
 Plugin 'w0rp/ale'  " Asynchronous Lint Engine
-Plugin 'ap/vim-buftabline'  " takes over the tabline and renders the buffer list in it
+" Plugin 'ap/vim-buftabline'  " takes over the tabline and renders the buffer list in it
 Plugin 'maverickg/stan.vim'  " Vim syntax highlighting for Stan modeling language
-Plugin 'Shougo/deoplete.nvim'
+Plugin 'Shougo/deoplete.nvim'  " Async auto-completion
 Plugin 'deoplete-plugins/deoplete-jedi'  " python completion for deoplete
 Plugin 'roxma/nvim-yarp'  " deoplete dependency
 Plugin 'roxma/vim-hug-neovim-rpc'  " deplete dependency
@@ -81,7 +81,6 @@ highlight DiffAdd    cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=bg guibg=Re
 highlight DiffDelete cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=bg guibg=Red
 highlight DiffChange cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=bg guibg=Red
 highlight DiffText   cterm=bold ctermfg=10 ctermbg=88 gui=none guifg=bg guibg=Red
-
 
 
 """""""""""""""
@@ -158,7 +157,6 @@ highlight MatchParen cterm=underline ctermbg=none ctermfg=none
 
 " line numbers
 set number
-" autocmd FileType mail set nonumber
 
 " show the line number relative to the line with the cursor in front of each line
 set relativenumber
@@ -221,7 +219,6 @@ set smarttab
 augroup disable_python_autoindentation
     autocmd FileType python setlocal indentkeys=
 augroup end
-
 
 
 """""""""""""""""
@@ -454,6 +451,19 @@ let g:deoplete#enable_at_startup = 1
 "     autocmd FileType python let g:deoplete#enable()
 " augroup end
 
+
+"""""""""""""""""
+" plugin: ctrlp "
+"""""""""""""""""
+
+" Set this to 1 if you want CtrlP to scan for dotfiles and dotdirs
+let g:ctrlp_show_hidden = 1
+
+" In addition to |'wildignore'| and |g:ctrlp_show_hidden|, use this for files and
+" directories you want only CtrlP to not show. Use regexp to specify the patterns.
+let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
+
+
 """""""""""""
 " Formatter "
 """""""""""""
@@ -466,15 +476,16 @@ augroup set_formatter_options
     autocmd FileType java setlocal formatprg=astyle\ --style=java
 augroup end
 
+
 """"""""""""
 " Bindings "
 """"""""""""
 
 " Smart way to move btw. windows
-map <C-j> <C-W>j
-map <C-k> <C-W>k
-map <C-h> <C-W>h
-map <C-l> <C-W>l
+" map <C-j> <C-W>j
+" map <C-k> <C-W>k
+" map <C-h> <C-W>h
+" map <C-l> <C-W>l
 
 "get the standard keys to work with wrap
 map <silent> k gk
@@ -483,8 +494,10 @@ map <silent> 0 g0
 map <silent> $ g$
 
 " switch between buffers
-noremap <C-p> :bprevious<CR>
-noremap <C-n> :bnext<CR>
+" noremap <C-p> :bprevious<CR>
+" noremap <C-n> :bnext<CR>
+" noremap <F6> :ls<CR>:b<Space>
+" noremap [17~ :ls<CR>:b<Space>
 
 nnoremap ; :
 
@@ -522,8 +535,8 @@ noremap <C-x> :call DeleteBufferNotExit() <CR>
 
 " clear highlight and clear the screen
 " <F5> is [15~
-noremap <1b>[15~ :nohlsearch<CR>:edit<CR>:redraw!<CR>
-noremap <F5> :nohlsearch<CR>:edit<CR>:redraw!<CR>
+" noremap <1b>[15~ :nohlsearch<CR>:edit<CR>:redraw!<CR>
+" noremap <F5> :nohlsearch<CR>:edit<CR>:redraw!<CR>
 
 "By pressing ctrl + r in the visual mode you will be prompted to enter text to
 "replace with.
@@ -540,7 +553,7 @@ noremap <F8> :TagbarToggle<CR>
 
 " press the bound key and clang-format will format the current line in NORMAL
 " mode or the selected region in VISUAL mode.
-map <F10> :pyf /usr/share/clang/clang-format.py<cr>
+" map <F10> :pyf /usr/share/clang/clang-format.py<cr>
 
 
 """"""""
