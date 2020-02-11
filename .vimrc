@@ -11,6 +11,11 @@ scriptencoding utf-8
 " Step 2. Open amsmath.vba with vim
 " Step 3. :so %
 
+" Enable completion where available. This setting must be set before ALE is loaded.
+" Completion uses language servers (e.g., pyls for python, metals for scala), so the
+" language servers need to be installed.
+let g:ale_completion_enabled = 1
+
 filetype off
 " set the runtime path to include Vundle and initialize
 set runtimepath+=~/.vim/bundle/Vundle.vim
@@ -22,14 +27,10 @@ Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
 Plugin 'majutsushi/tagbar'
 Plugin 'w0rp/ale'  " Asynchronous Lint Engine
-" Plugin 'ap/vim-buftabline'  " takes over the tabline and renders the buffer list in it
 Plugin 'maverickg/stan.vim'  " Vim syntax highlighting for Stan modeling language
-Plugin 'Shougo/deoplete.nvim'  " Async auto-completion
-Plugin 'deoplete-plugins/deoplete-jedi'  " python completion for deoplete
-Plugin 'roxma/nvim-yarp'  " deoplete dependency
-Plugin 'roxma/vim-hug-neovim-rpc'  " deplete dependency
-" Plugin 'ctrlpvim/ctrlp.vim'
-Plugin 'junegunn/fzf.vim'  " Requires fzf on $PATH
+if executable('fzf')
+    Plugin 'junegunn/fzf.vim'  " Requires fzf on $PATH
+endif
 
 call vundle#end()
 filetype plugin indent on
@@ -422,8 +423,8 @@ let g:tagbar_sort = 0
 let g:ale_linters = {}
 let g:ale_linters['cpp'] = ['all']
 let g:ale_linters['python'] = ['pylint', 'pydocstyle']
-let g:ale_linters['sh'] = ['shell', 'shellcheck']
 let g:ale_linters['r'] = ['lintr']
+let g:ale_linters['sh'] = ['shell', 'shellcheck']
 let g:ale_linters['vim'] = ['vint']
 
 " See
@@ -431,47 +432,44 @@ let g:ale_linters['vim'] = ['vint']
 " for available options.
 let g:ale_fixers = {}
 let g:ale_fixers['*'] = ['remove_trailing_lines', 'trim_whitespace']
-let g:ale_fixers['markdown'] = ['prettier']
+let g:ale_fixers['c'] = ['clang-format']
 let g:ale_fixers['javascript'] = ['prettier']
 let g:ale_fixers['json'] = ['prettier']
+let g:ale_fixers['markdown'] = ['prettier']
 let g:ale_fixers['python'] = ['black']
-let g:ale_python_black_options = '--line-length=79'
 let g:ale_fixers['r'] = ['styler']
-let g:ale_fixers['c'] = ['clang-format']
+let g:ale_fixers['scala'] = ['scalafmt']
+let g:ale_python_black_options = '--line-length=79'
 
 " Fix files when they are saved.
 let g:ale_fix_on_save = 1
 
+" Use ALE's function for omnicompletion.
+set omnifunc=ale#completion#OmniFunc
 
-"""""""""""""""""""
-" plugin: deplete "
-"""""""""""""""""""
-
-let g:deoplete#enable_at_startup = 1
-" augroup enable_deoplete
-"     autocmd FileType python let g:deoplete#enable()
-" augroup end
-
-
-"""""""""""""""""
-" plugin: ctrlp "
-"""""""""""""""""
-
-" Set this to 1 if you want CtrlP to scan for dotfiles and dotdirs
-let g:ctrlp_show_hidden = 1
-
-" In addition to |'wildignore'| and |g:ctrlp_show_hidden|, use this for files and
-" directories you want only CtrlP to not show. Use regexp to specify the patterns.
-let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
+" ALE Automatic completion implementation replaces |completeopt| before opening
+" the omnicomplete menu with <C-x><C-o>. In some versions of Vim, the value set
+" for the option will not be respected. If you experience issues with Vim
+" automatically inserting text while you type, set the following option in
+" vimrc, and your issues should go away. Note: documentation is shown in popups.
+if !has('nvim')
+    set completeopt=menu,menuone,popup,noselect,noinsert
+endif
 
 
 """""""""""""""
 " plugin: fzf "
 """""""""""""""
-nnoremap f :FZF<CR>
-nnoremap b :Buffers<CR>
-" Requires ripgrep
-nnoremap s :Rg<CR>
+
+if executable('fzf')
+    nnoremap F :FZF<CR>
+    nnoremap B :Buffers<CR>
+    nnoremap T :BTags<CR>
+    if executable('rg')
+        " Requires ripgrep
+        nnoremap S :Rg<CR>
+    endif
+endif
 
 
 """""""""""""
@@ -481,10 +479,10 @@ nnoremap s :Rg<CR>
 " it). It will filter the lines through autopep8 and writes the nicely
 " formatted version in place.  The hyphen '-' at the end of the command is
 " required for autopep8 to read the lines from the standard in.
-augroup set_formatter_options
-    " autocmd FileType python setlocal formatprg=autopep8\ -
-    autocmd FileType java setlocal formatprg=astyle\ --style=java
-augroup end
+" augroup set_formatter_options
+"     " autocmd FileType python setlocal formatprg=autopep8\ -
+"     autocmd FileType java setlocal formatprg=astyle\ --style=java
+" augroup end
 
 
 """"""""""""
@@ -503,22 +501,19 @@ map <silent> j gj
 map <silent> 0 g0
 map <silent> $ g$
 
-" switch between buffers
-" noremap <C-p> :bprevious<CR>
-" noremap <C-n> :bnext<CR>
-" noremap <F6> :ls<CR>:b<Space>
-" noremap [17~ :ls<CR>:b<Space>
-
 nnoremap ; :
 
-" Dictionary Lookup        "
-" depends: sdcv (stardict) "
 function! SearchWord()
+    " Look up the word under the cursor in a dictionary (stardict).
+    " This method requires 'sdcv' (stardict console version) installed.
+    " Inspired by https://github.com/chusiang/vim-sdcv
+    " Informed by https://vim.fandom.com/wiki/Display_output_of_shell_commands_in_new_window
     let expl=system('sdcv -n ' . expand('<cword>'))
     windo if expand("%")=="dictionary" | q! | endif
     20sp dictionary
-    setlocal buftype=nofile bufhidden=hide noswapfile
-    " 1s/^/\=expl/
+    setlocal buftype=nofile bufhidden=wipe nobuflisted noswapfile
+    execute '1s/^/\=expl/'
+    setlocal nomodifiable
     1
 endfunction
 
@@ -526,40 +521,11 @@ endfunction
 noremap [12~ :call SearchWord()<CR>
 noremap <F2> :call SearchWord()<CR>
 
-" delete buffer, but do no exit
-function! DeleteBufferNotExit()
-    let n_listed_buffers = len(filter(range(1, bufnr('$')), 'buflisted(v:val)'))
-    echo n_listed_buffers
-    " let n_open_windows = winnr("$")
-    if (n_listed_buffers == 0)
-        echo 'No buffer to delete'
-    elseif (n_listed_buffers == 1)
-        bd
-        Explore
-    elseif (n_listed_buffers > 1)
-        bd
-    endif
-endfunction
-
-noremap <C-x> :call DeleteBufferNotExit() <CR>
-
-" clear highlight and clear the screen
-" <F5> is [15~
-" noremap <1b>[15~ :nohlsearch<CR>:edit<CR>:redraw!<CR>
-" noremap <F5> :nohlsearch<CR>:edit<CR>:redraw!<CR>
-
-"By pressing ctrl + r in the visual mode you will be prompted to enter text to
-"replace with.
-" vnoremap <C-r> "hy:%s/<C-r>h//g<left><left><left>
-
 " :CDC to change to directory of current file
 command CDC cd %:p:h
 
 noremap [19~ :TagbarToggle<CR>
 noremap <F8> :TagbarToggle<CR>
-
-" nmap <silent> <C-h> <Plug>(ale_previous_wrap)
-" nmap <silent> <C-i> <Plug>(ale_next_wrap)
 
 " press the bound key and clang-format will format the current line in NORMAL
 " mode or the selected region in VISUAL mode.
@@ -613,10 +579,6 @@ if has('gui_running')
     set guioptions-=L  " remove left-hand scrollbar
     set guicursor+=a:blinkon0
 endif
-
-" This autocommand jumps to the last known position in a file just after
-" opening it, if the '" mark is set: >
-" autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
 
 augroup make_on_save
     " Call make after every tex file save.
