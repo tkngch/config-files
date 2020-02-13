@@ -427,6 +427,9 @@ let g:ale_linters['r'] = ['lintr']
 let g:ale_linters['sh'] = ['shell', 'shellcheck']
 let g:ale_linters['vim'] = ['vint']
 
+" When set to `1`, this will cause ALE to automatically open a window for the loclist.
+let g:ale_open_list = 1
+
 " See
 " [here](https://github.com/dense-analysis/ale/tree/master/autoload/ale/fixers)
 " for available options.
@@ -445,16 +448,17 @@ let g:ale_python_black_options = '--line-length=79'
 let g:ale_fix_on_save = 1
 
 " Use ALE's function for omnicompletion.
-set omnifunc=ale#completion#OmniFunc
+" set omnifunc=ale#completion#OmniFunc
 
 " ALE Automatic completion implementation replaces |completeopt| before opening
 " the omnicomplete menu with <C-x><C-o>. In some versions of Vim, the value set
 " for the option will not be respected. If you experience issues with Vim
 " automatically inserting text while you type, set the following option in
 " vimrc, and your issues should go away. Note: documentation is shown in popups.
-if !has('nvim')
-    set completeopt=menu,menuone,popup,noselect,noinsert
-endif
+" if !has('nvim')
+"     set completeopt=menu,menuone,popup,noselect,noinsert
+" endif
+set completeopt=menu,menuone,popup
 
 
 """""""""""""""
