@@ -417,6 +417,8 @@ let g:tagbar_sort = 0
 " plugin: ale "
 """""""""""""""
 
+" Note: outputs from linters appear in loclist. You can open loclist with :lopen <height>
+
 " enable  all linters available for a given filetype
 " See [here](https://github.com/dense-analysis/ale/tree/master/ale_linters)
 " for available options.
@@ -426,9 +428,7 @@ let g:ale_linters['python'] = ['pylint', 'pydocstyle']
 let g:ale_linters['r'] = ['lintr']
 let g:ale_linters['sh'] = ['shell', 'shellcheck']
 let g:ale_linters['vim'] = ['vint']
-
-" When set to `1`, this will cause ALE to automatically open a window for the loclist.
-let g:ale_open_list = 1
+let g:ale_linters['scala'] = ['metals', 'scalastyle', 'sbtserver', 'scalac']
 
 " See
 " [here](https://github.com/dense-analysis/ale/tree/master/autoload/ale/fixers)
