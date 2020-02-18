@@ -103,6 +103,7 @@ alias grep='grep --color=always'
 
 # Print the elapsed time after a long process
 autoload -Uz vcs_info
+
 preexec () {
     # Note the date when the command started, in unix time.
     CMD_START_DATE=$(date +%s)
@@ -150,7 +151,7 @@ precmd () {
                 output="${output} ${minutes} second"
             fi
 
-            echo -e "\033[0m${output}.\033[0m"
+            echo -e "\033[0m${output}. $(date +'%H:%M').\033[0m"
         fi
     fi
     echo -e ""
@@ -158,11 +159,14 @@ precmd () {
 
 # Prompt
 ## Format the vcs_info_msg_0_ variable
-zstyle ':vcs_info:git:*' formats 'branch:%b'
+zstyle ':vcs_info:git:*' check-for-changes true
+zstyle ':vcs_info:git:*' unstagedstr 𝚫
+zstyle ':vcs_info:git:*' stagedstr 𝛅
+zstyle ':vcs_info:git:*' formats 'git: %b %u%c'
 setopt PROMPT_SUBST
 PROMPT='${vcs_info_msg_0_}
 %F{white}%d
-%B%F{magenta}>%F{yellow}>%F{blue}>%b%F{white} '
+%F{blue}▷%F{white} '
 
 function indicate_mode {
     RPS1="${${KEYMAP/vicmd/-- NORMAL --}/(main|viins)/-- INSERT --}"
@@ -185,3 +189,4 @@ stty -ixon
 
 ## activate zsh-syntax-highlighting
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source ${HOME}/etc/additional_commands.sh
