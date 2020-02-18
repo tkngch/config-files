@@ -137,7 +137,7 @@ bind pager 7 noop
 bind pager 8 noop
 bind pager 9 noop
 bind pager ^ noop
-bind pager ` noop
+# bind pager ` noop
 bind pager <backspace> noop
 
 ## bind keys
