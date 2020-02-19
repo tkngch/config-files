@@ -1,6 +1,6 @@
 # for nvidia optimus
-xrandr --setprovideroutputsource modesetting NVIDIA-0
-xrandr --auto
+# xrandr --setprovideroutputsource modesetting NVIDIA-0
+# xrandr --auto
 
 xrdb -merge ~/.Xresources
 
@@ -34,7 +34,11 @@ export _JAVA_AWT_WM_NONREPARENTING=1
 test $(command -v fcitx) && fcitx -d
 test $(pgrep -x 'xset_status') || ${HOME}/bin/xset_status &
 xsetroot -solid "#2d2c28"  # solid colour background
-exec dbus-launch ${HOME}/bin/start_dwm
+while true
+do
+    exec ${HOME}/bin/start_dwm
+done
+# exec dbus-launch ${HOME}/bin/start_dwm
 
 # xfce
 # exec startxfce4
