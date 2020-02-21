@@ -28,6 +28,7 @@ Plugin 'honza/vim-snippets'
 Plugin 'majutsushi/tagbar'
 Plugin 'w0rp/ale'  " Asynchronous Lint Engine
 Plugin 'maverickg/stan.vim'  " Vim syntax highlighting for Stan modeling language
+Plugin 'derekwyatt/vim-scala'
 if executable('fzf')
     Plugin 'junegunn/fzf.vim'  " Requires fzf on $PATH
 endif
