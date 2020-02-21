@@ -89,6 +89,7 @@ highlight DiffText   cterm=bold ctermfg=10 ctermbg=88 gui=none guifg=bg guibg=Re
 """""""""""""""
 " Status Line "
 """""""""""""""
+
 " the last window always have the statusline
 set laststatus=2
 
@@ -102,6 +103,17 @@ set statusline+=%{&spelllang}
 set statusline+=\ %y  " file type
 set statusline+=\ (row:%l/%L,\ col:%c)  " line and column
 
+
+"""""""""""""""""""""
+" Window Management "
+"""""""""""""""""""""
+
+" When on, splitting a window will put the new window below the current one. |:split|
+set splitbelow
+
+" When on, splitting a window will put the new window right of the current one.
+" |:vsplit|
+set splitright
 
 """""""""""""
 " File Type "
@@ -299,21 +311,6 @@ setglobal fileencoding=utf-8
 set nobomb
 
 
-"""""""""""""""""""""""
-" Filename Completion "
-"""""""""""""""""""""""
-
-" command-line completion operates in an enhanced mode
-set wildmenu
-
-" completion mode that is used for the character specified with 'wildchar'
-" complete till longest common string, also start 'wildmenu' if it is enabled
-set wildmode=longest:full
-
-" a file that matches with one of these patterns is ignored when expanding wildcards
-set wildignore+=*.o,*.pyc
-
-
 """"""""""""""""""
 " Spell Checking "
 """"""""""""""""""
@@ -383,6 +380,45 @@ augroup set_autocomplete_options
     autocmd FileType rnoweb setlocal complete+=k,kspell
     autocmd FileType mail setlocal complete+=k,kspell
 augroup end
+
+
+"""""""""""""""""""""""
+" Filename Completion "
+"""""""""""""""""""""""
+
+" command-line completion operates in an enhanced mode
+set wildmenu
+
+" completion mode that is used for the character specified with 'wildchar'
+" complete till longest common string, also start 'wildmenu' if it is enabled
+set wildmode=longest:full
+
+" a file that matches with one of these patterns is ignored when expanding wildcards
+set wildignore+=*.o,*.pyc
+
+
+
+"""""""""
+" netrw "
+"""""""""
+" netrw is the file browser that ships with vim.
+
+" Suppress the banner
+let g:netrw_banner = 0
+
+" Set the default listing style:
+" 0: thin listing (one file per line)
+" 1: long listing (one file per line with time stamp information and file size)
+" 2: wide listing (multiple files in columns)
+" 3: tree style listing
+let g:netrw_liststyle = 3
+
+" specify initial size of new windows made with "o" (see |netrw-o|), "v" (see
+" |netrw-v|), |:Hexplore| or |:Vexplore|.  The g:netrw_winsize is an integer describing
+" the percentage of the current netrw buffer's window to be used for the new window.
+" If g:netrw_winsize is less than zero, then the absolute value of g:netrw_winsize will
+" be used to specify the quantity of lines or columns for the new window.
+let g:netrw_winsize = -30
 
 
 """""""""""""""""""""
@@ -462,20 +498,6 @@ let g:ale_fix_on_save = 1
 set completeopt=menu,menuone,popup
 
 
-"""""""""""""""
-" plugin: fzf "
-"""""""""""""""
-
-if executable('fzf')
-    nnoremap F :FZF<CR>
-    nnoremap B :Buffers<CR>
-    nnoremap T :BTags<CR>
-    if executable('rg')
-        " Requires ripgrep
-        nnoremap S :Rg<CR>
-    endif
-endif
-
 
 """""""""""""
 " Formatter "
@@ -495,16 +517,18 @@ endif
 """"""""""""
 
 " Smart way to move btw. windows
-" map <C-j> <C-W>j
-" map <C-k> <C-W>k
-" map <C-h> <C-W>h
-" map <C-l> <C-W>l
+map <C-j> <C-W>j
+map <C-k> <C-W>k
+map <C-h> <C-W>h
+map <C-l> <C-W>l
 
 "get the standard keys to work with wrap
-map <silent> k gk
-map <silent> j gj
-map <silent> 0 g0
-map <silent> $ g$
+" map <silent> k gk
+" map <silent> j gj
+" map <silent> 0 g0
+" map <silent> $ g$
+
+let mapleader=' '
 
 nnoremap ; :
 
@@ -525,16 +549,37 @@ endfunction
 " <F2> is [12~ (check with Ctrl-V then F2)
 noremap [12~ :call SearchWord()<CR>
 noremap <F2> :call SearchWord()<CR>
+nnoremap <leader>sw :call SearchWord()<CR>
 
 " :CDC to change to directory of current file
 command CDC cd %:p:h
 
-noremap [19~ :TagbarToggle<CR>
-noremap <F8> :TagbarToggle<CR>
+" noremap [19~ :TagbarToggle<CR>
+" noremap <F8> :TagbarToggle<CR>
+nnoremap <leader>tt :TagbarToggle<CR>
 
 " press the bound key and clang-format will format the current line in NORMAL
 " mode or the selected region in VISUAL mode.
 " map <F10> :pyf /usr/share/clang/clang-format.py<cr>
+
+nnoremap <leader>bn :bnext<CR>
+nnoremap <leader>bp :bprevious<CR>
+nnoremap <leader>ee :Lexplore<CR><c-w><c-p>
+
+
+"""""""""""""""
+" plugin: fzf "
+"""""""""""""""
+
+if executable('fzf')
+    nnoremap <leader>ff :FZF<CR>
+    nnoremap <leader>fb :Buffers<CR>
+    nnoremap <leader>ft :BTags<CR>
+    if executable('rg')
+        " Requires ripgrep
+        nnoremap <leader>fs :Rg<CR>
+    endif
+endif
 
 
 """"""""
