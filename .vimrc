@@ -17,23 +17,31 @@ scriptencoding utf-8
 let g:ale_completion_enabled = 1
 
 filetype off
-" set the runtime path to include Vundle and initialize
-set runtimepath+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
 
-Plugin 'VundleVim/Vundle.vim'
-Plugin 'tomtom/tcomment_vim'
-Plugin 'SirVer/ultisnips'
-Plugin 'honza/vim-snippets'
-Plugin 'majutsushi/tagbar'
-Plugin 'w0rp/ale'  " Asynchronous Lint Engine
-Plugin 'maverickg/stan.vim'  " Vim syntax highlighting for Stan modeling language
-Plugin 'derekwyatt/vim-scala'
-if executable('fzf')
-    Plugin 'junegunn/fzf.vim'  " Requires fzf on $PATH
+if empty(glob('~/.vim/autoload/plug.vim'))
+    execute '!curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 endif
 
-call vundle#end()
+" Specify a directory for plugins
+" - For Neovim: stdpath('data') . '/plugged'
+" - Avoid using standard Vim directory names like 'plugin'
+call plug#begin('~/.vim/plugged')
+
+Plug 'tomtom/tcomment_vim'
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
+Plug 'majutsushi/tagbar'
+Plug 'w0rp/ale'  " Asynchronous Lint Engine
+Plug 'maverickg/stan.vim'  " Vim syntax highlighting for Stan modeling language
+" Plug 'derekwyatt/vim-scala'
+
+if executable('fzf')
+    Plug 'junegunn/fzf.vim'  " Requires fzf on $PATH
+endif
+
+" Initialize plugin system
+call plug#end()
+
 filetype plugin indent on
 
 
@@ -73,10 +81,10 @@ match WhitespaceEOL /\s\+\%#\@<!$/
 
 " highlight column 80 and onward
 hi ColorColumn ctermbg=darkgray guibg=darkgray
-augroup highlight_first_columns
-    autocmd FileType python let &colorcolumn=join(range(80,999),',')
-    autocmd FileType r let &colorcolumn=join(range(80,999),',')
-augroup end
+" augroup highlight_first_columns
+"     autocmd FileType python let &colorcolumn=join(range(80,999),',')
+"     autocmd FileType r let &colorcolumn=join(range(80,999),',')
+" augroup end
 
 " Change the vimdiff highlighting colours, to be easier on eyes.
 " https://stackoverflow.com/questions/2019281/load-different-colorscheme-when-using-vimdiff
@@ -109,11 +117,11 @@ set statusline+=\ (row:%l/%L,\ col:%c)  " line and column
 """""""""""""""""""""
 
 " When on, splitting a window will put the new window below the current one. |:split|
-set splitbelow
+" set splitbelow
 
 " When on, splitting a window will put the new window right of the current one.
 " |:vsplit|
-set splitright
+" set splitright
 
 """""""""""""
 " File Type "
@@ -257,10 +265,10 @@ set showbreak=↳\
 
 " maximum width of text that is being inserted.  A longer line will be broken after white space to
 " get this width.
-set textwidth=88
-augroup set_textwidth
-    autocmd FileType python setlocal textwidth=79
-augroup end
+" set textwidth=88
+" augroup set_textwidth
+"     autocmd FileType python setlocal textwidth=79
+" augroup end
 
 
 """""""""
@@ -397,121 +405,6 @@ set wildmode=longest:full
 set wildignore+=*.o,*.pyc
 
 
-
-"""""""""
-" netrw "
-"""""""""
-" netrw is the file browser that ships with vim.
-
-" Suppress the banner
-let g:netrw_banner = 0
-
-" Set the default listing style:
-" 0: thin listing (one file per line)
-" 1: long listing (one file per line with time stamp information and file size)
-" 2: wide listing (multiple files in columns)
-" 3: tree style listing
-let g:netrw_liststyle = 3
-
-" specify initial size of new windows made with "o" (see |netrw-o|), "v" (see
-" |netrw-v|), |:Hexplore| or |:Vexplore|.  The g:netrw_winsize is an integer describing
-" the percentage of the current netrw buffer's window to be used for the new window.
-" If g:netrw_winsize is less than zero, then the absolute value of g:netrw_winsize will
-" be used to specify the quantity of lines or columns for the new window.
-let g:netrw_winsize = -30
-
-
-"""""""""""""""""""""
-" plugin: UltiSnips "
-"""""""""""""""""""""
-
-let g:UltiSnipsSnippetDirectories=['ultisnips']
-let g:UltiSnipsExpandTrigger='<tab>'
-let g:UltiSnipsListSnippets='<s-tab>'
-let g:UltiSnipsJumpForwardTrigger='<tab>'
-let g:UltiSnipsJumpBackwardTrigger='<s-tab>'
-
-
-""""""""""""""""""""
-" plugin: tcomment "
-""""""""""""""""""""
-
-augroup set_tcomment_options
-    autocmd FileType pyrex setlocal commentstring=#\ %s
-    autocmd FileType stan setlocal commentstring=//\ %s
-augroup end
-
-
-""""""""""""""""""
-" plugin: tagbar "
-""""""""""""""""""
-
-" sort tags according to their order in the source file
-let g:tagbar_sort = 0
-
-
-"""""""""""""""
-" plugin: ale "
-"""""""""""""""
-
-" Note: outputs from linters appear in loclist. You can open loclist with :lopen <height>
-
-" enable  all linters available for a given filetype
-" See [here](https://github.com/dense-analysis/ale/tree/master/ale_linters)
-" for available options.
-let g:ale_linters = {}
-let g:ale_linters['cpp'] = ['all']
-let g:ale_linters['python'] = ['pylint', 'pydocstyle']
-let g:ale_linters['r'] = ['lintr']
-let g:ale_linters['sh'] = ['shell', 'shellcheck']
-let g:ale_linters['vim'] = ['vint']
-let g:ale_linters['scala'] = ['metals', 'scalastyle', 'sbtserver', 'scalac']
-
-" See
-" [here](https://github.com/dense-analysis/ale/tree/master/autoload/ale/fixers)
-" for available options.
-let g:ale_fixers = {}
-let g:ale_fixers['*'] = ['remove_trailing_lines', 'trim_whitespace']
-let g:ale_fixers['c'] = ['clang-format']
-let g:ale_fixers['javascript'] = ['prettier']
-let g:ale_fixers['json'] = ['prettier']
-let g:ale_fixers['markdown'] = ['prettier']
-let g:ale_fixers['python'] = ['black']
-let g:ale_fixers['r'] = ['styler']
-let g:ale_fixers['scala'] = ['scalafmt']
-let g:ale_python_black_options = '--line-length=79'
-
-" Fix files when they are saved.
-let g:ale_fix_on_save = 1
-
-" Use ALE's function for omnicompletion.
-" set omnifunc=ale#completion#OmniFunc
-
-" ALE Automatic completion implementation replaces |completeopt| before opening
-" the omnicomplete menu with <C-x><C-o>. In some versions of Vim, the value set
-" for the option will not be respected. If you experience issues with Vim
-" automatically inserting text while you type, set the following option in
-" vimrc, and your issues should go away. Note: documentation is shown in popups.
-" if !has('nvim')
-"     set completeopt=menu,menuone,popup,noselect,noinsert
-" endif
-set completeopt=menu,menuone,popup
-
-
-
-"""""""""""""
-" Formatter "
-"""""""""""""
-" when you select lines and hit gq (the default mapping unless you remapped
-" it). It will filter the lines through autopep8 and writes the nicely
-" formatted version in place.  The hyphen '-' at the end of the command is
-" required for autopep8 to read the lines from the standard in.
-" augroup set_formatter_options
-"     " autocmd FileType python setlocal formatprg=autopep8\ -
-"     autocmd FileType java setlocal formatprg=astyle\ --style=java
-" augroup end
-
-
 """"""""""""
 " Bindings "
 """"""""""""
@@ -554,17 +447,137 @@ nnoremap <leader>sw :call SearchWord()<CR>
 " :CDC to change to directory of current file
 command CDC cd %:p:h
 
-" noremap [19~ :TagbarToggle<CR>
-" noremap <F8> :TagbarToggle<CR>
-nnoremap <leader>tt :TagbarToggle<CR>
-
 " press the bound key and clang-format will format the current line in NORMAL
 " mode or the selected region in VISUAL mode.
 " map <F10> :pyf /usr/share/clang/clang-format.py<cr>
 
 nnoremap <leader>bn :bnext<CR>
 nnoremap <leader>bp :bprevious<CR>
+
+
+
+"""""""""
+" netrw "
+"""""""""
+" netrw is the file browser that ships with vim.
+
+" Suppress the banner
+let g:netrw_banner = 0
+
+" Set the default listing style:
+" 0: thin listing (one file per line)
+" 1: long listing (one file per line with time stamp information and file size)
+" 2: wide listing (multiple files in columns)
+" 3: tree style listing
+let g:netrw_liststyle = 3
+
+" specify initial size of new windows made with "o" (see |netrw-o|), "v" (see
+" |netrw-v|), |:Hexplore| or |:Vexplore|.  The g:netrw_winsize is an integer describing
+" the percentage of the current netrw buffer's window to be used for the new window.
+" If g:netrw_winsize is less than zero, then the absolute value of g:netrw_winsize will
+" be used to specify the quantity of lines or columns for the new window.
+let g:netrw_winsize = -30
+
 nnoremap <leader>ee :Lexplore<CR><c-w><c-p>
+
+
+"""""""""""""""""""""
+" plugin: UltiSnips "
+"""""""""""""""""""""
+
+let g:UltiSnipsSnippetDirectories=['ultisnips']
+let g:UltiSnipsExpandTrigger='<tab>'
+let g:UltiSnipsListSnippets='<s-tab>'
+let g:UltiSnipsJumpForwardTrigger='<tab>'
+let g:UltiSnipsJumpBackwardTrigger='<s-tab>'
+
+
+""""""""""""""""""""
+" plugin: tcomment "
+""""""""""""""""""""
+
+augroup set_tcomment_options
+    autocmd FileType pyrex setlocal commentstring=#\ %s
+    autocmd FileType stan setlocal commentstring=//\ %s
+augroup end
+
+
+""""""""""""""""""
+" plugin: tagbar "
+""""""""""""""""""
+
+" sort tags according to their order in the source file
+let g:tagbar_sort = 0
+
+" noremap [19~ :TagbarToggle<CR>
+" noremap <F8> :TagbarToggle<CR>
+nnoremap <leader>tt :TagbarToggle<CR>
+
+
+"""""""""""""""
+" plugin: ale "
+"""""""""""""""
+
+" Note: outputs from linters appear in loclist. You can open loclist with :lopen <height>
+
+" enable  all linters available for a given filetype
+" See [here](https://github.com/dense-analysis/ale/tree/master/ale_linters)
+" for available options.
+let g:ale_linters = {}
+let g:ale_linters['cpp'] = ['all']
+let g:ale_linters['python'] = ['pylint', 'pydocstyle']
+let g:ale_linters['r'] = ['lintr']
+let g:ale_linters['sh'] = ['shell', 'shellcheck']
+let g:ale_linters['vim'] = ['vint']
+" let g:ale_linters['scala'] = ['metals', 'scalastyle', 'sbtserver', 'scalac']
+let g:ale_linters['scala'] = ['metals', 'sbtserver', 'scalac']
+
+" See
+" [here](https://github.com/dense-analysis/ale/tree/master/autoload/ale/fixers)
+" for available options.
+let g:ale_fixers = {}
+let g:ale_fixers['*'] = ['remove_trailing_lines', 'trim_whitespace']
+let g:ale_fixers['c'] = ['clang-format']
+let g:ale_fixers['javascript'] = ['prettier']
+let g:ale_fixers['json'] = ['prettier']
+let g:ale_fixers['markdown'] = ['prettier']
+let g:ale_fixers['python'] = ['black']
+let g:ale_fixers['r'] = ['styler']
+let g:ale_fixers['scala'] = ['scalafmt']
+let g:ale_python_black_options = '--line-length=79'
+
+" Fix files when they are saved.
+let g:ale_fix_on_save = 1
+
+" Use ALE's function for omnicompletion.
+" set omnifunc=ale#completion#OmniFunc
+
+" ALE Automatic completion implementation replaces |completeopt| before opening
+" the omnicomplete menu with <C-x><C-o>. In some versions of Vim, the value set
+" for the option will not be respected. If you experience issues with Vim
+" automatically inserting text while you type, set the following option in
+" vimrc, and your issues should go away. Note: documentation is shown in popups.
+" if !has('nvim')
+"     set completeopt=menu,menuone,popup,noselect,noinsert
+" endif
+set completeopt=menu,menuone,popup
+
+nmap <leader>ah :ALEHover<CR>
+nmap <leader>ag :ALEGoToDefinitionInSplit<CR>
+
+
+"""""""""""""
+" Formatter "
+"""""""""""""
+" when you select lines and hit gq (the default mapping unless you remapped
+" it). It will filter the lines through autopep8 and writes the nicely
+" formatted version in place.  The hyphen '-' at the end of the command is
+" required for autopep8 to read the lines from the standard in.
+" augroup set_formatter_options
+"     " autocmd FileType python setlocal formatprg=autopep8\ -
+"     autocmd FileType java setlocal formatprg=astyle\ --style=java
+" augroup end
+
 
 
 """""""""""""""
