@@ -27,6 +27,7 @@ endif
 " - Avoid using standard Vim directory names like 'plugin'
 call plug#begin('~/.vim/plugged')
 
+Plug 'preservim/nerdtree'
 Plug 'tomtom/tcomment_vim'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
@@ -441,30 +442,11 @@ nnoremap <leader>bn :bnext<CR>
 nnoremap <leader>bp :bprevious<CR>
 
 
+""""""""""""
+" NerdTree "
+""""""""""""
 
-"""""""""
-" netrw "
-"""""""""
-" netrw is the file browser that ships with vim.
-
-" Suppress the banner
-let g:netrw_banner = 0
-
-" Set the default listing style:
-" 0: thin listing (one file per line)
-" 1: long listing (one file per line with time stamp information and file size)
-" 2: wide listing (multiple files in columns)
-" 3: tree style listing
-let g:netrw_liststyle = 3
-
-" specify initial size of new windows made with "o" (see |netrw-o|), "v" (see
-" |netrw-v|), |:Hexplore| or |:Vexplore|.  The g:netrw_winsize is an integer describing
-" the percentage of the current netrw buffer's window to be used for the new window.
-" If g:netrw_winsize is less than zero, then the absolute value of g:netrw_winsize will
-" be used to specify the quantity of lines or columns for the new window.
-let g:netrw_winsize = -30
-
-nnoremap <leader>ee :Lexplore<CR><c-w><c-p>
+nnoremap <leader>ee :NERDTreeToggle<CR>
 
 
 """""""""""""""""""""
