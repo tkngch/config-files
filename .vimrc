@@ -112,17 +112,6 @@ set statusline+=\ %y  " file type
 set statusline+=\ (row:%l/%L,\ col:%c)  " line and column
 
 
-"""""""""""""""""""""
-" Window Management "
-"""""""""""""""""""""
-
-" When on, splitting a window will put the new window below the current one. |:split|
-" set splitbelow
-
-" When on, splitting a window will put the new window right of the current one.
-" |:vsplit|
-" set splitright
-
 """""""""""""
 " File Type "
 """""""""""""
@@ -183,9 +172,6 @@ set number
 
 " show the line number relative to the line with the cursor in front of each line
 set relativenumber
-
-" show the line and column number of the cursor position, separated by a comma
-" set ruler
 
 " show (partial) command in the last line of the screen
 set showcmd
@@ -265,10 +251,10 @@ set showbreak=↳\
 
 " maximum width of text that is being inserted.  A longer line will be broken after white space to
 " get this width.
-" set textwidth=88
-" augroup set_textwidth
-"     autocmd FileType python setlocal textwidth=79
-" augroup end
+set textwidth=88
+augroup set_textwidth
+    autocmd FileType python setlocal textwidth=79
+augroup end
 
 
 """""""""
