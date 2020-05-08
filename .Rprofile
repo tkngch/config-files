@@ -44,29 +44,6 @@ resize <- function() {
 }
 
 
-logistic <- function(x) { 1 / (1 + exp(-1 * x)) }
-
-
-print_info <- function(info, accent) {
-    cat("\n\n")
-    cat(paste(rep(accent, nchar(info)), sep="", collapse=""))
-    cat("\n")
-    cat(info)
-    cat("\n")
-    cat(paste(rep(accent, nchar(info)), sep="", collapse=""))
-    cat("\n\n")
-}
-
-
-compare <- function(fm1, fm0, confint=TRUE) {
-    print(anova(fm1, fm0, test="Chisq"))
-    cat("\n")
-    print(fixef(fm1))
-    if (confint) { print(confint(fm1, method="Wald")) }
-    cat("\n\n")
-}
-
-
 #####################################
 # Installation routine for packages #
 #####################################
@@ -74,8 +51,7 @@ compare <- function(fm1, fm0, confint=TRUE) {
 
 install_package <- function(pkg) {
     chooseMirror()
-    install.packages(pkg,
-                     lib=Sys.getenv("R_LIBS_USER"))
+    install.packages(pkg, lib=Sys.getenv("R_LIBS_USER"))
 }
 
 
@@ -85,49 +61,49 @@ update_packages <- function() {
 }
 
 
-install_lme4 <- function() {
-    import("devtools");
-    with_libpaths(new=Sys.getenv("R_LIBS_USER"),
-                  install_github("lme4/lme4",
-                                 dependencies=TRUE))
-}
+# install_lme4 <- function() {
+#     import("devtools");
+#     with_libpaths(new=Sys.getenv("R_LIBS_USER"),
+#                   install_github("lme4/lme4",
+#                                  dependencies=TRUE))
+# }
 
 
-# adapted from http://irkernel.github.io/installation/ on 29 Jan 2016
-install_irkernel <- function() {
-    install.packages(c('rzmq','repr','IRkernel','IRdisplay'),
-                     repos = c('http://irkernel.github.io/', getOption('repos')),
-                     type = 'source',
-                     lib=Sys.getenv("R_LIBS_USER"))
-}
+# # adapted from http://irkernel.github.io/installation/ on 29 Jan 2016
+# install_irkernel <- function() {
+#     install.packages(c('rzmq','repr','IRkernel','IRdisplay'),
+#                      repos = c('http://irkernel.github.io/', getOption('repos')),
+#                      type = 'source',
+#                      lib=Sys.getenv("R_LIBS_USER"))
+# }
 
 
-# adapted from https://github.com/stan-dev/rstan/wiki/Installing-RStan-on-Mac-or-Linux
-# on 1 May 2017
-install_rstan <- function() {
-    # compile with 4 core support
-    Sys.setenv(MAKEFLAGS = "-j4")
+# # adapted from https://github.com/stan-dev/rstan/wiki/Installing-RStan-on-Mac-or-Linux
+# # on 1 May 2017
+# install_rstan <- function() {
+#     # compile with 4 core support
+#     Sys.setenv(MAKEFLAGS = "-j4")
+#
+#     chooseMirror()
+#
+#     install.packages(
+#         "rstan",
+#         repos="https://cloud.r-project.org/",
+#         dependencies=TRUE,
+#         lib=Sys.getenv("R_LIBS_USER")
+#     )
+# }
 
-    chooseMirror()
-
-    install.packages(
-        "rstan",
-        repos="https://cloud.r-project.org/",
-        dependencies=TRUE,
-        lib=Sys.getenv("R_LIBS_USER")
-    )
-}
-
-# adapted from https://stat.ethz.ch/pipermail/r-help/2016-December/443572.html
-# on May 2017
-install_pki <- function() {
-    chooseMirror()
-    install.packages(
-        'PKI',
-        repos='https://www.rforge.net/',
-        lib=Sys.getenv("R_LIBS_USER")
-    )
-}
+# # adapted from https://stat.ethz.ch/pipermail/r-help/2016-December/443572.html
+# # on May 2017
+# install_pki <- function() {
+#     chooseMirror()
+#     install.packages(
+#         'PKI',
+#         repos='https://www.rforge.net/',
+#         lib=Sys.getenv("R_LIBS_USER")
+#     )
+# }
 
 # retrieved from http://mc-stan.org/rstan/install.R
 # then modifed to allow user installation and to specify the number of cores
