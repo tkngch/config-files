@@ -34,7 +34,8 @@ Plug 'honza/vim-snippets'
 Plug 'majutsushi/tagbar'
 Plug 'w0rp/ale'  " Asynchronous Lint Engine
 Plug 'maverickg/stan.vim'  " Vim syntax highlighting for Stan modeling language
-" Plug 'derekwyatt/vim-scala'
+Plug 'lervag/vimtex'  " provides support for writing LaTeX
+Plug 'chriskempson/base16-vim'
 
 if executable('fzf')
     Plug 'junegunn/fzf.vim'  " Requires fzf on $PATH
@@ -68,12 +69,19 @@ set undofile
 """""""""""""""""""""""
 
 syntax enable
-set background=dark
+" set background=dark
 
-colorscheme default
+colorscheme base16-snazzy
 
 " number of colors
-set t_Co=256
+" set t_Co=256
+
+" Enable true color support
+set termguicolors
+" Sometimes setting 'termguicolors' is not enough and some terminals require the t_8f
+" and t_8b options to be explicitly set.
+let &t_8f = "\<Esc>[38:2:%lu:%lu:%lum"
+let &t_8b = "\<Esc>[48:2:%lu:%lu:%lum"
 
 " trailing whitespace and column; must define AFTER colorscheme, setf, etc!
 hi ColorColumn ctermbg=black guibg=darkgray
@@ -210,6 +218,11 @@ set autoindent
 
 " number of spaces to use for each step of (auto)indent
 set shiftwidth=4
+augroup customise_shiftwidth
+    autocmd FileType javascript setlocal shiftwidth=2
+    autocmd FileType vue setlocal shiftwidth=2
+    autocmd FileType html setlocal shiftwidth=2
+augroup end
 
 " in insert mode: use the appropriate number of spaces to insert a <Tab>
 set expandtab
@@ -236,8 +249,8 @@ augroup end
 """""""""""""""""
 
 " Change the way text is displayed.  This is comma separated list of flags:
-" lastline	When included, as much as possible of the last line in a window will be displayed.
-" uhex		Show unprintable characters hexadecimal as <xx> instead of using ^C and ~C
+" lastline    When included, as much as possible of the last line in a window will be displayed.
+" uhex    Show unprintable characters hexadecimal as <xx> instead of using ^C and ~C
 set display=lastline,uhex
 
 " wrap long lines at a character in 'breakat' rather than at the last character that fits on the
@@ -366,7 +379,7 @@ set complete-=i
 set dictionary+=/usr/share/dict/words
 
 " this option specifies how keyword completion ins-completion works when CTRL-P or CTRL-N are used.
-" k	scan the files given with the 'dictionary' option
+" k    scan the files given with the 'dictionary' option
 " kspell  use the currently active spell checking spell
 augroup set_autocomplete_options
     autocmd FileType rst setlocal complete+=k,kspell
@@ -402,11 +415,11 @@ map <C-k> <C-W>k
 map <C-h> <C-W>h
 map <C-l> <C-W>l
 
-"get the standard keys to work with wrap
-" map <silent> k gk
-" map <silent> j gj
-" map <silent> 0 g0
-" map <silent> $ g$
+" Get the standard keys to work with wrap
+map <silent> k gk
+map <silent> j gj
+map <silent> 0 g0
+map <silent> $ g$
 
 let mapleader=' '
 
@@ -425,6 +438,7 @@ function! SearchWord()
     setlocal nomodifiable
     1
 endfunction
+
 
 " <F2> is [12~ (check with Ctrl-V then F2)
 noremap [12~ :call SearchWord()<CR>
@@ -494,6 +508,8 @@ nnoremap <leader>tt :TagbarToggle<CR>
 let g:ale_linters = {}
 let g:ale_linters['cpp'] = ['all']
 let g:ale_linters['python'] = ['pylint', 'pydocstyle']
+let g:ale_linters['javascript'] = ['eslint']
+let g:ale_linters['vue'] = ['eslint']
 let g:ale_linters['r'] = ['lintr']
 let g:ale_linters['sh'] = ['shell', 'shellcheck']
 let g:ale_linters['vim'] = ['vint']
@@ -505,10 +521,15 @@ let g:ale_linters['scala'] = ['metals', 'sbtserver', 'scalac']
 " for available options.
 let g:ale_fixers = {}
 let g:ale_fixers['*'] = ['remove_trailing_lines', 'trim_whitespace']
-let g:ale_fixers['c'] = ['clang-format']
-let g:ale_fixers['javascript'] = ['prettier']
+" let g:ale_fixers['c'] = ['clang-format']
+let g:ale_fixers['javascript'] = ['prettier', 'eslint']
+let g:ale_fixers['vue'] = ['prettier', 'eslint']
+let g:ale_fixers['css'] = ['prettier']
+let g:ale_fixers['less'] = ['prettier']
 let g:ale_fixers['json'] = ['prettier']
+let g:ale_fixers['html'] = ['prettier']
 let g:ale_fixers['markdown'] = ['prettier']
+let g:ale_fixers['go'] = ['gofmt']
 let g:ale_fixers['python'] = ['black']
 let g:ale_fixers['r'] = ['styler']
 let g:ale_fixers['scala'] = ['scalafmt']
@@ -598,7 +619,7 @@ set fileformats=unix,dos
 
 " strings to use in 'list' mode and for the :list command
 set list
-set listchars=tab:↹·,extends:⇉,precedes:⇇,nbsp:␠,trail:␠,nbsp:␣
+set listchars=tab:→\ ,extends:⇉,precedes:⇇,nbsp:␠,trail:␠,nbsp:␣
 
 " Set 7 lines to the cursors - when moving vertical..
 set scrolloff=7
@@ -608,13 +629,14 @@ if has('gui_running')
     set guioptions-=T  " remove toolbar at the top with icons
     set guioptions-=r  " remove right-hand scrollbar
     set guioptions-=L  " remove left-hand scrollbar
+    set guioptions-=m  " remove menu bar
     set guicursor+=a:blinkon0
 endif
 
 augroup make_on_save
     " Call make after every tex file save.
-    autocmd BufWritePost *.tex make
-    autocmd BufWritePost *.Rnw make
+    autocmd BufWritePost *.tex :!make && clear
+    autocmd BufWritePost *.Rnw :!make && clear
 augroup end
 
 highlight MatchParen cterm=underline ctermbg=none ctermfg=none
