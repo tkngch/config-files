@@ -1,17 +1,23 @@
 
-Xterm*termName: xterm-256color
-URxvt*termName: rxvt-unicode-256color
+XTerm.termName: xterm-256color
+XTerm.vt100.locale: true
+XTerm.vt100.metaSendsEscape: true
+XTerm.vt100.backarrowKey: false
+XTerm.ttyModes: erase ^?
+XTerm.vt100.faceName: Source Code Pro:size=10:antialias=true
+XTerm.scaleHeight: 0.90
+XTerm.letterSpace: -1
 
-! URxvt.cursorBlink: 0
+URxvt*termName: rxvt-unicode-256color
 URxvt.cursorBlink: 1
 URxvt.scrollBar: false
-URxvt.font: xft:Inconsolata:pixelsize=15
-! URxvt.font: xft:DejaVu Sans Mono:pixelsize=12, \
-! URxvt.font: xft:DejaVu Sans Mono:style=Book:pixelsize=15, \
+URxvt.font: xft:Source Code Pro:pixelsize=15
 ! URxvt.font: xft:Inconsolata:pixelsize=15, \
 !             xft:WenQuanYi Bitmap Song:size=8, \
 !             xft:FreeSerif:style=Regular, \
 !             xft:unifont:style=Medium:antialias=false
+
+URxvt.letterSpace: -1
 
 ! URxvt.perl-ext-common: default,url-select
 ! URxvt.keysym.M-u: perl:url-select:select_next

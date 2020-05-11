@@ -71,7 +71,7 @@ set undofile
 syntax enable
 " set background=dark
 
-colorscheme base16-snazzy
+colorscheme base16-material
 
 " number of colors
 " set t_Co=256
