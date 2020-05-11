@@ -513,8 +513,7 @@ let g:ale_linters['vue'] = ['eslint']
 let g:ale_linters['r'] = ['lintr']
 let g:ale_linters['sh'] = ['shell', 'shellcheck']
 let g:ale_linters['vim'] = ['vint']
-" let g:ale_linters['scala'] = ['metals', 'scalastyle', 'sbtserver', 'scalac']
-let g:ale_linters['scala'] = ['metals', 'sbtserver', 'scalac']
+let g:ale_linters['scala'] = ['scalastyle', 'sbtserver', 'scalac']
 
 " See
 " [here](https://github.com/dense-analysis/ale/tree/master/autoload/ale/fixers)
@@ -533,6 +532,7 @@ let g:ale_fixers['go'] = ['gofmt']
 let g:ale_fixers['python'] = ['black']
 let g:ale_fixers['r'] = ['styler']
 let g:ale_fixers['scala'] = ['scalafmt']
+let g:ale_fixers['sbt'] = ['scalafmt']
 let g:ale_python_black_options = '--line-length=79'
 
 " Fix files when they are saved.
