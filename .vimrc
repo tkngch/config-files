@@ -69,9 +69,9 @@ set undofile
 """""""""""""""""""""""
 
 syntax enable
-" set background=dark
+set background=dark
 
-colorscheme base16-material
+colorscheme base16-snazzy
 
 " number of colors
 " set t_Co=256
@@ -533,7 +533,6 @@ let g:ale_fixers['go'] = ['gofmt']
 let g:ale_fixers['python'] = ['black']
 let g:ale_fixers['r'] = ['styler']
 let g:ale_fixers['scala'] = ['scalafmt']
-let g:ale_python_black_options = '--line-length=79'
 
 " Fix files when they are saved.
 let g:ale_fix_on_save = 1
