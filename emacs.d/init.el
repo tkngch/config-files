@@ -45,10 +45,7 @@
 ;; Generic completion mechanism from a list: e.g., a list of files when finding a file.
 (use-package ivy
   :ensure t
-  :config (progn (ivy-mode 1)))
-;; Counsel remaps built-in Emacs functions so that we make the best use of ivy.
-(use-package counsel
-  :ensure t)
+  :config (ivy-mode 1))
 
 ;; Text Selection.
 ;; Expand region increases the selected region by semantic units.
@@ -85,15 +82,16 @@
 
 (require 'dabbrev)
 ;; Do not ignore case in matches and searches.
+(setq case-fold-search nil)
 (setq dabbrev-case-fold-search nil)
 
 ;; Use the completion framework.
-(use-package company
-  :ensure t
-  :config (progn
-	    ;; Use the company-mode in all buffers.
-	    (global-company-mode 1)
-	    (setq company-idle-delay 0.01)))
+;; (use-package company
+;;   :ensure t
+;;   :config (progn
+;; 	    ;; Use the company-mode in all buffers.
+;; 	    (global-company-mode 1)
+;; 	    (setq company-idle-delay 0.01)))
 
 ;; Use code-linter.
 (use-package flycheck
@@ -107,13 +105,17 @@
   :ensure t
   :hook ((emacs-lisp-mode . format-all-mode)
 	 (python-mode . format-all-mode)
-	 (scala-mode . format-all-mode)))
+	 (scala-mode . format-all-mode)
+	 (vue-mode . format-all-mode)
+	 ))
 
 ;; Emacs has build-in python mode. To use with venv, activate venv and
 ;; launch emacs from within venv.
 
-;; Enable scala-mode for highlighting, indentation and motion commands
 (use-package scala-mode
+  :ensure t)
+
+(use-package vue-mode
   :ensure t)
 
 ;; ------------------------ COLORS
@@ -121,12 +123,12 @@
 
 ;; Built-in themes are /usr/share/emacs/26.3/etc/themes
 ;; (load-theme 'adwaita)
-;; (load-theme 'deeper-blue)
+(load-theme 'deeper-blue)
 ;; (load-theme 'dichromacy)
 ;; (load-theme 'leuven)
 ;; (load-theme 'light-blue)
 ;; (load-theme 'manoj-dark)
-(load-theme 'misterioso)
+;; (load-theme 'misterioso)
 ;; (load-theme 'tango-dark)
 ;; (load-theme 'tango)
 ;; (load-theme 'tsdh-dark)
@@ -143,13 +145,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(ansi-color-names-vector
-   ["#2d3743" "#ff4242" "#74af68" "#dbdb95" "#34cae2" "#008b8b" "#00ede1" "#e1e1e0"])
- '(custom-enabled-themes (quote (sanityinc-tomorrow-eighties)))
- '(custom-safe-themes
-   (quote
-    ("628278136f88aa1a151bb2d6c8a86bf2b7631fbea5f0f76cba2a0079cd910f7d" default)))
- '(package-selected-packages (quote (counsel ivy evil use-package))))
+ )
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
