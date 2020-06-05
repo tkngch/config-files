@@ -12,6 +12,10 @@
 ;; keyboard scroll one line at a time
 (setq scroll-step 1)
 
+;; Highlight maching parens (brackets).
+(defvar show-paren-delay 0.01)  ;; no delay before highlighting.
+(show-paren-mode 1)
+
 ;; Place all auto-saves and backups in the directory.
 (setq backup-directory-alist
       `((".*" . ,temporary-file-directory)))
@@ -38,13 +42,22 @@
 
 ;; ---------------- KEY BINDINGS
 
-;; Load the functions and variables defined in built-in `ido`, to
-;; search files more quickly with C-x C-f.
-(require 'ido)
-;; If entered string does not match any item, any item containing the
-;; entered characters in the given sequence will match.
-(setq ido-enable-flex-matching t)
-(ido-mode t)
+;; Generic completion mechanism from a list: e.g., a list of files when finding a file.
+(use-package ivy
+  :ensure t
+  :config (progn (ivy-mode 1)))
+;; Counsel remaps built-in Emacs functions so that we make the best use of ivy.
+(use-package counsel
+  :ensure t)
+
+;; Text Selection.
+;; Expand region increases the selected region by semantic units.
+(use-package expand-region
+  :ensure t
+  :config (global-set-key (kbd "C-=") 'er/expand-region))
+
+;; M-; to comment out a section of code.
+;; M-/ to autocomplete with dabbrev.
 
 ;; Enable EVIL (Extensible VI Layer) mode.
 (defvar evil-disable-insert-state-bindings t) ;; Keep default Emacs bindings in insert state.
@@ -57,11 +70,10 @@
 ;; (which-key-mode) in the config enables the minor mode.
 (use-package which-key
   :ensure t
-  :config
-  (which-key-mode))
-;; Set the time delay (in seconds) for the which-key popup to appear. A value of
-;; zero might cause issues so a non-zero value is recommended.
-(setq which-key-idle-delay 0.1)
+  :config (progn (which-key-mode)
+		 ;; Set the time delay (in seconds) for the which-key popup to appear. A value of
+		 ;; zero might cause issues so a non-zero value is recommended.
+		 (setq which-key-idle-delay 0.1)))
 
 
 ;; ---------------- WINDOW NAVIGATION
@@ -71,11 +83,17 @@
 
 ;; ---------------- PROGRAMMING SUPPORT
 
+(require 'dabbrev)
+;; Do not ignore case in matches and searches.
+(setq dabbrev-case-fold-search nil)
+
 ;; Use the completion framework.
 (use-package company
-  :ensure t)
-;; Use the company-mode in all buffers.
-(add-hook 'after-init-hook 'global-company-mode)
+  :ensure t
+  :config (progn
+	    ;; Use the company-mode in all buffers.
+	    (global-company-mode 1)
+	    (setq company-idle-delay 0.01)))
 
 ;; Use code-linter.
 (use-package flycheck
@@ -86,20 +104,17 @@
 ;; format-all-mode. This minor mode is enabled individually for each
 ;; major mode.
 (use-package format-all
-  :ensure t)
-
-;; Lisp
-(add-hook 'emacs-lisp-mode-hook 'format-all-mode)
+  :ensure t
+  :hook ((emacs-lisp-mode . format-all-mode)
+	 (python-mode . format-all-mode)
+	 (scala-mode . format-all-mode)))
 
 ;; Emacs has build-in python mode. To use with venv, activate venv and
 ;; launch emacs from within venv.
-(add-hook 'python-mode-hook 'format-all-mode)
 
 ;; Enable scala-mode for highlighting, indentation and motion commands
 (use-package scala-mode
   :ensure t)
-;; Enable auto-formatting on save, with scalafmt.
-(add-hook 'scala-mode-hook 'format-all-mode)
 
 ;; ------------------------ COLORS
 ;; Color theme
@@ -128,11 +143,13 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(ansi-color-names-vector
+   ["#2d3743" "#ff4242" "#74af68" "#dbdb95" "#34cae2" "#008b8b" "#00ede1" "#e1e1e0"])
  '(custom-enabled-themes (quote (sanityinc-tomorrow-eighties)))
  '(custom-safe-themes
    (quote
     ("628278136f88aa1a151bb2d6c8a86bf2b7631fbea5f0f76cba2a0079cd910f7d" default)))
- '(package-selected-packages (quote (evil use-package))))
+ '(package-selected-packages (quote (counsel ivy evil use-package))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

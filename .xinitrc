@@ -23,6 +23,9 @@ redshift-gtk -l 51.50:0.12 &
 # file synchronization
 # syncthing-gtk --minimized &
 
+# for taking screenshot, run flameshot as background process.
+test $(command -v flameshot) && flameshot &
+
 # register the input method modules with fcitx and support xim programs
 # For Japanese input, remember to uncomment ja_JP.UTF-8 in /etc/locale.gen and run locale-gen as su
 export GTK_IM_MODULE=fcitx
