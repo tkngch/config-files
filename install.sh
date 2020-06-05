@@ -16,6 +16,11 @@ do
     echo "linked $file"
 done
 
+for file in emacs.d/*;
+do
+    ln -i -s -T "$here/$file" "$HOME/.emacs.d/$(basename "$file")"
+done
+
 ln -i -s -T "$here/mimeapps.list" "$HOME/.config/mimeapps.list"
 ln -i -s -T "$here/null.desktop" "$HOME/.local/share/applications/null.desktop"
 
