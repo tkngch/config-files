@@ -16,6 +16,7 @@ do
     echo "linked $file"
 done
 
+mkdir -p "$HOME/.emacs.d"
 for file in emacs.d/*;
 do
     ln -i -s -T "$here/$file" "$HOME/.emacs.d/$(basename "$file")"
