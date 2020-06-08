@@ -46,8 +46,10 @@
 (use-package ivy
   :ensure t
   :config (progn (ivy-mode 1)
-		 (global-set-key (kbd "C-c g") 'counsel-git)
-		 (global-set-key (kbd "C-c j") 'counsel-git-grep)))
+		 (global-set-key (kbd "C-c g") 'counsel-git)  ; find file by name
+		 (global-set-key (kbd "C-c j") 'counsel-git-grep)
+		 (global-set-key (kbd "M-y") 'counsel-yank-pop)  ; show/search kill-ring
+		 (global-set-key (kbd "C-c C-r") 'ivy-resume)))
 
 ;; Text Selection.
 ;; Expand region increases the selected region by semantic units.
