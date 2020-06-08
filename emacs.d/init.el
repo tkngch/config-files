@@ -13,7 +13,7 @@
 (setq scroll-step 1)
 
 ;; Highlight maching parens (brackets).
-(defvar show-paren-delay 0.01)  ;; no delay before highlighting.
+(defvar show-paren-delay 0.01)
 (show-paren-mode 1)
 
 ;; Place all auto-saves and backups in the directory.
@@ -45,7 +45,9 @@
 ;; Generic completion mechanism from a list: e.g., a list of files when finding a file.
 (use-package ivy
   :ensure t
-  :config (ivy-mode 1))
+  :config (progn (ivy-mode 1)
+		 (global-set-key (kbd "C-c g") 'counsel-git)
+		 (global-set-key (kbd "C-c j") 'counsel-git-grep)))
 
 ;; Text Selection.
 ;; Expand region increases the selected region by semantic units.
