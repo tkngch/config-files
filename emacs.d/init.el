@@ -22,6 +22,11 @@
 (setq auto-save-file-name-transforms
       `((".*" ,temporary-file-directory t)))
 
+(setq-default fill-column 80)
+
+;; Use spaces instead of tabs when indenting.
+(setq-default indent-tabs-mode nil)
+
 ;; ================ PACKAGE CONFIGURATION
 ;; Load the functions and variables defined in `package`.
 (require 'package)
@@ -42,23 +47,33 @@
 
 ;; ---------------- KEY BINDINGS
 
+(require 'ido)
+(setq ido-enable-flex-matching t)
+(setq ido-everywhere t)
+(ido-mode 1)
+
+;; `C-y M-y M-y M-y ...` goes through kill ring.
+;; `M-x rgrep` looks for files containig search word.
+;; `M-;` to comment out a section of code.
+;; `M-/` to autocomplete with dabbrev.
+;; `M-q` to format a paragraph. The column width is determined by 'fill-column.
+;; ‘C-q <tab>’ to insert a tab.
+;; `M-x revert-buffer` to reload the file.
+
 ;; Generic completion mechanism from a list: e.g., a list of files when finding a file.
-(use-package ivy
-  :ensure t
-  :config (progn (ivy-mode 1)
-		 (global-set-key (kbd "C-c g") 'counsel-git)  ; find file by name
-		 (global-set-key (kbd "C-c j") 'counsel-git-grep)
-		 (global-set-key (kbd "M-y") 'counsel-yank-pop)  ; show/search kill-ring
-		 (global-set-key (kbd "C-c C-r") 'ivy-resume)))
+;; (use-package ivy
+;;   :ensure t
+;;   :config (progn (ivy-mode 1)
+;; 		 (global-set-key (kbd "C-c g") 'counsel-git)  ; find file by name
+;; 		 (global-set-key (kbd "C-c j") 'counsel-git-grep)
+;; 		 (global-set-key (kbd "M-y") 'counsel-yank-pop)  ; show/search kill-ring
+;; 		 (global-set-key (kbd "C-c C-r") 'ivy-resume)))
 
 ;; Text Selection.
 ;; Expand region increases the selected region by semantic units.
 (use-package expand-region
   :ensure t
   :config (global-set-key (kbd "C-=") 'er/expand-region))
-
-;; M-; to comment out a section of code.
-;; M-/ to autocomplete with dabbrev.
 
 ;; Enable EVIL (Extensible VI Layer) mode.
 (defvar evil-disable-insert-state-bindings t) ;; Keep default Emacs bindings in insert state.
@@ -115,6 +130,7 @@
 
 ;; Emacs has build-in python mode. To use with venv, activate venv and
 ;; launch emacs from within venv.
+(add-hook 'python-mode-hook (lambda() (setq fill-column 88)))
 
 (use-package scala-mode
   :ensure t)
