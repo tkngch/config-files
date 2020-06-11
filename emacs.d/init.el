@@ -27,6 +27,10 @@
 ;; Use spaces instead of tabs when indenting.
 (setq-default indent-tabs-mode nil)
 
+;; Show trailing whitespaces.
+(setq-default whitespace-style '(face trailing tabs))
+(setq-default show-trailing-whitespace t)
+
 ;; ================ PACKAGE CONFIGURATION
 ;; Load the functions and variables defined in `package`.
 (require 'package)
