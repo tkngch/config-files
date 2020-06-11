@@ -30,6 +30,7 @@
 ;; Show trailing whitespaces.
 (setq-default whitespace-style '(face trailing tabs))
 (setq-default show-trailing-whitespace t)
+(global-whitespace-mode)
 
 ;; ================ PACKAGE CONFIGURATION
 ;; Load the functions and variables defined in `package`.
@@ -141,6 +142,11 @@
 
 (use-package vue-mode
   :ensure t)
+
+(use-package magit
+  :ensure t
+  :bind (("C-x g" . magit-status)))
+
 
 ;; ------------------------ COLORS
 ;; Color theme
