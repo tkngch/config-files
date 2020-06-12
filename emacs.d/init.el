@@ -122,19 +122,8 @@
   :ensure t
   :init (global-flycheck-mode))
 
-;; Use code-formatter. To auto-format on save, we use the minor mode
-;; format-all-mode. This minor mode is enabled individually for each
-;; major mode.
-(use-package format-all
-  :ensure t
-  :hook ((emacs-lisp-mode . format-all-mode)
-	 (python-mode . format-all-mode)
-	 (scala-mode . format-all-mode)
-	 (vue-mode . format-all-mode)
-	 ))
-
-;; Emacs has build-in python mode. To use with venv, activate venv and
-;; launch emacs from within venv.
+;; Emacs has build-in python mode. To use with venv, activate venv and launch
+;; emacs from within venv.
 (add-hook 'python-mode-hook (lambda() (setq fill-column 88)))
 
 (use-package scala-mode
@@ -142,6 +131,26 @@
 
 (use-package vue-mode
   :ensure t)
+
+(use-package markdown-mode
+  :ensure t
+  :commands (markdown-mode gfm-mode)  ;; gfm is for github flavoured markdown
+  :mode (("README\\.md\\'" . gfm-mode)
+         ("\\.md\\'" . markdown-mode)
+         ("\\.markdown\\'" . markdown-mode)))
+
+;; Use code-formatter. To auto-format on save, we use the minor mode
+;; format-all-mode. This minor mode is enabled individually for each major mode.
+(use-package format-all
+  :ensure t
+  :hook ((emacs-lisp-mode . format-all-mode)
+	 (python-mode . format-all-mode)
+	 (scala-mode . format-all-mode)
+	 (markdown-mode . format-all-mode)
+	 (gfm-mode . format-all-mode)
+	 (vue-mode . format-all-mode)
+	 ))
+
 
 (use-package magit
   :ensure t
