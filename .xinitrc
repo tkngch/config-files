@@ -9,7 +9,7 @@ xset s 1200 1200  # Change screen save blank time to 20 minutes
 # xset s 0 0  # disable screen saver blanking
 
 # capslock as ctrl key
-setxkbmap gb -option ctrl:nocaps
+setxkbmap -layout gb -option ctrl:nocaps
 
 # xbindkeys
 

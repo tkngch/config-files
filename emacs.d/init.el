@@ -64,6 +64,17 @@
 ;; `M-q` to format a paragraph. The column width is determined by 'fill-column.
 ;; ‘C-q <tab>’ to insert a tab.
 ;; `M-x revert-buffer` to reload the file.
+;; `M-h` to select a paragraph/function.
+;; 'C-SPC' to start selection.
+;; `M-w` to copy the selected.
+;; `C-w` to cut the selected.
+;; `C-k` to cut rest of line.
+;; `C-x C-s` to save current buffer.
+;; `C-x s` to save all buffers.
+;; `C-/` to undo. `M-x undo-only`
+;; `C-?` to redo. 'M-x undo-redo`
+
+
 
 ;; Generic completion mechanism from a list: e.g., a list of files when finding a file.
 ;; (use-package ivy
