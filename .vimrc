@@ -73,27 +73,22 @@ set background=dark
 
 colorscheme base16-snazzy
 
-" number of colors
-" set t_Co=256
-
 " Enable true color support
-set termguicolors
-" Sometimes setting 'termguicolors' is not enough and some terminals require the t_8f
-" and t_8b options to be explicitly set.
-let &t_8f = "\<Esc>[38:2:%lu:%lu:%lum"
-let &t_8b = "\<Esc>[48:2:%lu:%lu:%lum"
+if has('termguicolors')
+  set termguicolors
+else
+  " number of colors
+  set t_Co=256
+endif
+
+if &term ==? 'alacritty'
+  let &term = 'xterm-256color'
+endif
 
 " trailing whitespace and column; must define AFTER colorscheme, setf, etc!
 hi ColorColumn ctermbg=black guibg=darkgray
 hi WhitespaceEOL ctermbg=red guibg=red
 match WhitespaceEOL /\s\+\%#\@<!$/
-
-" highlight column 80 and onward
-hi ColorColumn ctermbg=darkgray guibg=darkgray
-" augroup highlight_first_columns
-"     autocmd FileType python let &colorcolumn=join(range(80,999),',')
-"     autocmd FileType r let &colorcolumn=join(range(80,999),',')
-" augroup end
 
 " Change the vimdiff highlighting colours, to be easier on eyes.
 " https://stackoverflow.com/questions/2019281/load-different-colorscheme-when-using-vimdiff
