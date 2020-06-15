@@ -12,6 +12,9 @@
 ;; keyboard scroll one line at a time
 (setq scroll-step 1)
 
+;; No blinking cursor.
+(blink-cursor-mode 0)
+
 ;; Highlight maching parens (brackets).
 (defvar show-paren-delay 0.01)
 (show-paren-mode 1)
@@ -23,6 +26,11 @@
       `((".*" ,temporary-file-directory t)))
 
 (setq-default fill-column 80)
+
+;; display line numbers and column numbers in all modes
+(setq line-number-mode t)
+(setq column-number-mode t)
+
 
 ;; Use spaces instead of tabs when indenting.
 (setq-default indent-tabs-mode nil)
@@ -55,7 +63,9 @@
 (require 'ido)
 (setq ido-enable-flex-matching t)
 (setq ido-everywhere t)
-(ido-mode 1)
+;; Disable searching in other directories when there are no matches.
+(setq ido-auto-merge-work-directories-length -1)
+(ido-mode t)
 
 ;; `C-y M-y M-y M-y ...` goes through kill ring.
 ;; `M-x rgrep` looks for files containig search word.
@@ -105,7 +115,7 @@
   :config (progn (which-key-mode)
 		 ;; Set the time delay (in seconds) for the which-key popup to appear. A value of
 		 ;; zero might cause issues so a non-zero value is recommended.
-		 (setq which-key-idle-delay 0.1)))
+		 (setq which-key-idle-delay 1)))
 
 
 ;; ---------------- WINDOW NAVIGATION
