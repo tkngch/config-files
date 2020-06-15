@@ -91,6 +91,16 @@ autoload edit-command-line
 zle -N edit-command-line
 bindkey '^v' edit-command-line
 
+# Rebind Ctrl+l, to trigger precmd.
+function clear2() {
+    clear;
+    precmd;
+    zle reset-prompt;
+    zle redisplay
+}
+zle -N clear2
+bindkey '^l' clear2
+
 
 # AUTO COMPLETION
 # ===============
@@ -147,21 +157,25 @@ alias grep='grep --color=always'
 autoload -Uz vcs_info
 
 preexec () {
+    CMD=$1
     # Note the date when the command started, in unix time.
     CMD_START_DATE=$(date +%s)
-    # Store the command that we're running.
-    CMD_NAME=$1
 }
 
 precmd () {
     vcs_info
+    if ! [ $CMD ]; then
+        # If no command has run, clear start date so that elapsed time is not
+        # calculated.
+        unset CMD_START_DATE
+    fi
+    unset CMD
 }
 
 get_last_cmd_info() {
     local LAST_EXIT_CODE=$?
 
-    # Proceed only if we've ran a command in the current shell.
-    if ! [[ -z $CMD_START_DATE ]]; then
+    if [[ -v CMD_START_DATE ]]; then
         # Note current date in unix time
         local CMD_END_DATE=$(date +%s)
         # Store the difference between the last command start date vs. current date.
@@ -175,19 +189,16 @@ get_last_cmd_info() {
             local REMAINING_SECONDS=$(($CMD_ELAPSED_TIME % 3600))
             local MINUTES=$(($REMAINING_SECONDS / 60))
             local SECONDS=$(($REMAINING_SECONDS % 60))
-            local ELAPSED_TIME="Elapsed $HOURS:$(printf %02d $MINUTES):$(printf %02d $SECONDS). "
+            local ELAPSED_TIME=" Elapsed $HOURS:$(printf %02d $MINUTES):$(printf %02d $SECONDS)."
         fi
     fi
 
     if [[ $LAST_EXIT_CODE -ne 0 ]]; then
-        local LAST_CMD_STATUS="Exit Code $LAST_EXIT_CODE."
+        local LAST_CMD_STATUS=" Exit Code $LAST_EXIT_CODE."
     fi
 
     if [ -n $ELAPSED_TIME ] || [ -n $LAST_CMD_STATUS ]; then
         echo -e "$ELAPSED_TIME$LAST_CMD_STATUS"
-        # echo -e ""
-        # echo -e "\033[0m$ELAPSED_TIME$CMD_INFO\033[0m"
-        # echo -e ""
     fi
 }
 
