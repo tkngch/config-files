@@ -40,6 +40,12 @@
 (setq-default show-trailing-whitespace t)
 (global-whitespace-mode)
 
+;; Enable the continuous scrolling in the dov-view mode.
+(setq-default doc-view-continuous t)
+;; Auto-scroll in the compilation mode, until the first error.
+(setq-default compilation-scroll-output "first-error")
+
+
 ;; ================ PACKAGE CONFIGURATION
 ;; Load the functions and variables defined in `package`.
 (require 'package)
@@ -61,10 +67,10 @@
 ;; ---------------- KEY BINDINGS
 
 (require 'ido)
-(setq ido-enable-flex-matching t)
-(setq ido-everywhere t)
-;; Disable searching in other directories when there are no matches.
-(setq ido-auto-merge-work-directories-length -1)
+(setq ido-enable-flex-matching t
+      ido-everywhere t
+      ;; Disable searching in other directories when there are no matches.
+      ido-auto-merge-work-directories-length -1)
 (ido-mode t)
 
 ;; `C-y M-y M-y M-y ...` goes through kill ring.
@@ -125,10 +131,23 @@
 
 ;; ---------------- PROGRAMMING SUPPORT
 
+;; Completion
 (require 'dabbrev)
 ;; Do not ignore case in matches and searches.
-(setq case-fold-search nil)
-(setq dabbrev-case-fold-search nil)
+(setq case-fold-search nil
+      dabbrev-case-fold-search nil)
+
+
+;; Spell-check
+(require 'flyspell)
+(setq flyspell-issue-message-flag nil
+      ispell-local-dictionary "en_GB"
+      ispell-program-name "aspell"
+      ispell-extra-args '("--sug-mode=ultra"))
+(add-hook 'text-mode-hook 'flyspell-mode)
+(add-hook 'prog-mode-hook 'flyspell-prog-mode)
+
+(add-hook 'doc-view-mode-hook 'auto-revert-mode)
 
 ;; Use the completion framework.
 ;; (use-package company
