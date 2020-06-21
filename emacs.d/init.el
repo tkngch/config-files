@@ -1,7 +1,9 @@
-;; This is work in progress. Expect frequent, breaking changes.
+;;; init.el --- Emacs configuration file.
 
+;;; Commentary:
+;; This is work in progress.  Expect frequent, breaking changes.
 
-;; Run info-lookup-symbol (C-h S) to see the documentation.
+;;; Code:
 
 ;; Disable the toolbar at the top.
 (tool-bar-mode -1)
@@ -30,10 +32,72 @@
 ;; display line numbers and column numbers in all modes
 (setq line-number-mode t)
 (setq column-number-mode t)
-
+;; Display the relative line number on the left.
+(setq display-line-numbers 'relative)
 
 ;; Use spaces instead of tabs when indenting.
 (setq-default indent-tabs-mode nil)
+
+
+;; ========================= COPY & PASTE
+;; Use the PRIMARY selection (mouse-selected) *and* the CLIPBOARD selection
+;; (copy function selected). When yanking, both will be set. When inserting, the
+;; more recently changed one will be used.
+(setq select-enable-primary t)
+(setq select-enable-clipboard t)
+
+;; ======================== COMPILATION
+;; Don’t ask to kill currently running compilation, just kill it.
+(setq-default compilation-always-kill t)
+
+(defun compile-at-makefile (command)
+  "Locate makefile and run COMMAND at the location."
+  (interactive
+   (let* ((make-directory (locate-dominating-file default-directory "makefile"))
+          (command (concat "make -k -C " (shell-quote-argument make-directory))))
+     (list (compilation-read-command command))))
+  (compile command))
+
+;; Auto-scroll in the compilation mode, until the first error.
+(setq-default compilation-scroll-output "first-error")
+
+(global-set-key (kbd "C-3") 'compile-at-makefile)
+(global-set-key (kbd "C-4") 'recompile)
+
+
+;; ======================== COMPLETION
+;; Filename completion.
+(require 'ido)
+(setq ido-enable-flex-matching t
+      ido-everywhere t
+      ;; Disable searching in other directories when there are no matches.
+      ido-auto-merge-work-directories-length -1)
+(ido-mode t)
+
+;; Word completion.
+(require 'dabbrev)
+;; Do not ignore case in matches and searches.
+(setq case-fold-search nil
+      dabbrev-case-fold-search nil)
+
+;; Spell-check
+(require 'flyspell)
+(setq flyspell-issue-message-flag nil
+      ispell-local-dictionary "en_GB"
+      ispell-program-name "aspell"
+      ispell-extra-args '("--sug-mode=ultra"))
+(add-hook 'text-mode-hook 'flyspell-mode)
+(add-hook 'prog-mode-hook 'flyspell-prog-mode)
+
+
+;; ---------------- WINDOW NAVIGATION
+;; Swith to another window.
+(global-set-key (kbd "M-o") 'other-window)
+
+
+;; ======================== DRAWING
+;; automatically revert buffers when files change
+(global-auto-revert-mode 1)
 
 ;; Show trailing whitespaces.
 (setq-default whitespace-style '(face trailing tabs))
@@ -42,8 +106,6 @@
 
 ;; Enable the continuous scrolling in the dov-view mode.
 (setq-default doc-view-continuous t)
-;; Auto-scroll in the compilation mode, until the first error.
-(setq-default compilation-scroll-output "first-error")
 
 
 ;; ================ PACKAGE CONFIGURATION
@@ -66,13 +128,6 @@
 
 ;; ---------------- KEY BINDINGS
 
-(require 'ido)
-(setq ido-enable-flex-matching t
-      ido-everywhere t
-      ;; Disable searching in other directories when there are no matches.
-      ido-auto-merge-work-directories-length -1)
-(ido-mode t)
-
 ;; `C-y M-y M-y M-y ...` goes through kill ring.
 ;; `M-x rgrep` looks for files containig search word.
 ;; `M-;` to comment out a section of code.
@@ -90,27 +145,18 @@
 ;; `C-/` to undo. `M-x undo-only`
 ;; `C-?` to redo. 'M-x undo-redo`
 
-
-
-;; Generic completion mechanism from a list: e.g., a list of files when finding a file.
-;; (use-package ivy
-;;   :ensure t
-;;   :config (progn (ivy-mode 1)
-;; 		 (global-set-key (kbd "C-c g") 'counsel-git)  ; find file by name
-;; 		 (global-set-key (kbd "C-c j") 'counsel-git-grep)
-;; 		 (global-set-key (kbd "M-y") 'counsel-yank-pop)  ; show/search kill-ring
-;; 		 (global-set-key (kbd "C-c C-r") 'ivy-resume)))
-
 ;; Text Selection.
 ;; Expand region increases the selected region by semantic units.
-(use-package expand-region
-  :ensure t
-  :config (global-set-key (kbd "C-=") 'er/expand-region))
+;; (use-package expand-region
+;;   :ensure t
+;;   :config (global-set-key (kbd "C-=") 'er/expand-region))
 
 ;; Enable EVIL (Extensible VI Layer) mode.
-(defvar evil-disable-insert-state-bindings t) ;; Keep default Emacs bindings in insert state.
 (use-package evil
   :ensure t
+  :init (progn
+          ;; Keep default Emacs bindings in insert state.
+          (setq evil-disable-insert-state-bindings t))
   :config
   (evil-mode 1))
 
@@ -119,35 +165,13 @@
 (use-package which-key
   :ensure t
   :config (progn (which-key-mode)
-		 ;; Set the time delay (in seconds) for the which-key popup to appear. A value of
-		 ;; zero might cause issues so a non-zero value is recommended.
-		 (setq which-key-idle-delay 1)))
+                 ;; Set the time delay (in seconds) for the which-key popup to
+                 ;; appear. A value of zero might cause issues so a non-zero
+                 ;; value is recommended.
+                 (setq which-key-idle-delay 1)))
 
-
-;; ---------------- WINDOW NAVIGATION
-
-;; Swith to another window.
-(global-set-key (kbd "M-o") 'other-window)
 
 ;; ---------------- PROGRAMMING SUPPORT
-
-;; Completion
-(require 'dabbrev)
-;; Do not ignore case in matches and searches.
-(setq case-fold-search nil
-      dabbrev-case-fold-search nil)
-
-
-;; Spell-check
-(require 'flyspell)
-(setq flyspell-issue-message-flag nil
-      ispell-local-dictionary "en_GB"
-      ispell-program-name "aspell"
-      ispell-extra-args '("--sug-mode=ultra"))
-(add-hook 'text-mode-hook 'flyspell-mode)
-(add-hook 'prog-mode-hook 'flyspell-prog-mode)
-
-(add-hook 'doc-view-mode-hook 'auto-revert-mode)
 
 ;; Use the completion framework.
 ;; (use-package company
@@ -184,13 +208,12 @@
 (use-package format-all
   :ensure t
   :hook ((emacs-lisp-mode . format-all-mode)
-	 (python-mode . format-all-mode)
-	 (scala-mode . format-all-mode)
-	 (markdown-mode . format-all-mode)
-	 (gfm-mode . format-all-mode)
-	 (vue-mode . format-all-mode)
-	 ))
-
+         (python-mode . format-all-mode)
+         (scala-mode . format-all-mode)
+         (markdown-mode . format-all-mode)
+         (gfm-mode . format-all-mode)
+         (vue-mode . format-all-mode)
+         ))
 
 (use-package magit
   :ensure t
@@ -216,6 +239,75 @@
 ;; (load-theme 'whiteboard)
 ;; (load-theme 'wombat)
 
+;; Hide the minor mode indications from the mode line.
+(define-minor-mode minor-mode-blackout-mode
+  "Hides minor modes from the mode line."
+  t)
+
+(catch 'done
+  (mapc (lambda (x)
+          (when (and (consp x)
+                     (equal (cadr x) '("" minor-mode-alist)))
+            (let ((original (copy-sequence x)))
+              (setcar x 'minor-mode-blackout-mode)
+              (setcdr x (list "" original)))
+            (throw 'done t)))
+        mode-line-modes))
+
+;; Toggle the minor mode indication on/off.
+(global-set-key (kbd "C-c m") 'minor-mode-blackout-mode)
+
+;; Display the current function name in the mode line.
+(require 'which-func)
+(which-function-mode t)
+(setq which-func-unknown "∅")
+
+(setq-default display-line-numbers 'relative)
+
+(setq-default mode-line-format
+              '(
+                "%e"
+                mode-line-front-space
+                ;; mode-line-mule-info
+                mode-line-client
+                mode-line-modified
+                ;; mode-line-remote
+                mode-line-frame-identification
+                (:eval (propertize "%b" 'face 'bold))
+                " "
+                (which-function-mode (#1="" which-func-format " "))
+                "(row: %l; col: %C)"
+                "   "
+                (vc-mode vc-mode)
+                "  "
+                mode-line-modes
+                (global-mode-string (#1# global-mode-string " "))
+                mode-line-end-spaces
+                )
+              )
+
+
+;; default mode-line-format
+;; (setq-default mode-line-format
+;;               '("%e"
+;;                 mode-line-front-space
+;;                 mode-line-mule-info
+;;                 mode-line-client
+;;                 mode-line-modified
+;;                 mode-line-remote
+;;                 mode-line-frame-identification
+;;                 mode-line-buffer-identification
+;;                 "   "
+;;                 mode-line-position
+;;                 evil-mode-line-tag
+;;                 (vc-mode vc-mode)
+;;                 "  "
+;;                 mode-line-modes
+;;                 mode-line-misc-info
+;;                 mode-line-end-spaces)
+;;               )
+
+
 
 
 ;; ------------------------ MISC
@@ -226,7 +318,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (magit which-key vue-mode use-package scala-mode format-all flycheck expand-region evil))))
+    (magit which-key vue-mode use-package scala-mode format-all flycheck evil))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
