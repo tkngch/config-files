@@ -13,6 +13,8 @@
 (scroll-bar-mode -1)
 ;; keyboard scroll one line at a time
 (setq scroll-step 1)
+;; Disable popup on mouse hover on mode-line.
+(tooltip-mode -1)
 
 ;; No blinking cursor.
 (blink-cursor-mode 0)
@@ -47,15 +49,17 @@
 (setq select-enable-clipboard t)
 
 ;; ======================== COMPILATION
+(require 'compile)
 ;; Don’t ask to kill currently running compilation, just kill it.
 (setq-default compilation-always-kill t)
 
 (defun compile-at-makefile (command)
   "Locate makefile and run COMMAND at the location."
   (interactive
-   (let* ((make-directory (locate-dominating-file default-directory "makefile"))
-          (command (concat "make -k -C " (shell-quote-argument make-directory))))
-     (list (compilation-read-command command))))
+   (let* ((makefile-directory (locate-dominating-file default-directory "makefile"))
+          (command (concat "make -k -C " (shell-quote-argument makefile-directory))))
+     (list (compilation-read-command command))
+     ))
   (compile command))
 
 ;; Auto-scroll in the compilation mode, until the first error.
@@ -189,6 +193,10 @@
 ;; Emacs has build-in python mode. To use with venv, activate venv and launch
 ;; emacs from within venv.
 (add-hook 'python-mode-hook (lambda() (setq fill-column 88)))
+;; To activate venv, issue `M-x pyvenv-activate` and then select .venv
+;; directory.
+(use-package pyvenv
+  :ensure t)
 
 (use-package scala-mode
   :ensure t)
@@ -240,29 +248,29 @@
 ;; (load-theme 'wombat)
 
 ;; Hide the minor mode indications from the mode line.
-(define-minor-mode minor-mode-blackout-mode
-  "Hides minor modes from the mode line."
-  t)
+;; (define-minor-mode minor-mode-blackout-mode
+;;   "Hides minor modes from the mode line."
+;;   t)
 
-(catch 'done
-  (mapc (lambda (x)
-          (when (and (consp x)
-                     (equal (cadr x) '("" minor-mode-alist)))
-            (let ((original (copy-sequence x)))
-              (setcar x 'minor-mode-blackout-mode)
-              (setcdr x (list "" original)))
-            (throw 'done t)))
-        mode-line-modes))
+;; (catch 'done
+;;   (mapc (lambda (x)
+;;           (when (and (consp x)
+;;                      (equal (cadr x) '("" minor-mode-alist)))
+;;             (let ((original (copy-sequence x)))
+;;               (setcar x 'minor-mode-blackout-mode)
+;;               (setcdr x (list "" original)))
+;;             (throw 'done t)))
+;;         mode-line-modes))
 
-;; Toggle the minor mode indication on/off.
-(global-set-key (kbd "C-c m") 'minor-mode-blackout-mode)
+;; ;; Toggle the minor mode indication on/off.
+;; (global-set-key (kbd "C-c m") 'minor-mode-blackout-mode)
 
 ;; Display the current function name in the mode line.
 (require 'which-func)
 (which-function-mode t)
 (setq which-func-unknown "∅")
 
-(setq-default display-line-numbers 'relative)
+;; (setq-default display-line-numbers 'relative)
 
 (setq-default mode-line-format
               '(
@@ -270,21 +278,46 @@
                 mode-line-front-space
                 ;; mode-line-mule-info
                 mode-line-client
-                mode-line-modified
                 ;; mode-line-remote
+                (:eval (propertize (substring vc-mode 5)
+                                   'face 'font-lock-comment-face))
+                " "
                 mode-line-frame-identification
                 (:eval (propertize "%b" 'face 'bold))
                 " "
-                (which-function-mode (#1="" which-func-format " "))
-                "(row: %l; col: %C)"
+                mode-line-modified
+                " "
+                "(row: %03l; col: %02C)"
                 "   "
-                (vc-mode vc-mode)
-                "  "
-                mode-line-modes
+                (which-function-mode (#1="" which-func-format " "))
                 (global-mode-string (#1# global-mode-string " "))
+                (:eval (propertize
+                        " " 'display
+                        `((space :align-to (- (+ right right-fringe right-margin)
+                                              ,(+ 2 (string-width mode-name)))))))
+                ;; mode-line-modes
+                "%m"
                 mode-line-end-spaces
                 )
               )
+
+(set-face-attribute 'mode-line nil
+                    :background "#353644"
+                    :foreground "white"
+                    :box '(:line-width 6 :color "#353644")
+                    :overline nil
+                    :underline nil)
+;; M-x list-faces-display
+(set-face-attribute 'which-func nil
+                    :foreground "white")
+
+(set-face-attribute 'mode-line-inactive nil
+                    :background "#565063"
+                    :foreground "white"
+                    :box '(:line-width 6 :color "#565063")
+                    :overline nil
+                    :underline nil)
+
 
 
 ;; default mode-line-format
@@ -318,7 +351,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (magit which-key vue-mode use-package scala-mode format-all flycheck evil))))
+    (pyvenv magit which-key vue-mode use-package scala-mode format-all flycheck evil))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
