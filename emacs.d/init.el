@@ -15,6 +15,9 @@
 (setq scroll-step 1)
 ;; Do not recenter point (cursor) when it moves off screen for smooth scrolling.
 (setq scroll-conservatively 101)
+;; Let point keep its screen position when scrolling, so that `C-v` `M-v`
+;; sequence brings back point where it was.
+(setq scroll-preserve-screen-position t)
 ;; Disable popup on mouse hover on mode-line.
 (tooltip-mode -1)
 
