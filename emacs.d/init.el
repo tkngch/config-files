@@ -13,6 +13,8 @@
 (scroll-bar-mode -1)
 ;; keyboard scroll one line at a time
 (setq scroll-step 1)
+;; Do not recenter point (cursor) when it moves off screen for smooth scrolling.
+(setq scroll-conservatively 101)
 ;; Disable popup on mouse hover on mode-line.
 (tooltip-mode -1)
 
