@@ -109,9 +109,14 @@
 (global-auto-revert-mode 1)
 
 ;; Show trailing whitespaces.
+(require 'whitespace)
 (setq-default whitespace-style '(face trailing tabs))
 (setq-default show-trailing-whitespace t)
 (global-whitespace-mode)
+;; Don't show whitespaces in certain major modes.
+(add-hook 'eshell-mode-hook (lambda () (setq show-trailing-whitespace nil)))
+(add-hook 'term-mode-hook (lambda () (setq show-trailing-whitespace nil)))
+(add-hook 'compilation-mode-hook (lambda () (setq show-trailing-whitespace nil)))
 
 ;; Enable the continuous scrolling in the dov-view mode.
 (setq-default doc-view-continuous t)
