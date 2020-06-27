@@ -14,23 +14,27 @@ export PATH="${HOME}/bin:${PATH}"
 export VISUAL="/bin/vim"
 export PAGER="/bin/less"
 export LESS="-r"  # color support
-export LESSHISTFILE=$HOME/.cache/less.hist
-# export PYTHONPATH="$HOME/lib/python/"
-# export PYTHONUSERBASE="$HOME/lib/python/"  # directory for pip -user
+export LESSHISTFILE="$HOME/.cache/less.hist"
+export PYLINTHOME="$HOME/.cache/pylint.d"  # Directory to cache pylint results.
 export XDG_CONFIG_HOME="$HOME/.config"
-# export MATPLOTLIBRC="$HOME/.config/matplotlib/"
 export R_LIBS_USER="$HOME/lib/R/"
 export R_PROFILE_USER="$HOME/.Rprofile"
 export R_DEFAULT_PACKAGES=NULL  # do not let R preload anything
 export GREP_COLOR='1;33'  # color grep output in yellow
 export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$HOME/lib/cpp/"
-# export IPYTHONDIR="$XDG_CONFIG_HOME/ipython"
-# export JUPYTER_CONFIG_DIR="$XDG_CONFIG_HOME/jupyter"
 export STARDICT_DATA_DIR="$HOME/var/stardict/dic"
 export GTK_IM_MODULE=fcitx  # support fcitx
 export QT_IM_MODULE=fcitx  # support fcitx
 export XMODIFIERS=@im=fcitx  # support fcitx
+export SDCV_HISTSIZE=0
+export SDCV_PAGER="/bin/less"
+
+# export MATPLOTLIBRC="$HOME/.config/matplotlib/"
+# export PYTHONPATH="$HOME/lib/python/"
+# export PYTHONUSERBASE="$HOME/lib/python/"  # directory for pip -user
 # export KEYTIMEOUT=1  # 10ms after Esc key press before entering the normal mode in zsh
+# export IPYTHONDIR="$XDG_CONFIG_HOME/ipython"
+# export JUPYTER_CONFIG_DIR="$XDG_CONFIG_HOME/jupyter"
 
 # KEYBINDINGS
 # ===========

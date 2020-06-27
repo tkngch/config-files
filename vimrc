@@ -63,6 +63,13 @@ set undodir=~/.cache/vim_undo
 " file, and restores undo history from the same file on buffer read
 set undofile
 
+" The viminfo file is used to store:
+" - The command line history.
+" - The search string history.
+" etc
+" Set the location of viminfo file. The default is ~/.viminfo
+set viminfofile=$HOME.'/.cache/viminfo'
+
 
 """""""""""""""""""""""
 " Color Scheme        "

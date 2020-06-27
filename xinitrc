@@ -23,6 +23,9 @@ redshift-gtk -l 51.50:0.12 &
 # file synchronization
 # syncthing-gtk --minimized &
 
+# compositor, to fix some issues around window drawing and screen tearing.
+test $(command -v picom) && picom -C &
+
 # for taking screenshot, run flameshot as background process.
 test $(command -v flameshot) && flameshot &
 
@@ -36,7 +39,13 @@ export XMODIFIERS=@im=fcitx
 export _JAVA_AWT_WM_NONREPARENTING=1
 test $(command -v fcitx) && fcitx -d
 test $(pgrep -x 'xset_status') || ${HOME}/bin/xset_status &
-xsetroot -solid "#2d2c28"  # solid colour background
+if [[ $(command -v hsetroot) ]]
+then
+   hsetroot -solid "#2d2c28"  # solid colour background
+else
+   xsetroot -solid "#2d2c28"  # solid colour background
+fi
+
 while true
 do
     exec ${HOME}/bin/start_dwm
