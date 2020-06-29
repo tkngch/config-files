@@ -1,6 +1,5 @@
 
 set from="tkngch@runbox.com"
-# set from="t.noguchi@qmul.ac.uk"
 set realname="Takao Noguchi"
 
 set mbox_type=Maildir
@@ -13,21 +12,15 @@ set delete=ask-yes  # Ask before doing a delete.
 set include  # Include the message in replies.
 set edit_headers  # edit all headers lines in the editor
 unmy_hdr User-Agent
-# my_hdr Bcc: t.noguchi@qmul.ac.uk, tkngch@runbox.com
 my_hdr Bcc: tkngch@runbox.com
-# my_hdr User-Agent: Batman
 
 # alternates "(t\.noguchi|takao\.noguchi)\@(warwick|ucl|qmul)\.ac\.uk|tkngch\@(hotmail|gmx|gmail)\.com"
-alternates "t\.noguchi\@qmul\.ac\.uk"
 
-# set editor="/usr/bin/vim '+/^$' -f"
 set editor="/usr/bin/vim +8 -f"
-# set editor="/usr/bin/gvim +8 -f"
 set include=ask-yes
 set mail_check=60
 set quote_regexp="^>"  # some people just use '>' - *sigh*
 set sort=threads  # use the threaded view
-# set sort_aux=last-date-received
 set sort_aux=reverse-last-date-received
 set strict_threads=no
 set index_format="%[%d/%b/%Y]  %-15.15L %s (%g)"
@@ -46,7 +39,6 @@ set sleep_time = 0  # Speed up folders switch
 auto_view text/html
 
 set sidebar_visible
-# set sidebar_divider_char = " │ "
 set sidebar_divider_char = "   "
 set sidebar_width = 30
 set sidebar_format = "%B%* %N"
@@ -192,13 +184,10 @@ set nm_query_type=messages
 
 # customize the file browser display for virtual folders to your personal taste.
 set vfolder_format="%f %n"
-# set vfolder_format = "%6n(%6N) %f"
 
 
 # virtual folders
 bind index,pager t modify-labels
-# bind index \Ct change-vfolder
-# exec sidebar-toggle-virtual  # toggle between mailboxes and virtual mailboxes
 macro index,pager a "<modify-labels-then-hide>-inbox +archive\n<sync-mailbox>"
 macro index,pager \\ "<vfolder-from-query>"
 macro attach s <save-entry><bol>$HOME/tmp/  # directory to save attachments

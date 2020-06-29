@@ -184,6 +184,8 @@
                  ;; value is recommended.
                  (setq which-key-idle-delay 1)))
 
+;; ---------------- EMAIL
+(autoload 'notmuch "notmuch" "notmuch mail" t)
 
 ;; ---------------- PROGRAMMING SUPPORT
 

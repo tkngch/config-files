@@ -32,6 +32,7 @@ install_home:
 	## emacs
 	mkdir -p "${HOME}/.emacs.d"
 	$(call link,"${HERE}/emacs.d/init.el","${HOME}/.emacs.d/init.el")
+	$(call link,"${HERE}/emacs.d/notmuch-config.el","${HOME}/.emacs.d/notmuch-config.el")
 	## w3m
 	mkdir -p "${HOME}/.w3m"
 	$(call link,"${HERE}/w3m/config","${HOME}/.w3m/config")
