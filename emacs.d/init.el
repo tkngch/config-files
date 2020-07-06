@@ -25,7 +25,7 @@
 (blink-cursor-mode 0)
 
 ;; Highlight maching parens (brackets).
-(defvar show-paren-delay 0.01)
+(setq-default show-paren-delay 0.01)
 (show-paren-mode 1)
 
 ;; Place all auto-saves and backups in the directory.
@@ -34,6 +34,7 @@
 (setq auto-save-file-name-transforms
       `((".*" ,temporary-file-directory t)))
 
+;; Line-wrap at 80 columns.
 (setq-default fill-column 80)
 
 ;; display line numbers and column numbers in all modes
@@ -162,12 +163,6 @@
 ;; `C-/` to undo. `M-x undo-only`
 ;; `C-?` to redo. 'M-x undo-redo`
 
-;; Text Selection.
-;; Expand region increases the selected region by semantic units.
-;; (use-package expand-region
-;;   :ensure t
-;;   :config (global-set-key (kbd "C-=") 'er/expand-region))
-
 ;; Enable EVIL (Extensible VI Layer) mode.
 (use-package evil
   :ensure t
@@ -179,13 +174,13 @@
 
 ;; Use which-key to display the key bindings in a popup.
 ;; (which-key-mode) in the config enables the minor mode.
-(use-package which-key
-  :ensure t
-  :config (progn (which-key-mode)
-                 ;; Set the time delay (in seconds) for the which-key popup to
-                 ;; appear. A value of zero might cause issues so a non-zero
-                 ;; value is recommended.
-                 (setq which-key-idle-delay 1)))
+;; (use-package which-key
+;;   :ensure t
+;;   :config (progn (which-key-mode)
+;;                  ;; Set the time delay (in seconds) for the which-key popup to
+;;                  ;; appear. A value of zero might cause issues so a non-zero
+;;                  ;; value is recommended.
+;;                  (setq which-key-idle-delay 1)))
 
 ;; ---------------- EMAIL
 (autoload 'notmuch "notmuch" "notmuch mail" t)
@@ -335,29 +330,6 @@
 
 
 
-;; default mode-line-format
-;; (setq-default mode-line-format
-;;               '("%e"
-;;                 mode-line-front-space
-;;                 mode-line-mule-info
-;;                 mode-line-client
-;;                 mode-line-modified
-;;                 mode-line-remote
-;;                 mode-line-frame-identification
-;;                 mode-line-buffer-identification
-;;                 "   "
-;;                 mode-line-position
-;;                 evil-mode-line-tag
-;;                 (vc-mode vc-mode)
-;;                 "  "
-;;                 mode-line-modes
-;;                 mode-line-misc-info
-;;                 mode-line-end-spaces)
-;;               )
-
-
-
-
 ;; ------------------------ MISC
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -366,7 +338,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (pyvenv magit which-key vue-mode use-package scala-mode format-all flycheck evil))))
+    (pyvenv magit vue-mode use-package scala-mode format-all flycheck evil))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
