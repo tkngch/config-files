@@ -45,6 +45,9 @@
 ;; Use spaces instead of tabs when indenting.
 (setq-default indent-tabs-mode nil)
 
+;; Ask for confirmation before killing (C-x C-c) emacs.
+(setq confirm-kill-emacs 'yes-or-no-p)
+
 
 ;; ========================= COPY & PASTE
 ;; Use the PRIMARY selection (mouse-selected) *and* the CLIPBOARD selection
