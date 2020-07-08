@@ -49,6 +49,9 @@
 ;; Ask for confirmation before killing (C-x C-c) emacs.
 (setq confirm-kill-emacs 'yes-or-no-p)
 
+;; Resize the frame pixelwise, to rid of gaps due to size hints.
+(setq frame-resize-pixelwise t)
+
 
 ;; ========================= COPY & PASTE
 ;; Use the PRIMARY selection (mouse-selected) *and* the CLIPBOARD selection
@@ -211,6 +214,10 @@
 (use-package scala-mode
   :ensure t)
 
+(use-package lua-mode
+  :ensure t)
+
+
 (use-package vue-mode
   :ensure t)
 
@@ -289,8 +296,7 @@
                 ;; mode-line-mule-info
                 mode-line-client
                 ;; mode-line-remote
-                (:eval (propertize (substring vc-mode 5)
-                                   'face 'font-lock-comment-face))
+                (:eval (substring vc-mode 5))
                 " "
                 mode-line-frame-identification
                 (:eval (propertize "%b" 'face 'bold))
@@ -311,10 +317,11 @@
                 )
               )
 
+;; Colors are taken from here: https://htmlcolorcodes.com/color-chart/
 (set-face-attribute 'mode-line nil
-                    :background "#353644"
+                    :background "#1E88E5"
                     :foreground "white"
-                    :box '(:line-width 6 :color "#353644")
+                    :box '(:line-width 6 :color "#1E88E5")
                     :overline nil
                     :underline nil)
 ;; M-x list-faces-display
@@ -322,9 +329,9 @@
                     :foreground "white")
 
 (set-face-attribute 'mode-line-inactive nil
-                    :background "#565063"
+                    :background "#333333"
                     :foreground "white"
-                    :box '(:line-width 6 :color "#565063")
+                    :box '(:line-width 6 :color "#333333")
                     :overline nil
                     :underline nil)
 
@@ -338,7 +345,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (pyvenv magit vue-mode use-package scala-mode format-all flycheck evil))))
+    (lua-mode pyvenv magit vue-mode use-package scala-mode format-all flycheck evil))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

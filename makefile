@@ -54,6 +54,10 @@ install_config:
 	mkdir -p "${XDG_CONFIG_HOME}/mpv"
 	$(call link,"${HERE}/mpv/mpv.conf","${XDG_CONFIG_HOME}/mpv/mpv.conf")
 	$(call link,"${HERE}/mpv/input.conf","${XDG_CONFIG_HOME}/mpv/input.conf")
+	## awesome
+	mkdir -p "${XDG_CONFIG_HOME}/awesome"
+	$(call link,"${HERE}/awesome/rc.lua","${XDG_CONFIG_HOME}/awesome/rc.lua")
+	$(call link,"${HERE}/awesome/theme.lua","${XDG_CONFIG_HOME}/awesome/theme.lua")
 
 install_local_applications:
 	# Link files to the .local.
