@@ -165,6 +165,8 @@
 ;; `C-x s` to save all buffers.
 ;; `C-/` to undo. `M-x undo-only`
 ;; `C-?` to redo. 'M-x undo-redo`
+;; `C-x 4 f` to open a file in a new window.
+;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Moving-Point.html
 
 ;; Enable EVIL (Extensible VI Layer) mode.
 (use-package evil
