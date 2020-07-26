@@ -83,12 +83,12 @@
 
 ;; ======================== COMPLETION
 ;; Filename completion.
-(require 'ido)
-(setq ido-enable-flex-matching t
-      ido-everywhere t
-      ;; Disable searching in other directories when there are no matches.
-      ido-auto-merge-work-directories-length -1)
-(ido-mode t)
+;; (require 'ido)
+;; (setq ido-enable-flex-matching t
+;;       ido-everywhere t
+;;       ;; Disable searching in other directories when there are no matches.
+;;       ido-auto-merge-work-directories-length -1)
+;; (ido-mode t)
 
 ;; Word completion.
 (require 'dabbrev)
@@ -199,6 +199,14 @@
 ;; 	    ;; Use the company-mode in all buffers.
 ;; 	    (global-company-mode 1)
 ;; 	    (setq company-idle-delay 0.01)))
+
+;; Filename completion.
+;; Much nicer than ido-mode.
+(use-package ivy
+  :ensure t
+  :init (progn
+          (setq ivy-count-format "(%d/%d) "))
+  :config (ivy-mode 1))
 
 ;; Use code-linter.
 (use-package flycheck
@@ -347,7 +355,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (lua-mode pyvenv magit vue-mode use-package scala-mode format-all flycheck evil))))
+    (ivy lua-mode pyvenv magit vue-mode use-package scala-mode format-all flycheck evil))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

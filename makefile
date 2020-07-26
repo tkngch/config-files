@@ -28,7 +28,13 @@ install_home:
 	$(call link,"${HERE}/vimrc","${HOME}/.vimrc")
 	$(call link,"${HERE}/xinitrc","${HOME}/.xinitrc")
 	$(call link,"${HERE}/zshrc","${HOME}/.zshrc")
-	$(call link,"${HERE}/notmuch-config","${HOME}/.notmuch-config")
+	## notmuch
+	$(call link,"${HERE}/notmuch/notmuch-config","${HOME}/.notmuch-config")
+	mkdir -p "${HOME}/var/emails/.notmuch/hooks"
+	$(call link,"${HERE}/notmuch/hooks/pre-new","${HOME}/var/emails/.notmuch/hooks/pre-new")
+	chmod +x "${HOME}/var/emails/.notmuch/hooks/pre-new"
+	$(call link,"${HERE}/notmuch/hooks/post-new","${HOME}/var/emails/.notmuch/hooks/post-new")
+	chmod +x "${HOME}/var/emails/.notmuch/hooks/post-new"
 	## emacs
 	mkdir -p "${HOME}/.emacs.d"
 	$(call link,"${HERE}/emacs.d/init.el","${HOME}/.emacs.d/init.el")
@@ -62,3 +68,8 @@ install_config:
 install_local_applications:
 	# Link files to the .local.
 	$(call link,"${HERE}/null.desktop","${HOME}/.local/share/applications/null.desktop")
+
+install_bin:
+	mkdir -p "${HOME}/.local/bin"
+	$(call link,"${HERE}/bin/ll","${HOME}/.local/bin/ll")
+	chmod -R 700 "${HOME}/.local/bin"

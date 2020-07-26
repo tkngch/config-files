@@ -17,13 +17,13 @@
                                               :query "tag:inbox AND tag:to-me AND NOT tag:archive"
                                               :key "1")
                                        (:name "inbox (others)"
-                                              :query "tag:inbox AND NOT tag:to-me AND NOT tag:archive AND date:2weeks.."
+                                              :query "date:2weeks.. AND tag:inbox AND NOT tag:to-me AND NOT tag:archive"
                                               :key "2")
                                        (:name "archive"
-                                              :query "tag:archive AND date:2weeks.."
+                                              :query "date:2weeks.. AND tag:archive"
                                               :key "3")
                                        (:name "sent"
-                                              :query "tag:sent AND date:2weeks.."
+                                              :query "date:2weeks.. AND tag:sent"
                                               :key "4")))
 
 (setq-default notmuch-search-result-format
