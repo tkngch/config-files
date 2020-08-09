@@ -205,8 +205,22 @@
 (use-package ivy
   :ensure t
   :init (progn
-          (setq ivy-count-format "(%d/%d) "))
+          (setq ivy-count-format "(%d/%d) ")
+          (setq ivy-extra-directories ())  ;; Remove ./ and ../ from find-file completion.
+          )
   :config (ivy-mode 1))
+
+(use-package neotree
+  :ensure t
+  :init (progn
+          (evil-set-initial-state 'neotree-mode 'emacs)
+          (setq neo-theme 'arrow)
+          (setq neo-default-system-application nil)))
+
+(use-package eglot
+  :ensure t
+  :init (progn
+          (add-hook 'scala-mode-hook 'eglot-ensure)))
 
 ;; Use code-linter.
 (use-package flycheck
@@ -303,11 +317,9 @@
               '(
                 "%e"
                 mode-line-front-space
-                ;; mode-line-mule-info
                 mode-line-client
-                ;; mode-line-remote
-                (:eval (substring vc-mode 5))
-                " "
+                ;; (:eval (substring vc-mode 5))
+                ;; " "
                 mode-line-frame-identification
                 (:eval (propertize "%b" 'face 'bold))
                 " "
@@ -355,7 +367,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (ivy lua-mode pyvenv magit vue-mode use-package scala-mode format-all flycheck evil))))
+    (dired-sidebar ivy lua-mode pyvenv magit vue-mode use-package scala-mode format-all flycheck evil))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

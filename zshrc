@@ -227,7 +227,7 @@ source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zs
 source ${HOME}/bin/fcd.sh
 
 if [[ -d ${HOME}/var/google-cloud-sdk ]]; then
-    export CLOUDSDK_PYTHON=python3
+    # export CLOUDSDK_PYTHON=python3
     source ${HOME}/var/google-cloud-sdk/path.zsh.inc
     source ${HOME}/var/google-cloud-sdk/completion.zsh.inc
     export GOOGLE_APPLICATION_CREDENTIALS=${HOME}/.config/gcloud/application_default_credentials.json
