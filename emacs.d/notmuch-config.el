@@ -23,7 +23,7 @@
                                               :query "date:2weeks.. AND tag:archive"
                                               :key "3")
                                        (:name "sent"
-                                              :query "date:2weeks.. AND tag:sent"
+                                              :query "date:4weeks.. AND tag:sent"
                                               :key "4")))
 
 (setq-default notmuch-search-result-format

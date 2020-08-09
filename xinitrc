@@ -40,6 +40,8 @@ exec_awesome() {
     test "$(command -v fcitx)" && fcitx -d
     test "$(command -v picom)" && picom -C &
     test "$(command -v nm-applet)" && nm-applet &
+    # pulseaudio systray applet
+    test "$(command -v pasystray)" && pasystray &
     # cbatticon is a battery indicator that sits on the systray.
     test "$(command -v cbatticon)" && cbatticon -i 'symbolic' -n &
     exec awesome

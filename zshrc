@@ -10,7 +10,7 @@ export TERM="xterm-256color"
 export BROWSER=""
 export EDITOR="/bin/vim"
 export SYSTEMD_EDITOR="/bin/vim"
-export PATH="${HOME}/bin:${PATH}"
+export PATH="${HOME}/.local/bin:${HOME}/bin:${PATH}"
 export VISUAL="/bin/vim"
 export PAGER="/bin/less"
 export LESS="-r"  # color support
@@ -23,9 +23,6 @@ export R_DEFAULT_PACKAGES=NULL  # do not let R preload anything
 export GREP_COLOR='1;33'  # color grep output in yellow
 export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$HOME/lib/cpp/"
 export STARDICT_DATA_DIR="$HOME/var/stardict/dic"
-export GTK_IM_MODULE=fcitx  # support fcitx
-export QT_IM_MODULE=fcitx  # support fcitx
-export XMODIFIERS=@im=fcitx  # support fcitx
 export SDCV_HISTSIZE=0
 export SDCV_PAGER="/bin/less"
 
