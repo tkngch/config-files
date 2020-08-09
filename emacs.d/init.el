@@ -193,12 +193,11 @@
 ;; ---------------- PROGRAMMING SUPPORT
 
 ;; Use the completion framework.
-;; (use-package company
-;;   :ensure t
-;;   :config (progn
-;; 	    ;; Use the company-mode in all buffers.
-;; 	    (global-company-mode 1)
-;; 	    (setq company-idle-delay 0.01)))
+(use-package company
+  :ensure t
+  :config (progn
+            (global-company-mode 1)
+            (setq company-idle-delay 0.01)))
 
 ;; Filename completion.
 ;; Much nicer than ido-mode.
