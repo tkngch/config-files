@@ -72,4 +72,5 @@ install_local_applications:
 install_bin:
 	mkdir -p "${HOME}/.local/bin"
 	$(call link,"${HERE}/bin/ll","${HOME}/.local/bin/ll")
+	$(call link,"${HERE}/bin/config_webcam","${HOME}/.local/bin/config_webcam")
 	chmod -R 700 "${HOME}/.local/bin"
