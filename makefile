@@ -1,4 +1,4 @@
-.PHONY: install install_home install_config install_local_applications
+.PHONY: install install_home install_config install_local_applications install_bin
 
 HERE:=$(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
 
@@ -12,7 +12,7 @@ define link
 	)
 endef
 
-install: install_home install_config install_local_applications
+install: install_home install_config install_local_applications install_bin
 
 install_home:
 	# Link files to the home directory
@@ -67,6 +67,7 @@ install_config:
 
 install_local_applications:
 	# Link files to the .local.
+	mkdir -p "${HOME}/.local/share/applications"
 	$(call link,"${HERE}/null.desktop","${HOME}/.local/share/applications/null.desktop")
 
 install_bin:
