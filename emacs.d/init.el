@@ -338,24 +338,23 @@
                 )
               )
 
-;; Colors are taken from here: https://htmlcolorcodes.com/color-chart/
+;; Colors are taken from the nord theme: https://www.nordtheme.com/
 (set-face-attribute 'mode-line nil
-                    :background "#1E88E5"
-                    :foreground "white"
-                    :box '(:line-width 6 :color "#1E88E5")
+                    :background "#a3be8c"
+                    :foreground "#3b4252"
+                    :box '(:line-width 6 :color "#a3be8c")
                     :overline nil
                     :underline nil)
 ;; M-x list-faces-display
 (set-face-attribute 'which-func nil
-                    :foreground "white")
+                    :foreground "#4c566a")
 
 (set-face-attribute 'mode-line-inactive nil
-                    :background "#333333"
-                    :foreground "white"
-                    :box '(:line-width 6 :color "#333333")
+                    :background "#3b4252"
+                    :foreground "#d8dee9"
+                    :box '(:line-width 6 :color "#3b4252")
                     :overline nil
                     :underline nil)
-
 
 
 ;; ------------------------ MISC
@@ -365,8 +364,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   (quote
-    (dired-sidebar ivy lua-mode pyvenv magit vue-mode use-package scala-mode format-all flycheck evil))))
+   '(dired-sidebar ivy lua-mode pyvenv magit vue-mode use-package scala-mode format-all flycheck evil)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

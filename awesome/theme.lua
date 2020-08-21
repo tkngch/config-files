@@ -6,20 +6,20 @@ local theme = {}
 
 theme.font          = "dejavu sans 10"
 
--- The colours are based on this scheme: https://github.com/sainnhe/forest-night
-theme.bg_normal     = "#323d43"
-theme.bg_focus      = "#505a60"
-theme.bg_urgent     = "#576268"
+-- The colours are based on the nord scheme: https://www.nordtheme.com/
+theme.bg_normal     = "#3b4252"
+theme.bg_focus      = "#8fbcbb"
+theme.bg_urgent     = "#ebcb8b"
 theme.bg_minimize   = theme.bg_normal
 theme.bg_systray    = theme.bg_normal
 
-theme.fg_normal     = "#89beba"
-theme.fg_focus      = "#87c095"
-theme.fg_urgent     = "#e68183"
+theme.fg_normal     = "#d8dee9"
+theme.fg_focus      = "#3b4252"
+theme.fg_urgent     = "#3b4252"
 theme.fg_minimize   = "#ffffff"
 
 theme.useless_gap   = dpi(0)
-theme.border_width  = dpi(5)
+theme.border_width  = dpi(3)
 theme.border_normal = theme.bg_normal
 theme.border_focus  = theme.bg_focus
 theme.border_marked = theme.bg_urgent
