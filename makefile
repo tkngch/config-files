@@ -27,6 +27,7 @@ install_home:
 	$(call link,"${HERE}/tmux.conf","${HOME}/.tmux.conf")
 	$(call link,"${HERE}/vimrc","${HOME}/.vimrc")
 	$(call link,"${HERE}/xinitrc","${HOME}/.xinitrc")
+	$(call link,"${HERE}/Xmodmap","${HOME}/.Xmodmap")
 	$(call link,"${HERE}/zshrc","${HOME}/.zshrc")
 	## notmuch
 	$(call link,"${HERE}/notmuch/notmuch-config","${HOME}/.notmuch-config")
