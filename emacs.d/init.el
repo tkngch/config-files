@@ -199,22 +199,47 @@
             (global-company-mode 1)
             (setq company-idle-delay 0.01)))
 
+(use-package all-the-icons
+  :ensure t)
+;; To install icons, `M-x all-the-icons-install-fonts`.
+
 ;; Filename completion.
 ;; Much nicer than ido-mode.
-(use-package ivy
+(use-package counsel
   :ensure t
   :init (progn
           (setq ivy-count-format "(%d/%d) ")
           (setq ivy-extra-directories ())  ;; Remove ./ and ../ from find-file completion.
+          (global-set-key (kbd "C-s") 'swiper-isearch)
+          (global-set-key (kbd "M-x") 'counsel-M-x)
+          (global-set-key (kbd "C-x C-f") 'counsel-find-file)
+          (global-set-key (kbd "M-y") 'counsel-yank-pop)
+          (global-set-key (kbd "<f1> f") 'counsel-describe-function)
+          (global-set-key (kbd "<f1> v") 'counsel-describe-variable)
+          (global-set-key (kbd "<f1> l") 'counsel-find-library)
+          (global-set-key (kbd "<f2> i") 'counsel-info-lookup-symbol)
+          (global-set-key (kbd "<f2> u") 'counsel-unicode-char)
+          (global-set-key (kbd "<f2> j") 'counsel-set-variable)
+          (global-set-key (kbd "C-x b") 'ivy-switch-buffer)
+          (global-set-key (kbd "C-c v") 'ivy-push-view)
+          (global-set-key (kbd "C-c V") 'ivy-pop-view)
           )
   :config (ivy-mode 1))
 
-(use-package neotree
+(use-package all-the-icons-ivy
   :ensure t
-  :init (progn
-          (evil-set-initial-state 'neotree-mode 'emacs)
-          (setq neo-theme 'arrow)
-          (setq neo-default-system-application nil)))
+  :init (add-hook 'after-init-hook 'all-the-icons-ivy-setup))
+
+(use-package all-the-icons-dired
+  :ensure t
+  :init (add-hook 'dired-mode-hook 'all-the-icons-dired-mode))
+
+;; (use-package neotree
+;;   :ensure t
+;;   :init (progn
+;;           (evil-set-initial-state 'neotree-mode 'emacs)
+;;           (setq neo-theme 'arrow)
+;;           (setq neo-default-system-application nil)))
 
 (use-package eglot
   :ensure t
@@ -317,9 +342,9 @@
                 "%e"
                 mode-line-front-space
                 mode-line-client
-                ;; (:eval (substring vc-mode 5))
-                ;; " "
                 mode-line-frame-identification
+                ;; (:eval (all-the-icons-icon-for-buffer))
+                ;; " "
                 (:eval (propertize "%b" 'face 'bold))
                 " "
                 mode-line-modified
@@ -364,7 +389,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(dired-sidebar ivy lua-mode pyvenv magit vue-mode use-package scala-mode format-all flycheck evil)))
+   '(all-the-icons dired-sidebar ivy lua-mode pyvenv magit vue-mode use-package scala-mode format-all flycheck evil)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
