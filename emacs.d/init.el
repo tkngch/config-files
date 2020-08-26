@@ -199,6 +199,12 @@
             (global-company-mode 1)
             (setq company-idle-delay 0.01)))
 
+;; Whenever the window scrolls a light will shine on top of your cursor so you
+;; know where it is.
+(use-package beacon
+  :ensure t
+  :config (beacon-mode 1))
+
 (use-package all-the-icons
   :ensure t)
 ;; To install icons, `M-x all-the-icons-install-fonts`.
@@ -389,7 +395,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(all-the-icons dired-sidebar ivy lua-mode pyvenv magit vue-mode use-package scala-mode format-all flycheck evil)))
+   '(beacon all-the-icons dired-sidebar ivy lua-mode pyvenv magit vue-mode use-package scala-mode format-all flycheck evil)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
