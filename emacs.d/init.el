@@ -52,6 +52,13 @@
 ;; Resize the frame pixelwise, to rid of gaps due to size hints.
 (setq frame-resize-pixelwise t)
 
+;; If available, use "Source Code Pro" font.
+(when (member "Source Code Pro" (font-family-list))
+  (set-face-attribute 'default nil :font "Source Code Pro")
+  )
+(set-face-attribute 'default nil :height 94)
+
+
 
 ;; ========================= COPY & PASTE
 ;; Use the PRIMARY selection (mouse-selected) *and* the CLIPBOARD selection
