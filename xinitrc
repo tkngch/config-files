@@ -13,7 +13,7 @@ xset s 1200 1200  # Change screen save blank time to 20 minutes
 
 # capslock as ctrl key
 xmodmap ~/.Xmodmap
-# setxkbmap -layout gb -option ctrl:nocaps
+test "$(command -v map_capslock_to_ctrl)" && map_capslock_to_ctrl &
 
 # xbindkeys
 

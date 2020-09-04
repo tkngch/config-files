@@ -75,4 +75,5 @@ install_bin:
 	mkdir -p "${HOME}/.local/bin"
 	$(call link,"${HERE}/bin/ll","${HOME}/.local/bin/ll")
 	$(call link,"${HERE}/bin/config_webcam","${HOME}/.local/bin/config_webcam")
+	$(call link,"${HERE}/bin/map_capslock_to_ctrl","${HOME}/.local/bin/map_capslock_to_ctrl")
 	chmod -R 700 "${HOME}/.local/bin"

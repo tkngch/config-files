@@ -232,3 +232,5 @@ if [[ -d ${HOME}/var/google-cloud-sdk ]]; then
     source ${HOME}/var/google-cloud-sdk/completion.zsh.inc
     export GOOGLE_APPLICATION_CREDENTIALS=${HOME}/.config/gcloud/application_default_credentials.json
 fi
+
+test "$(command -v map_capslock_to_ctrl)" && map_capslock_to_ctrl
