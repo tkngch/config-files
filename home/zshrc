@@ -6,25 +6,30 @@ SAVEHIST=1000
 HISTFILE=$HOME/.cache/zsh.hist
 
 # Environment variables
+## Default applications
 export TERM="xterm-256color"
 export BROWSER=""
 export EDITOR="/bin/vim"
 export SYSTEMD_EDITOR="/bin/vim"
-export PATH="${HOME}/.local/bin:${HOME}/bin:${PATH}"
 export VISUAL="/bin/vim"
 export PAGER="/bin/less"
-export LESS="-r"  # color support
+export SDCV_PAGER="/bin/less"
+## Paths
+export LOCAL_BIN="${HOME}/.local/bin"
+export MAILDIR="${HOME}/var/emails"
+export XDG_CONFIG_HOME="$HOME/.config"
 export LESSHISTFILE="$HOME/.cache/less.hist"
 export PYLINTHOME="$HOME/.cache/pylint.d"  # Directory to cache pylint results.
-export XDG_CONFIG_HOME="$HOME/.config"
 export R_LIBS_USER="$HOME/lib/R/"
 export R_PROFILE_USER="$HOME/.Rprofile"
-export R_DEFAULT_PACKAGES=NULL  # do not let R preload anything
-export GREP_COLOR='1;33'  # color grep output in yellow
 export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$HOME/lib/cpp/"
 export STARDICT_DATA_DIR="$HOME/var/stardict/dic"
+export PATH="${LOCAL_BIN}:${HOME}/bin:${PATH}"
+## others
+export LESS="-r"  # color support
+export R_DEFAULT_PACKAGES=NULL  # do not let R preload anything
+export GREP_COLOR='1;33'  # color grep output in yellow
 export SDCV_HISTSIZE=0
-export SDCV_PAGER="/bin/less"
 
 # export MATPLOTLIBRC="$HOME/.config/matplotlib/"
 # export PYTHONPATH="$HOME/lib/python/"

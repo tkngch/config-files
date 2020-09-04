@@ -1,24 +1,18 @@
-# Some dot files
-
+# Configuration Files
 
 ## Installation
+
 ```sh
-sh ./install.sh
+make install
 ```
-The above command will create symbolic links at home directory.
 
+The above command will create symbolic links at various places. To see what will
+be linked without actually creating links, run the following command:
 
-## Dependencies
-
-- .muttrc
-    - notmuch (http://notmuchmail.org/)
-
-- .vimrc
-    - Vundle (https://github.com/VundleVim/Vundle.vim)
-
-- .zshrc
-    - zsh-syntax-highlighting (https://github.com/zsh-users/zsh-syntax-highlighting)
-
+```sh
+make dryrun
+```
 
 ## License
+
 GPL v3.0

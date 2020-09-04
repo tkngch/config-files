@@ -1,2 +1,4 @@
-msmtprc
-getmail
+home/msmtprc
+home/notmuch*
+xdg_config/getmail
+.venv
