@@ -1,0 +1,11 @@
+#!/bin/bash
+
+containers=$(sudo docker ps -a -q)
+if [[ ${containers} != "" ]]; then
+    sudo docker stop ${containers}
+fi
+
+containers=$(sudo docker ps -a -q)
+if [[ ${containers} != "" ]]; then
+    sudo docker rm ${containers}
+fi

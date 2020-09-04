@@ -1,0 +1,9 @@
+#!/usr/bin/sh
+
+if [ -z "$1" ]; then
+    /usr/bin/R --no-save --no-restore
+else
+    # OUTFILE="$1out"
+    # /usr/bin/Rscript --no-save --no-restore "$1" !> "$OUTFILE"; /usr/bin/less "$OUTFILE"
+    /usr/bin/Rscript --no-save --no-restore "$@"
+fi

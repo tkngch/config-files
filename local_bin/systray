@@ -1,0 +1,8 @@
+#!/bin/sh -
+# Show the system notification tray with network manager applet.
+# The applet is killed on exit.
+
+nm-applet    2>&1 > /dev/null &
+stalonetray  2>&1 > /dev/null
+
+trap "killall nm-applet" EXIT

@@ -1,0 +1,19 @@
+#!/bin/sh
+# Open terminal emulator.
+
+if command -v alacritty > /dev/null; then
+    alacritty
+elif command -v xterm > /dev/null; then
+    xrdb -merge "${HOME}/.Xresources"
+    xterm
+elif [ -L "${HOME}/bin/st" ]; then
+    # suckless simple terminal
+    "${HOME}/bin/st" 2> /dev/null &
+elif command -v xfce4-terminal > /dev/null; then
+    xfce4-terminal
+else
+    # URXVT
+    xrdb -merge "${HOME}/.Xresources"
+    /usr/bin/urxvt 2> /dev/null &
+fi
+

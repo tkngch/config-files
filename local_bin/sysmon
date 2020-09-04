@@ -1,0 +1,3 @@
+#!/bin/sh
+
+dstat --time --cpu --top-cpu --mem --top-mem 60

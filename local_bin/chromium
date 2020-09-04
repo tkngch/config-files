@@ -1,0 +1,4 @@
+#!/bin/sh
+# Open Chromium within the sandbox.
+
+"${LOCAL_BIN}/sandbox" /usr/bin/chromium --no-sandbox 2> /dev/null &
