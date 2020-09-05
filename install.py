@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""Install the configuration files, by creating symbolic links.
-"""
+"""Install the configuration files, by creating symbolic links."""
 
 from argparse import ArgumentParser
 from argparse import Namespace
@@ -12,6 +11,7 @@ HERE = Path(__file__).resolve().parent
 
 
 def main() -> None:
+    """Entry point."""
     args = _parse_args()
 
     logging.basicConfig()
@@ -51,11 +51,13 @@ def _link_files_to_home(is_dryrun: bool) -> None:
 
     # notmuch configurations
     maildir = getenv("MAILDIR", None)
-    if maildir is None:
+    if maildir is None or not Path(maildir).exists():
         return
     for hook_path in src.joinpath("notmuch", "hooks").iterdir():
         _symlink(
-            hook_path, maildir.joinpath(".notmuch", "hooks", hook_path.name), is_dryrun
+            hook_path,
+            Path(maildir).joinpath(".notmuch", "hooks", hook_path.name),
+            is_dryrun,
         )
 
 

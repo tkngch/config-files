@@ -1,14 +1,16 @@
 #!/bin/sh
 # Open terminal emulator.
 
+test "$(command -v map_capslock_to_ctrl)" && map_capslock_to_ctrl
+
 if command -v alacritty > /dev/null; then
     alacritty
 elif command -v xterm > /dev/null; then
     xrdb -merge "${HOME}/.Xresources"
     xterm
-elif [ -L "${HOME}/bin/st" ]; then
+elif command -v st > /dev/null; then
     # suckless simple terminal
-    "${HOME}/bin/st" 2> /dev/null &
+    st 2> /dev/null &
 elif command -v xfce4-terminal > /dev/null; then
     xfce4-terminal
 else

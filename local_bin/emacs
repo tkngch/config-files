@@ -1,5 +1,7 @@
 #!/bin/bash
 
+test "$(command -v map_capslock_to_ctrl)" && map_capslock_to_ctrl
+
 # Allow Japanese input with fcitx.
 # https://wiki.archlinux.org/index.php/Fcitx#Emacs
 

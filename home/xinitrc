@@ -12,7 +12,6 @@ xset s 1200 1200  # Change screen save blank time to 20 minutes
 # xset s 0 0  # disable screen saver blanking
 
 # capslock as ctrl key
-xmodmap ~/.Xmodmap
 test "$(command -v map_capslock_to_ctrl)" && map_capslock_to_ctrl &
 
 # xbindkeys
@@ -54,7 +53,7 @@ exec_dwm() {
     # compositor, to fix some issues around window drawing and screen tearing.
     test "$(command -v picom)" && picom -C &
     test "$(command -v fcitx)" && fcitx -d
-    test "$(pgrep -x 'xset_status')" || "${HOME}/bin/xset_status" &
+    test "$(pgrep -x 'xset_status')" || "${LOCAL_BIN}/xset_status" &
 
     if test "$(command -v hsetroot)";
     then
