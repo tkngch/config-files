@@ -24,7 +24,7 @@ export R_LIBS_USER="$HOME/lib/R/"
 export R_PROFILE_USER="$HOME/.Rprofile"
 export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$HOME/lib/cpp/"
 export STARDICT_DATA_DIR="$HOME/var/stardict/dic"
-export PATH="${LOCAL_BIN}:${HOME}/bin:${PATH}"
+export PATH="${LOCAL_BIN}:${PATH}"
 ## others
 export LESS="-r"  # color support
 export R_DEFAULT_PACKAGES=NULL  # do not let R preload anything
