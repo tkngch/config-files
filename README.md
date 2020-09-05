@@ -1,5 +1,8 @@
 # Configuration Files
 
+The configuration files are organised by their link locations: for example, the
+files in "xdg_config" directory are linked to `XDG_CONFIG_HOME` directory.
+
 ## Installation
 
 ```sh
