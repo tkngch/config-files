@@ -1,6 +1,6 @@
 #!/usr/bin/bash
 
-databases=(${HOME}/var/passwords/*.kdbx)
+databases=(${HOME}/var/password*/*.kdbx)
 
 if [ -f ${databases[0]} ]; then
    keepassxc ${databases[0]}
