@@ -293,6 +293,8 @@
 (use-package lua-mode
   :ensure t)
 
+(use-package ess
+  :ensure t)
 
 (use-package vue-mode
   :ensure t)
