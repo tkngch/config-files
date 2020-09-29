@@ -38,7 +38,7 @@ export XMODIFIERS=@im=fcitx
 
 exec_awesome() {
     test "$(command -v fcitx)" && fcitx -d
-    test "$(command -v picom)" && picom -C &
+    test "$(command -v picom)" && picom -C --config ~/.config/picom/picom.conf &
     test "$(command -v nm-applet)" && nm-applet &
     # pulseaudio systray applet
     test "$(command -v pasystray)" && pasystray &

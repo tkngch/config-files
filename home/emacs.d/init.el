@@ -287,6 +287,9 @@
 (use-package pyvenv
   :ensure t)
 
+(use-package kotlin-mode
+  :ensure t)
+
 (use-package scala-mode
   :ensure t)
 
@@ -422,7 +425,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(elm-mode beacon all-the-icons dired-sidebar ivy lua-mode pyvenv magit vue-mode use-package scala-mode format-all flycheck evil)))
+   '(kotlin-mode elm-mode beacon all-the-icons dired-sidebar ivy lua-mode pyvenv magit vue-mode use-package scala-mode format-all flycheck evil)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
