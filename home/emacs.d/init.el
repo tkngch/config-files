@@ -21,8 +21,8 @@
 ;; `M-@` to select a word.
 ;; `M-h` to select a paragraph.
 ;; `M-g g` to go to line.
+;; `M-p` and `M-n` to scroll without moving the cursor. (not default. defined below.)
 ;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Moving-Point.html
-
 
 ;;; Code:
 
@@ -174,6 +174,10 @@
 (require 'use-package)
 
 ;; ---------------- KEY BINDINGS
+
+;; `M-p` and `M-n` to scroll without moving the cursor.
+(global-set-key "\M-n" "\C-u1\C-v")
+(global-set-key "\M-p" "\C-u1\M-v")
 
 ;; Enable EVIL (Extensible VI Layer) mode.
 ;; (use-package evil
