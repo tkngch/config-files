@@ -1,7 +1,6 @@
 ;;; init.el --- Emacs configuration file.
 
 ;;; Commentary:
-;; This is work in progress.  Expect frequent, breaking changes.
 
 ;;; Code:
 
@@ -20,6 +19,8 @@
 (setq scroll-preserve-screen-position t)
 ;; Disable popup on mouse hover on mode-line.
 (tooltip-mode -1)
+;; Inhibit the startup screen.
+(setq inhibit-startup-screen t)
 
 ;; No blinking cursor.
 (blink-cursor-mode 0)
@@ -34,14 +35,11 @@
 (setq auto-save-file-name-transforms
       `((".*" ,temporary-file-directory t)))
 
+;; Do not create a lock file, whose name starts with .#
+(setq create-lockfiles nil)
+
 ;; Line-wrap at 80 columns.
 (setq-default fill-column 80)
-
-;; display line numbers and column numbers in all modes
-(setq line-number-mode t)
-(setq column-number-mode t)
-;; Display the relative line number on the left.
-(setq display-line-numbers 'relative)
 
 ;; Use spaces instead of tabs when indenting.
 (setq-default indent-tabs-mode nil)
@@ -57,7 +55,6 @@
   (set-face-attribute 'default nil :font "Source Code Pro")
   )
 (set-face-attribute 'default nil :height 94)
-
 
 
 ;; ========================= COPY & PASTE
@@ -180,7 +177,10 @@
   :ensure t
   :init (progn
           ;; Keep default Emacs bindings in insert state.
-          (setq evil-disable-insert-state-bindings t))
+          (setq evil-disable-insert-state-bindings t)
+          ;; Determine undo steps with Emacs heuristics, without aggregation.
+          (setq evil-want-fine-undo t)
+          )
   :config
   (evil-mode 1))
 
@@ -200,11 +200,11 @@
 ;; ---------------- PROGRAMMING SUPPORT
 
 ;; Use the completion framework.
-(use-package company
-  :ensure t
-  :config (progn
-            (global-company-mode 1)
-            (setq company-idle-delay 0.01)))
+;; (use-package company
+;;   :ensure t
+;;   :config (progn
+;;             (global-company-mode 1)
+;;             (setq company-idle-delay 0.01)))
 
 ;; Whenever the window scrolls a light will shine on top of your cursor so you
 ;; know where it is.
@@ -254,28 +254,30 @@
 ;;           (setq neo-theme 'arrow)
 ;;           (setq neo-default-system-application nil)))
 
-;; (use-package eglot
-;;   :ensure t
-;;   :init (progn
-;;           (add-hook 'scala-mode-hook 'eglot-ensure)))
-
-(use-package lsp-mode
+(use-package eglot
   :ensure t
   :init (progn
-          (setq-default lsp-keymap-prefix "s-l")
-          (setq-default lsp-completion-provider :capf)
-          ;; Performance tuning for lsp-mode
-          (setq gc-cons-threshold 100000000)
-          (setq read-process-output-max (* 1024 1024)) ;; 1mb
-          )
-  :hook (
-         (python-mode . lsp)
-         (scala-mode . lsp)
-         )
-  :commands lsp)
+          (add-hook 'scala-mode-hook 'eglot-ensure)
+          (add-hook 'python-mode-hook 'eglot-ensure)))
 
-(use-package lsp-metals
-  :ensure t)
+;; (use-package lsp-mode
+;;   :ensure t
+;;   :init (progn
+;;           (setq-default lsp-keymap-prefix "s-l")
+;;           (setq-default lsp-completion-provider :capf)
+;;           ;; Performance tuning for lsp-mode
+;;           (setq gc-cons-threshold 100000000)
+;;           (setq read-process-output-max (* 1024 1024)) ;; 1mb
+;;           (setq lsp-enable-file-watchers nil)
+;;           )
+;;   :hook (
+;;          (python-mode . lsp)
+;;          (scala-mode . lsp)
+;;          )
+;;   :commands lsp)
+
+;; (use-package lsp-metals
+;;   :ensure t)
 
 ;; Use code-linter.
 (use-package flycheck
@@ -291,22 +293,18 @@
   :ensure t)
 
 (use-package kotlin-mode
-  :ensure t)
+  :ensure t
+  :init (add-hook 'kotlin-mode-hook (lambda() (setq fill-column 100))))
 
 (use-package scala-mode
-  :ensure t)
+  :ensure t
+  :init (add-hook 'scala-mode-hook (lambda() (setq fill-column 100))))
 
 (use-package lua-mode
   :ensure t)
 
-;; (use-package elm-mode
-;;   :ensure t)
-
 (use-package ess
   :ensure t)
-
-;; (use-package vue-mode
-;;   :ensure t)
 
 (use-package markdown-mode
   :ensure t
@@ -324,7 +322,6 @@
          (scala-mode . format-all-mode)
          (markdown-mode . format-all-mode)
          (gfm-mode . format-all-mode)
-         ;; (vue-mode . format-all-mode)
          ))
 
 (use-package magit

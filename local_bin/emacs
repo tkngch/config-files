@@ -13,8 +13,8 @@ test "$(command -v map_capslock_to_ctrl)" && map_capslock_to_ctrl
 # and locale-gen should be run as su.
 
 if locale -a | grep -q -e '^ja_JP.utf8'; then
-    LC_CTYPE=ja_JP.UTF-8 /usr/bin/emacs &
+    LC_CTYPE=ja_JP.UTF-8 /usr/bin/emacs "$@" &
 else
-    /usr/bin/emacs &
+    /usr/bin/emacs "$@" &
 fi
 
