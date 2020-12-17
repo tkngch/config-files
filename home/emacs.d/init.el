@@ -299,14 +299,14 @@
 (use-package lua-mode
   :ensure t)
 
-(use-package elm-mode
-  :ensure t)
+;; (use-package elm-mode
+;;   :ensure t)
 
 (use-package ess
   :ensure t)
 
-(use-package vue-mode
-  :ensure t)
+;; (use-package vue-mode
+;;   :ensure t)
 
 (use-package markdown-mode
   :ensure t
@@ -324,7 +324,7 @@
          (scala-mode . format-all-mode)
          (markdown-mode . format-all-mode)
          (gfm-mode . format-all-mode)
-         (vue-mode . format-all-mode)
+         ;; (vue-mode . format-all-mode)
          ))
 
 (use-package magit
