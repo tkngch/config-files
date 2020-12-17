@@ -1,6 +1,28 @@
 ;;; init.el --- Emacs configuration file.
 
 ;;; Commentary:
+;; `C-y M-y M-y M-y ...` goes through kill ring.
+;; `M-x rgrep` looks for files containig search word.
+;; `M-;` to comment out a section of code.
+;; `M-/` to autocomplete with dabbrev.
+;; `M-<tab>` to autocomplete at point, typically with lsp.
+;; `M-q` to format a paragraph. The column width is determined by 'fill-column.
+;; ‘C-q <tab>’ to insert a tab.
+;; `M-x revert-buffer` to reload the file.
+;; 'C-SPC' to start selection.
+;; `M-w` to copy the selected.
+;; `C-w` to cut the selected.
+;; `C-k` to cut rest of line.
+;; `C-x C-s` to save current buffer.
+;; `C-x s` to save all buffers.
+;; `C-/` to undo. `M-x undo-only`
+;; `C-?` to redo. 'M-x undo-redo`
+;; `C-x 4 f` to open a file in a new window.
+;; `M-@` to select a word.
+;; `M-h` to select a paragraph.
+;; `M-g g` to go to line.
+;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Moving-Point.html
+
 
 ;;; Code:
 
@@ -153,36 +175,17 @@
 
 ;; ---------------- KEY BINDINGS
 
-;; `C-y M-y M-y M-y ...` goes through kill ring.
-;; `M-x rgrep` looks for files containig search word.
-;; `M-;` to comment out a section of code.
-;; `M-/` to autocomplete with dabbrev.
-;; `M-q` to format a paragraph. The column width is determined by 'fill-column.
-;; ‘C-q <tab>’ to insert a tab.
-;; `M-x revert-buffer` to reload the file.
-;; `M-h` to select a paragraph/function.
-;; 'C-SPC' to start selection.
-;; `M-w` to copy the selected.
-;; `C-w` to cut the selected.
-;; `C-k` to cut rest of line.
-;; `C-x C-s` to save current buffer.
-;; `C-x s` to save all buffers.
-;; `C-/` to undo. `M-x undo-only`
-;; `C-?` to redo. 'M-x undo-redo`
-;; `C-x 4 f` to open a file in a new window.
-;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Moving-Point.html
-
 ;; Enable EVIL (Extensible VI Layer) mode.
-(use-package evil
-  :ensure t
-  :init (progn
-          ;; Keep default Emacs bindings in insert state.
-          (setq evil-disable-insert-state-bindings t)
-          ;; Determine undo steps with Emacs heuristics, without aggregation.
-          (setq evil-want-fine-undo t)
-          )
-  :config
-  (evil-mode 1))
+;; (use-package evil
+;;   :ensure t
+;;   :init (progn
+;;           ;; Keep default Emacs bindings in insert state.
+;;           (setq evil-disable-insert-state-bindings t)
+;;           ;; Determine undo steps with Emacs heuristics, without aggregation.
+;;           (setq evil-want-fine-undo t)
+;;           )
+;;   :config
+;;   (evil-mode 1))
 
 ;; Use which-key to display the key bindings in a popup.
 ;; (which-key-mode) in the config enables the minor mode.
@@ -334,12 +337,12 @@
 
 ;; Built-in themes are /usr/share/emacs/26.3/etc/themes
 ;; (load-theme 'adwaita)
-(load-theme 'deeper-blue)
+;; (load-theme 'deeper-blue)
 ;; (load-theme 'dichromacy)
 ;; (load-theme 'leuven)
 ;; (load-theme 'light-blue)
 ;; (load-theme 'manoj-dark)
-;; (load-theme 'misterioso)
+(load-theme 'misterioso)
 ;; (load-theme 'tango-dark)
 ;; (load-theme 'tango)
 ;; (load-theme 'tsdh-dark)
@@ -400,22 +403,22 @@
               )
 
 ;; Colors are taken from the nord theme: https://www.nordtheme.com/
-(set-face-attribute 'mode-line nil
-                    :background "#a3be8c"
-                    :foreground "#3b4252"
-                    :box '(:line-width 6 :color "#a3be8c")
-                    :overline nil
-                    :underline nil)
-;; M-x list-faces-display
+;; (set-face-attribute 'mode-line nil
+;;                     :background "#a3be8c"
+;;                     :foreground "#3b4252"
+;;                     :box '(:line-width 6 :color "#a3be8c")
+;;                     :overline nil
+;;                     :underline nil)
+;; ;; M-x list-faces-display
 (set-face-attribute 'which-func nil
                     :foreground "#4c566a")
 
-(set-face-attribute 'mode-line-inactive nil
-                    :background "#3b4252"
-                    :foreground "#d8dee9"
-                    :box '(:line-width 6 :color "#3b4252")
-                    :overline nil
-                    :underline nil)
+;; (set-face-attribute 'mode-line-inactive nil
+;;                     :background "#3b4252"
+;;                     :foreground "#d8dee9"
+;;                     :box '(:line-width 6 :color "#3b4252")
+;;                     :overline nil
+;;                     :underline nil)
 
 
 ;; ------------------------ MISC
@@ -425,7 +428,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(kotlin-mode elm-mode beacon all-the-icons dired-sidebar ivy lua-mode pyvenv magit vue-mode use-package scala-mode format-all flycheck evil)))
+   '(kotlin-mode beacon all-the-icons dired-sidebar ivy lua-mode pyvenv magit use-package scala-mode format-all flycheck evil)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
