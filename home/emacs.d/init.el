@@ -78,6 +78,8 @@
   )
 (set-face-attribute 'default nil :height 94)
 
+;; Use ibuffer instead of buffer menu
+(global-set-key (kbd "C-x C-b") 'ibuffer)
 
 ;; ========================= COPY & PASTE
 ;; Use the PRIMARY selection (mouse-selected) *and* the CLIPBOARD selection
