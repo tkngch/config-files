@@ -16,7 +16,8 @@ my_hdr Bcc: tkngch@runbox.com
 
 # alternates "(t\.noguchi|takao\.noguchi)\@(warwick|ucl|qmul)\.ac\.uk|tkngch\@(hotmail|gmx|gmail)\.com"
 
-set editor="/usr/bin/vim +8 -f"
+# set editor="/usr/bin/vim +8 -f"
+set editor="~/.local/bin/emacs"
 set include=ask-yes
 set mail_check=60
 set quote_regexp="^>"  # some people just use '>' - *sigh*

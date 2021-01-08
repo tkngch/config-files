@@ -9,7 +9,7 @@ HISTFILE=$HOME/.cache/zsh.hist
 ## Default applications
 export TERM="xterm-256color"
 export BROWSER=""
-export EDITOR="/bin/vim"
+export EDITOR="emacs"
 export SYSTEMD_EDITOR="/bin/vim"
 export VISUAL="/bin/vim"
 export PAGER="/bin/less"

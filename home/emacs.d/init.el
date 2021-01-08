@@ -263,6 +263,7 @@
 ;;           (setq neo-theme 'arrow)
 ;;           (setq neo-default-system-application nil)))
 
+(global-eldoc-mode -1)
 (use-package eglot
   :ensure t
   :init (progn
@@ -272,8 +273,6 @@
 ;; (use-package lsp-mode
 ;;   :ensure t
 ;;   :init (progn
-;;           (setq-default lsp-keymap-prefix "s-l")
-;;           (setq-default lsp-completion-provider :capf)
 ;;           ;; Performance tuning for lsp-mode
 ;;           (setq gc-cons-threshold 100000000)
 ;;           (setq read-process-output-max (* 1024 1024)) ;; 1mb

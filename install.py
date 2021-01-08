@@ -23,6 +23,7 @@ def main() -> None:
     _link_files_to_config(args.is_dryrun)
     _link_files_to_local_applications(args.is_dryrun)
     _link_files_to_local_bin(args.is_dryrun)
+    _link_files_to_user_systemd(args.is_dryrun)
 
 
 def _parse_args() -> Namespace:
@@ -87,6 +88,11 @@ def _link_files_to_local_bin(is_dryrun: bool) -> None:
         logging.info("Setting 700 permission %s.", dest_path.as_posix())
         if not is_dryrun:
             dest_path.chmod(0o700)
+
+def _link_files_to_user_systemd(is_dryrun: bool) -> None:
+    dest = Path.home().joinpath(".local", "share", "systemd", "user")
+    for path in HERE.joinpath("systemd_services").iterdir():
+        _symlink(path, dest.joinpath(path.name), is_dryrun)
 
 
 def _symlink(source: Path, destination: Path, is_dryrun: bool) -> bool:
