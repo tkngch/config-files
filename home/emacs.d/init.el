@@ -117,6 +117,10 @@
 ;;       ;; Disable searching in other directories when there are no matches.
 ;;       ido-auto-merge-work-directories-length -1)
 ;; (ido-mode t)
+(require 'icomplete)
+(icomplete-mode t)
+;; Do not hide common prefix from completion candidates.
+(setq icomplete-hide-common-prefix nil)
 
 ;; Word completion.
 (require 'dabbrev)
@@ -221,40 +225,40 @@
   :ensure t
   :config (beacon-mode 1))
 
-(use-package all-the-icons
-  :ensure t)
+;; (use-package all-the-icons
+;;   :ensure t)
 ;; To install icons, `M-x all-the-icons-install-fonts`.
 
 ;; Filename completion.
 ;; Much nicer than ido-mode.
-(use-package counsel
-  :ensure t
-  :init (progn
-          (setq ivy-count-format "(%d/%d) ")
-          (setq ivy-extra-directories ())  ;; Remove ./ and ../ from find-file completion.
-          (global-set-key (kbd "C-s") 'swiper-isearch)
-          (global-set-key (kbd "M-x") 'counsel-M-x)
-          (global-set-key (kbd "C-x C-f") 'counsel-find-file)
-          (global-set-key (kbd "M-y") 'counsel-yank-pop)
-          (global-set-key (kbd "<f1> f") 'counsel-describe-function)
-          (global-set-key (kbd "<f1> v") 'counsel-describe-variable)
-          (global-set-key (kbd "<f1> l") 'counsel-find-library)
-          (global-set-key (kbd "<f2> i") 'counsel-info-lookup-symbol)
-          (global-set-key (kbd "<f2> u") 'counsel-unicode-char)
-          (global-set-key (kbd "<f2> j") 'counsel-set-variable)
-          (global-set-key (kbd "C-x b") 'ivy-switch-buffer)
-          (global-set-key (kbd "C-c v") 'ivy-push-view)
-          (global-set-key (kbd "C-c V") 'ivy-pop-view)
-          )
-  :config (ivy-mode 1))
+;; (use-package counsel
+;;   :ensure t
+;;   :init (progn
+;;           (setq ivy-count-format "(%d/%d) ")
+;;           (setq ivy-extra-directories ())  ;; Remove ./ and ../ from find-file completion.
+;;           (global-set-key (kbd "C-s") 'swiper-isearch)
+;;           (global-set-key (kbd "M-x") 'counsel-M-x)
+;;           (global-set-key (kbd "C-x C-f") 'counsel-find-file)
+;;           (global-set-key (kbd "M-y") 'counsel-yank-pop)
+;;           (global-set-key (kbd "<f1> f") 'counsel-describe-function)
+;;           (global-set-key (kbd "<f1> v") 'counsel-describe-variable)
+;;           (global-set-key (kbd "<f1> l") 'counsel-find-library)
+;;           (global-set-key (kbd "<f2> i") 'counsel-info-lookup-symbol)
+;;           (global-set-key (kbd "<f2> u") 'counsel-unicode-char)
+;;           (global-set-key (kbd "<f2> j") 'counsel-set-variable)
+;;           (global-set-key (kbd "C-x b") 'ivy-switch-buffer)
+;;           (global-set-key (kbd "C-c v") 'ivy-push-view)
+;;           (global-set-key (kbd "C-c V") 'ivy-pop-view)
+;;           )
+;;   :config (ivy-mode 1))
 
-(use-package all-the-icons-ivy
-  :ensure t
-  :init (add-hook 'after-init-hook 'all-the-icons-ivy-setup))
+;; (use-package all-the-icons-ivy
+;;   :ensure t
+;;   :init (add-hook 'after-init-hook 'all-the-icons-ivy-setup))
 
-(use-package all-the-icons-dired
-  :ensure t
-  :init (add-hook 'dired-mode-hook 'all-the-icons-dired-mode))
+;; (use-package all-the-icons-dired
+;;   :ensure t
+;;   :init (add-hook 'dired-mode-hook 'all-the-icons-dired-mode))
 
 ;; (use-package neotree
 ;;   :ensure t
@@ -263,10 +267,11 @@
 ;;           (setq neo-theme 'arrow)
 ;;           (setq neo-default-system-application nil)))
 
-(global-eldoc-mode -1)
 (use-package eglot
   :ensure t
   :init (progn
+          ;; Disable documentation on hover
+	  (setq eglot-ignored-server-capabilites '(:hoverProvider))
           (add-hook 'scala-mode-hook 'eglot-ensure)
           (add-hook 'python-mode-hook 'eglot-ensure)))
 
