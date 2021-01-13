@@ -80,6 +80,29 @@
 
 ;; Use ibuffer instead of buffer menu
 (global-set-key (kbd "C-x C-b") 'ibuffer)
+(setq-default ibuffer-formats
+              '(
+                (;; the default format
+                 mark  ;; the current mark if any
+                 modified  ;; the modification status
+                 read-only  ;; read-only status
+                 locked
+                 " "  ;; space to separate the elements
+                 (name 70 70 :left :elide)  ;; name of buffer, up to 70 chars.
+                 " "
+                 (mode 16 16 :left :elide)
+                 )
+                (;; alternative format. To be toggled with ` key.
+                 mark
+                 modified
+                 read-only
+                 locked
+                 " "
+                 (name 20 20 :left :elide)
+                 " "
+                 filename-and-process
+                 )))
+
 
 ;; ========================= COPY & PASTE
 ;; Use the PRIMARY selection (mouse-selected) *and* the CLIPBOARD selection
