@@ -41,8 +41,6 @@
 (setq scroll-preserve-screen-position t)
 ;; Disable popup on mouse hover on mode-line.
 (tooltip-mode -1)
-;; Inhibit the startup screen.
-(setq inhibit-startup-screen t)
 
 ;; No blinking cursor.
 (blink-cursor-mode 0)
@@ -88,9 +86,10 @@
                  read-only  ;; read-only status
                  locked
                  " "  ;; space to separate the elements
-                 (name 70 70 :left :elide)  ;; name of buffer, up to 70 chars.
-                 " "
-                 (mode 16 16 :left :elide)
+                 name
+                 ;; (name 70 70 :left :elide)  ;; name of buffer, up to 70 chars.
+                 ;; " "
+                 ;; (mode 16 16 :left :elide)
                  )
                 (;; alternative format. To be toggled with ` key.
                  mark
@@ -98,11 +97,12 @@
                  read-only
                  locked
                  " "
-                 (name 20 20 :left :elide)
-                 " "
+                 ;; (name 20 20 :left :elide)
+                 ;; " "
                  filename-and-process
                  )))
 
+(add-to-list 'auto-mode-alist '("^/tmp/neomutt-" . mail-mode))
 
 ;; ========================= COPY & PASTE
 ;; Use the PRIMARY selection (mouse-selected) *and* the CLIPBOARD selection
@@ -133,18 +133,6 @@
 
 
 ;; ======================== COMPLETION
-;; Filename completion.
-;; (require 'ido)
-;; (setq ido-enable-flex-matching t
-;;       ido-everywhere t
-;;       ;; Disable searching in other directories when there are no matches.
-;;       ido-auto-merge-work-directories-length -1)
-;; (ido-mode t)
-(require 'icomplete)
-(icomplete-mode t)
-;; Do not hide common prefix from completion candidates.
-(setq icomplete-hide-common-prefix nil)
-
 ;; Word completion.
 (require 'dabbrev)
 ;; Do not ignore case in matches and searches.
@@ -208,28 +196,6 @@
 (global-set-key "\M-n" "\C-u1\C-v")
 (global-set-key "\M-p" "\C-u1\M-v")
 
-;; Enable EVIL (Extensible VI Layer) mode.
-;; (use-package evil
-;;   :ensure t
-;;   :init (progn
-;;           ;; Keep default Emacs bindings in insert state.
-;;           (setq evil-disable-insert-state-bindings t)
-;;           ;; Determine undo steps with Emacs heuristics, without aggregation.
-;;           (setq evil-want-fine-undo t)
-;;           )
-;;   :config
-;;   (evil-mode 1))
-
-;; Use which-key to display the key bindings in a popup.
-;; (which-key-mode) in the config enables the minor mode.
-;; (use-package which-key
-;;   :ensure t
-;;   :config (progn (which-key-mode)
-;;                  ;; Set the time delay (in seconds) for the which-key popup to
-;;                  ;; appear. A value of zero might cause issues so a non-zero
-;;                  ;; value is recommended.
-;;                  (setq which-key-idle-delay 1)))
-
 ;; ---------------- EMAIL
 (autoload 'notmuch "notmuch" "notmuch mail" t)
 
@@ -242,6 +208,28 @@
 ;;             (global-company-mode 1)
 ;;             (setq company-idle-delay 0.01)))
 
+
+(use-package icomplete-vertical
+  :ensure t
+  :demand t
+  :custom
+  (completion-styles '(partial-completion substring))
+  (completion-category-overrides '((file (styles basic substring))))
+  (read-file-name-completion-ignore-case t)
+  (read-buffer-completion-ignore-case t)
+  (completion-ignore-case t)
+  :config
+  (icomplete-mode)
+  (icomplete-vertical-mode)
+  :bind (:map icomplete-minibuffer-map
+              ("<down>" . icomplete-forward-completions)
+              ("C-n" . icomplete-forward-completions)
+              ("<up>" . icomplete-backward-completions)
+              ("C-p" . icomplete-backward-completions)
+              ("C-v" . icomplete-vertical-toggle)))
+
+
+
 ;; Whenever the window scrolls a light will shine on top of your cursor so you
 ;; know where it is.
 (use-package beacon
@@ -253,7 +241,6 @@
 ;; To install icons, `M-x all-the-icons-install-fonts`.
 
 ;; Filename completion.
-;; Much nicer than ido-mode.
 ;; (use-package counsel
 ;;   :ensure t
 ;;   :init (progn
@@ -283,13 +270,6 @@
 ;;   :ensure t
 ;;   :init (add-hook 'dired-mode-hook 'all-the-icons-dired-mode))
 
-;; (use-package neotree
-;;   :ensure t
-;;   :init (progn
-;;           (evil-set-initial-state 'neotree-mode 'emacs)
-;;           (setq neo-theme 'arrow)
-;;           (setq neo-default-system-application nil)))
-
 (use-package eglot
   :ensure t
   :init (progn
@@ -318,7 +298,9 @@
 ;; Use code-linter.
 (use-package flycheck
   :ensure t
-  :init (global-flycheck-mode))
+  ;; :init (global-flycheck-mode)
+  ;; flycheck does not work great for some languages (e.g., Scala). So do not enable globally.
+  :hook ((python-mode . flycheck-mode)))
 
 ;; Emacs has build-in python mode. To use with venv, activate venv and launch
 ;; emacs from within venv.
@@ -355,10 +337,12 @@
   :ensure t
   :hook ((emacs-lisp-mode . format-all-mode)
          (python-mode . format-all-mode)
-         (scala-mode . format-all-mode)
          (markdown-mode . format-all-mode)
          (gfm-mode . format-all-mode)
          ))
+
+;; Disable the built-in vc-mode for version control
+(setq-default vc-handled-backends nil)
 
 (use-package magit
   :ensure t
@@ -384,74 +368,44 @@
 ;; (load-theme 'whiteboard)
 ;; (load-theme 'wombat)
 
-;; Hide the minor mode indications from the mode line.
-;; (define-minor-mode minor-mode-blackout-mode
-;;   "Hides minor modes from the mode line."
-;;   t)
-
-;; (catch 'done
-;;   (mapc (lambda (x)
-;;           (when (and (consp x)
-;;                      (equal (cadr x) '("" minor-mode-alist)))
-;;             (let ((original (copy-sequence x)))
-;;               (setcar x 'minor-mode-blackout-mode)
-;;               (setcdr x (list "" original)))
-;;             (throw 'done t)))
-;;         mode-line-modes))
-
-;; ;; Toggle the minor mode indication on/off.
-;; (global-set-key (kbd "C-c m") 'minor-mode-blackout-mode)
-
-;; Display the current function name in the mode line.
-(require 'which-func)
-(which-function-mode t)
-(setq which-func-unknown "∅")
-
-;; (setq-default display-line-numbers 'relative)
-
-(setq-default mode-line-format
-              '(
-                "%e"
-                mode-line-front-space
-                mode-line-client
-                mode-line-frame-identification
-                ;; (:eval (all-the-icons-icon-for-buffer))
-                ;; " "
-                (:eval (propertize "%b" 'face 'bold))
-                " "
-                mode-line-modified
-                " "
-                "(row: %03l; col: %02C)"
-                "   "
-                (which-function-mode (#1="" which-func-format " "))
-                (global-mode-string (#1# global-mode-string " "))
-                (:eval (propertize
-                        " " 'display
-                        `((space :align-to (- (+ right right-fringe right-margin)
-                                              ,(+ 2 (string-width mode-name)))))))
-                ;; mode-line-modes
-                "%m"
-                mode-line-end-spaces
-                )
-              )
+;; (setq-default mode-line-format
+;;               '(
+;;                 "%e"
+;;                 mode-line-front-space
+;;                 mode-line-client
+;;                 mode-line-frame-identification
+;;                 (:eval (propertize "%b" 'face 'bold))
+;;                 " "
+;;                 mode-line-modified
+;;                 " "
+;;                 "(row: %03l; col: %02C)"
+;;                 "   "
+;;                 (global-mode-string (#1="" global-mode-string " "))
+;;                 (:eval (propertize
+;;                         " " 'display
+;;                         `((space :align-to (- (+ right right-fringe right-margin)
+;;                                               ,(+ 2 (string-width mode-name)))))))
+;;                 ;; mode-line-modes
+;;                 "%m"
+;;                 mode-line-end-spaces
+;;                 )
+;;               )
 
 ;; Colors are taken from the nord theme: https://www.nordtheme.com/
-;; (set-face-attribute 'mode-line nil
-;;                     :background "#a3be8c"
-;;                     :foreground "#3b4252"
-;;                     :box '(:line-width 6 :color "#a3be8c")
-;;                     :overline nil
-;;                     :underline nil)
-;; ;; M-x list-faces-display
-(set-face-attribute 'which-func nil
-                    :foreground "#4c566a")
+(set-face-attribute 'mode-line nil
+                    :background "#a3be8c"
+                    :foreground "#3b4252"
+                    :box '(:line-width 6 :color "#a3be8c")
+                    :overline nil
+                    :underline nil)
+;; M-x list-faces-display
 
-;; (set-face-attribute 'mode-line-inactive nil
-;;                     :background "#3b4252"
-;;                     :foreground "#d8dee9"
-;;                     :box '(:line-width 6 :color "#3b4252")
-;;                     :overline nil
-;;                     :underline nil)
+(set-face-attribute 'mode-line-inactive nil
+                    :background "#3b4252"
+                    :foreground "#d8dee9"
+                    :box '(:line-width 6 :color "#3b4252")
+                    :overline nil
+                    :underline nil)
 
 
 ;; ------------------------ MISC
