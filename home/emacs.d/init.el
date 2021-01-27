@@ -40,7 +40,10 @@
 (setq-default vc-handled-backends nil)
 ;; Disable automatic package loading, for slightly faster startup.
 (setq-default package-enable-at-startup nil)
-
+;; Inhibit the startup screen.
+(setq inhibit-startup-screen t)
+;; Inhibit the buffer list display when more than 2 files are loaded.
+(setq inhibit-startup-buffer-menu t)
 
 ;; keyboard scroll one line at a time
 (setq scroll-step 1)
@@ -175,6 +178,7 @@
 (add-hook 'eshell-mode-hook (lambda () (setq show-trailing-whitespace nil)))
 (add-hook 'term-mode-hook (lambda () (setq show-trailing-whitespace nil)))
 (add-hook 'compilation-mode-hook (lambda () (setq show-trailing-whitespace nil)))
+(add-hook 'calendar-mode-hook (lambda () (setq show-trailing-whitespace nil)))
 
 ;; Enable the continuous scrolling in the dov-view mode.
 (setq-default doc-view-continuous t)
@@ -280,7 +284,7 @@
   :ensure t
   :init (progn
           ;; Disable documentation on hover
-	  (setq eglot-ignored-server-capabilites '(:hoverProvider))
+          (setq eglot-ignored-server-capabilites '(:hoverProvider))
           (add-hook 'scala-mode-hook 'eglot-ensure)
           (add-hook 'python-mode-hook 'eglot-ensure)))
 
@@ -362,14 +366,14 @@
 ;; (load-theme 'leuven)
 ;; (load-theme 'light-blue)
 ;; (load-theme 'manoj-dark)
-(load-theme 'misterioso)
+;; (load-theme 'misterioso)
 ;; (load-theme 'tango-dark)
 ;; (load-theme 'tango)
 ;; (load-theme 'tsdh-dark)
 ;; (load-theme 'tsdh-light)
 ;; (load-theme 'wheatgrass)
 ;; (load-theme 'whiteboard)
-;; (load-theme 'wombat)
+(load-theme 'wombat)
 
 ;; (setq-default mode-line-format
 ;;               '(
