@@ -32,6 +32,16 @@
 (menu-bar-mode -1)
 ;; Disable the scrollbar on the side.
 (scroll-bar-mode -1)
+;; Disable popup on mouse hover on mode-line.
+(tooltip-mode -1)
+;; Disable flymake mode (builtin syntax checker). Use flycheck instead.
+(flymake-mode -1)
+;; Disable the built-in vc-mode for version control
+(setq-default vc-handled-backends nil)
+;; Disable automatic package loading, for slightly faster startup.
+(setq-default package-enable-at-startup nil)
+
+
 ;; keyboard scroll one line at a time
 (setq scroll-step 1)
 ;; Do not recenter point (cursor) when it moves off screen for smooth scrolling.
@@ -39,8 +49,6 @@
 ;; Let point keep its screen position when scrolling, so that `C-v` `M-v`
 ;; sequence brings back point where it was.
 (setq scroll-preserve-screen-position t)
-;; Disable popup on mouse hover on mode-line.
-(tooltip-mode -1)
 
 ;; No blinking cursor.
 (blink-cursor-mode 0)
@@ -175,8 +183,6 @@
 ;; ================ PACKAGE CONFIGURATION
 ;; Load the functions and variables defined in `package`.
 (require 'package)
-;; Disable automatic package loading, for slightly faster startup.
-(setq package-enable-at-startup nil)
 ;; Add MELPA to the list of package archives.
 (add-to-list 'package-archives
              '("melpa" . "https://melpa.org/packages/"))
@@ -340,9 +346,6 @@
          (markdown-mode . format-all-mode)
          (gfm-mode . format-all-mode)
          ))
-
-;; Disable the built-in vc-mode for version control
-(setq-default vc-handled-backends nil)
 
 (use-package magit
   :ensure t
