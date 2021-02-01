@@ -34,8 +34,6 @@
 (scroll-bar-mode -1)
 ;; Disable popup on mouse hover on mode-line.
 (tooltip-mode -1)
-;; Disable flymake mode (builtin syntax checker). Use flycheck instead.
-(flymake-mode -1)
 ;; Disable the built-in vc-mode for version control
 (setq-default vc-handled-backends nil)
 ;; Disable automatic package loading, for slightly faster startup.
@@ -169,16 +167,16 @@
 ;; automatically revert buffers when files change
 (global-auto-revert-mode 1)
 
-;; Show trailing whitespaces.
-(require 'whitespace)
-(setq-default whitespace-style '(face trailing tabs))
-(setq-default show-trailing-whitespace t)
-(global-whitespace-mode)
-;; Don't show whitespaces in certain major modes.
-(add-hook 'eshell-mode-hook (lambda () (setq show-trailing-whitespace nil)))
-(add-hook 'term-mode-hook (lambda () (setq show-trailing-whitespace nil)))
-(add-hook 'compilation-mode-hook (lambda () (setq show-trailing-whitespace nil)))
-(add-hook 'calendar-mode-hook (lambda () (setq show-trailing-whitespace nil)))
+;; ;; Show trailing whitespaces.
+;; (require 'whitespace)
+;; (setq-default whitespace-style '(face trailing tabs))
+;; (setq-default show-trailing-whitespace t)
+;; (global-whitespace-mode)
+;; ;; Don't show whitespaces in certain major modes.
+;; (add-hook 'eshell-mode-hook (lambda () (setq show-trailing-whitespace nil)))
+;; (add-hook 'term-mode-hook (lambda () (setq show-trailing-whitespace nil)))
+;; (add-hook 'compilation-mode-hook (lambda () (setq show-trailing-whitespace nil)))
+;; (add-hook 'calendar-mode-hook (lambda () (setq show-trailing-whitespace nil)))
 
 ;; Enable the continuous scrolling in the dov-view mode.
 (setq-default doc-view-continuous t)
@@ -341,6 +339,13 @@
          ("\\.md\\'" . markdown-mode)
          ("\\.markdown\\'" . markdown-mode)))
 
+(use-package yaml-mode
+  :ensure t
+  :mode (("\\.yml\\'" . yaml-mode)))
+
+(use-package dockerfile-mode
+  :ensure t)
+
 ;; Use code-formatter. To auto-format on save, we use the minor mode
 ;; format-all-mode. This minor mode is enabled individually for each major mode.
 (use-package format-all
@@ -361,7 +366,7 @@
 
 ;; Built-in themes are /usr/share/emacs/26.3/etc/themes
 ;; (load-theme 'adwaita)
-;; (load-theme 'deeper-blue)
+(load-theme 'deeper-blue)
 ;; (load-theme 'dichromacy)
 ;; (load-theme 'leuven)
 ;; (load-theme 'light-blue)
@@ -373,7 +378,7 @@
 ;; (load-theme 'tsdh-light)
 ;; (load-theme 'wheatgrass)
 ;; (load-theme 'whiteboard)
-(load-theme 'wombat)
+;; (load-theme 'wombat)
 
 ;; (setq-default mode-line-format
 ;;               '(
