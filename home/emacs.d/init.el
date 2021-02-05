@@ -204,6 +204,11 @@
 (global-set-key "\M-n" "\C-u1\C-v")
 (global-set-key "\M-p" "\C-u1\M-v")
 
+(use-package undo-tree
+  :ensure t
+  :config (global-undo-tree-mode))
+
+
 ;; ---------------- EMAIL
 (autoload 'notmuch "notmuch" "notmuch mail" t)
 

@@ -227,8 +227,20 @@ unsetopt beep
 ## disable XON/XOFF flow control (^s/^q)
 stty -ixon
 
-## activate zsh-syntax-highlighting
-source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+if [[ -d /usr/share/zsh/plugins/zsh-syntax-highlighting ]]; then
+    ## activate zsh-syntax-highlighting
+    source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+fi
+
+if [[ -d /usr/share/fzf ]]; then
+    # Enable fzf keybindings
+    # <CTRL+T> list files+folders in current directory (e.g., git commit <CTRL+T>, select a few files using <TAB>, finally <Return>)
+    # <CTRL+R> search history of shell commands
+    # <ALT+C> fuzzy change directory
+    source /usr/share/fzf/key-bindings.zsh
+    # Enable fzf completion. **<TAB> has the same effect as <CTRL+T> above.
+    source /usr/share/fzf/completion.zsh
+fi
 
 if [[ -d ${HOME}/var/google-cloud-sdk ]]; then
     # export CLOUDSDK_PYTHON=python3
