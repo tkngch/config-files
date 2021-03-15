@@ -325,11 +325,8 @@
   ;; flycheck does not work great for some languages (e.g., Scala). So do not enable globally.
   :hook ((python-mode . flycheck-mode)))
 
-;; Emacs has build-in python mode. To use with venv, activate venv and launch
-;; emacs from within venv.
 (add-hook 'python-mode-hook (lambda() (setq fill-column 88)))
-;; To activate venv, issue `M-x pyvenv-activate` and then select .venv
-;; directory.
+
 (use-package pyvenv
   :ensure t)
 
@@ -445,7 +442,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(jinja2-mode kotlin-mode beacon all-the-icons dired-sidebar ivy lua-mode pyvenv magit use-package scala-mode format-all flycheck evil)))
+   '(jinja2-mode kotlin-mode beacon all-the-icons dired-sidebar lua-mode pyvenv magit use-package scala-mode format-all flycheck)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
