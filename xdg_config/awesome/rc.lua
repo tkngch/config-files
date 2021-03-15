@@ -47,7 +47,7 @@ beautiful.init(gears.filesystem.get_configuration_dir() .. "theme.lua")
 
 -- This is used later as the default terminal and editor to run.
 -- terminal = "xterm"
-terminal = os.getenv("LOCAL_BIN") .. "/terminal"
+-- terminal = os.getenv("LOCAL_BIN") .. "/terminal"
 -- editor = os.getenv("EDITOR") or "nano"
 -- editor_cmd = terminal .. " -e " .. editor
 
@@ -162,10 +162,10 @@ end)
 
 -- {{{ Key bindings
 globalkeys = gears.table.join(
-    awful.key({ modkey,           }, "s",      hotkeys_popup.show_help,
+    awful.key({ modkey,           }, "h",      hotkeys_popup.show_help,
               {description="show help", group="awesome"}),
-    awful.key({ modkey,           }, "Escape", awful.tag.history.restore,
-              {description = "go back", group = "tag"}),
+    -- awful.key({ modkey,           }, "Escape", awful.tag.history.restore,
+    --           {description = "go back", group = "tag"}),
 
     awful.key({ modkey,           }, "Tab",
         function () awful.client.focus.byidx( 1) end,
@@ -187,8 +187,12 @@ globalkeys = gears.table.join(
     --           {description = "swap with previous client by index", group = "client"}),
 
     -- Standard program
-    awful.key({ modkey,           }, "Return", function () awful.spawn(terminal) end,
+    awful.key({ modkey,           }, "Return", function () awful.spawn(os.getenv("LOCAL_BIN") .. "/terminal") end,
               {description = "open a terminal", group = "launcher"}),
+    awful.key({ modkey,           }, "e", function () awful.spawn(os.getenv("LOCAL_BIN") .. "/emacs") end,
+              {description = "open emacs", group = "launcher"}),
+    awful.key({ modkey,           }, "f", function () awful.spawn(os.getenv("LOCAL_BIN") .. "/firefox") end,
+              {description = "open firefox", group = "launcher"}),
     awful.key({ modkey, "Control" }, "r", awesome.restart,
               {description = "reload awesome", group = "awesome"}),
     -- awful.key({ modkey, "Shift"   }, "q", awesome.quit,
