@@ -188,6 +188,10 @@
 ;; Add MELPA to the list of package archives.
 (add-to-list 'package-archives
              '("melpa" . "https://melpa.org/packages/"))
+;; Depending on the versions of emacs and gnutls, the next line needs to be uncommented.
+;; See https://emacs.stackexchange.com/a/51772
+;; (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
+
 ;; Load packages explicitly in this init file.
 (package-initialize)
 
