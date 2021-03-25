@@ -83,7 +83,7 @@
 (when (member "Source Code Pro" (font-family-list))
   (set-face-attribute 'default nil :font "Source Code Pro")
   )
-(set-face-attribute 'default nil :height 94)
+(set-face-attribute 'default nil :height 100)
 
 ;; Use ibuffer instead of buffer menu
 (global-set-key (kbd "C-x C-b") 'ibuffer)
@@ -381,7 +381,7 @@
 
 ;; Built-in themes are /usr/share/emacs/26.3/etc/themes
 ;; (load-theme 'adwaita)
-(load-theme 'deeper-blue)
+;; (load-theme 'deeper-blue)
 ;; (load-theme 'dichromacy)
 ;; (load-theme 'leuven)
 ;; (load-theme 'light-blue)
@@ -394,6 +394,10 @@
 ;; (load-theme 'wheatgrass)
 ;; (load-theme 'whiteboard)
 ;; (load-theme 'wombat)
+
+(use-package nord-theme
+  :ensure t
+  :config (load-theme 'nord t))
 
 ;; (setq-default mode-line-format
 ;;               '(
@@ -441,6 +445,8 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   '("37768a79b479684b0756dec7c0fc7652082910c37d8863c35b702db3f16000f8" default))
  '(package-selected-packages
    '(jinja2-mode kotlin-mode beacon all-the-icons dired-sidebar lua-mode pyvenv magit use-package scala-mode format-all flycheck)))
 (custom-set-faces
