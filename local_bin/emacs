@@ -17,4 +17,3 @@ if locale -a | grep -q -e '^ja_JP.utf8'; then
 else
     /usr/bin/emacs "$@"
 fi
-
