@@ -153,7 +153,6 @@ alias mkdir='mkdir -v'
 alias mv='mv -iv'
 alias cp='cp -i -p'
 alias rm='rm -iv'
-alias handbrake='ghb'
 alias grep='grep --color=always'
 
 
