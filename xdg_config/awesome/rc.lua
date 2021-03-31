@@ -115,7 +115,7 @@ awful.screen.connect_for_each_screen(function(s)
     awful.tag({ "壱", "弐", "参", "肆", "伍", "陸", "漆", "捌", "玖" }, s, awful.layout.layouts[1])
 
     -- Create a promptbox for each screen
-    s.mypromptbox = awful.widget.prompt()
+    -- s.mypromptbox = awful.widget.prompt()
     -- Create an imagebox widget which will contain an icon indicating which layout we're using.
     -- We need one layoutbox per screen.
     -- s.mylayoutbox = awful.widget.layoutbox(s)
@@ -148,7 +148,7 @@ awful.screen.connect_for_each_screen(function(s)
             layout = wibox.layout.fixed.horizontal,
             s.mytaglist,
             -- s.mylayoutbox,
-            s.mypromptbox,
+            -- s.mypromptbox,
         },
         s.mytasklist, -- Middle widget
         { -- Right widgets
@@ -189,10 +189,12 @@ globalkeys = gears.table.join(
     -- Standard program
     awful.key({ modkey,           }, "Return", function () awful.spawn(os.getenv("LOCAL_BIN") .. "/terminal") end,
               {description = "open a terminal", group = "launcher"}),
-    awful.key({ modkey,           }, "e", function () awful.spawn(os.getenv("LOCAL_BIN") .. "/emacs") end,
-              {description = "open emacs", group = "launcher"}),
-    awful.key({ modkey,           }, "f", function () awful.spawn(os.getenv("LOCAL_BIN") .. "/firefox") end,
-              {description = "open firefox", group = "launcher"}),
+    awful.key({ modkey,           }, "space", function () awful.spawn(os.getenv("LOCAL_BIN") .. "/launcher") end,
+              {description = "open an application launcher", group = "launcher"}),
+    -- awful.key({ modkey,           }, "e", function () awful.spawn(os.getenv("LOCAL_BIN") .. "/emacs") end,
+    --           {description = "open emacs", group = "launcher"}),
+    -- awful.key({ modkey,           }, "f", function () awful.spawn(os.getenv("LOCAL_BIN") .. "/firefox") end,
+    --           {description = "open firefox", group = "launcher"}),
     awful.key({ modkey, "Control" }, "r", awesome.restart,
               {description = "reload awesome", group = "awesome"}),
     -- awful.key({ modkey, "Shift"   }, "q", awesome.quit,
@@ -202,42 +204,54 @@ globalkeys = gears.table.join(
     awful.key(
        { modkey,           }, "Left",
        function ()
-          local func = awful.placement.scale
+          local axis = "vertically"
+          local f = awful.placement.scale
              + awful.placement.left
-             + awful.placement.maximize_vertically
-          local geo = func(client.focus, {honor_workarea=true, to_percent=0.5})
+             + (axis and awful.placement["maximize_"..axis] or nil)
+          local geo = f(client.focus, {honor_workarea=true, to_percent = 0.5})          
        end,
        {description = "Snap to the left", group = "client"}),
     awful.key(
        { modkey,           }, "Right",
        function ()
-          local func = awful.placement.scale
+          local axis = "vertically"
+          local f = awful.placement.scale
              + awful.placement.right
-             + awful.placement.maximize_vertically
-          local geo = func(client.focus, {honor_workarea=true, to_percent=0.5})
+             + (axis and awful.placement["maximize_"..axis] or nil)
+          local geo = f(client.focus, {honor_workarea=true, to_percent = 0.5})          
        end,
        {description = "Snap to the right", group = "client"}),
     awful.key(
-       { modkey,           }, "Up",
+       { modkey,           }, "Top",
+       function ()
+          local axis = "horizontally"
+          local f = awful.placement.scale
+             + awful.placement.top
+             + (axis and awful.placement["maximize_"..axis] or nil)
+          local geo = f(client.focus, {honor_workarea=true, to_percent = 0.5})          
+       end,
+       {description = "Maximize", group = "client"}),
+    awful.key(
+       { modkey,           }, "Bottom",
+       function ()
+          local axis = "horizontally"
+          local f = awful.placement.scale
+             + awful.placement.bottom
+             + (axis and awful.placement["maximize_"..axis] or nil)
+          local geo = f(client.focus, {honor_workarea=true, to_percent = 0.5})          
+       end,
+       {description = "Resize the window and move under mouse", group = "client"}),
+    awful.key(
+       { modkey, "Shift"   }, "Maximize",
        function ()
           local func = awful.placement.maximize
           local geo = func(client.focus, {honor_workarea=true})
        end,
-       {description = "Maximize", group = "client"}),
-    awful.key(
-       { modkey,           }, "Down",
-       function ()
-          local func = awful.placement.scale
-             + awful.placement.under_mouse
-             + awful.placement.no_offscreen
-          local geo = func(client.focus, {honor_workarea=true, to_percent=0.3})
-       end,
-       {description = "Resize the window and move under mouse", group = "client"}),
-
+       {description = "Maximize", group = "client"})
 
     -- Prompt
-    awful.key({ modkey },            "r",     function () awful.screen.focused().mypromptbox:run() end,
-              {description = "run prompt", group = "launcher"})
+    -- awful.key({ modkey },            "r",     function () awful.screen.focused().mypromptbox:run() end,
+    --           {description = "run prompt", group = "launcher"})
 
     -- Menubar
     -- awful.key({ modkey }, "p", function() menubar.show() end,

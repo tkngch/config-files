@@ -88,5 +88,5 @@ exec_bspwm() {
 # exec bspwm
 }
 
-# exec_awesome
-exec_xfce
+exec_awesome
+# exec_xfce
