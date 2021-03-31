@@ -222,7 +222,7 @@ globalkeys = gears.table.join(
        end,
        {description = "Snap to the right", group = "client"}),
     awful.key(
-       { modkey,           }, "Top",
+       { modkey,           }, "Up",
        function ()
           local axis = "horizontally"
           local f = awful.placement.scale
@@ -232,7 +232,7 @@ globalkeys = gears.table.join(
        end,
        {description = "Maximize", group = "client"}),
     awful.key(
-       { modkey,           }, "Bottom",
+       { modkey,           }, "Down",
        function ()
           local axis = "horizontally"
           local f = awful.placement.scale
@@ -242,7 +242,7 @@ globalkeys = gears.table.join(
        end,
        {description = "Resize the window and move under mouse", group = "client"}),
     awful.key(
-       { modkey, "Shift"   }, "Maximize",
+       { modkey, "Shift"   }, "Up",
        function ()
           local func = awful.placement.maximize
           local geo = func(client.focus, {honor_workarea=true})
