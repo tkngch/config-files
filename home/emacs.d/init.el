@@ -399,9 +399,14 @@
 ;; (load-theme 'whiteboard)
 ;; (load-theme 'wombat)
 
-(use-package nord-theme
+;; (use-package nord-theme
+;;   :ensure t
+;;   :config (load-theme 'nord t))
+
+(use-package color-theme-sanityinc-tomorrow
   :ensure t
-  :config (load-theme 'nord t))
+  :config (load-theme 'sanityinc-tomorrow-eighties t))
+
 
 ;; (setq-default mode-line-format
 ;;               '(
@@ -426,21 +431,21 @@
 ;;                 )
 ;;               )
 
-;; Colors are taken from the nord theme: https://www.nordtheme.com/
-(set-face-attribute 'mode-line nil
-                    :background "#a3be8c"
-                    :foreground "#3b4252"
-                    :box '(:line-width 6 :color "#a3be8c")
-                    :overline nil
-                    :underline nil)
-;; M-x list-faces-display
+;; ;; Colors are taken from the nord theme: https://www.nordtheme.com/
+;; (set-face-attribute 'mode-line nil
+;;                     :background "#a3be8c"
+;;                     :foreground "#3b4252"
+;;                     :box '(:line-width 6 :color "#a3be8c")
+;;                     :overline nil
+;;                     :underline nil)
+;; ;; M-x list-faces-display
 
-(set-face-attribute 'mode-line-inactive nil
-                    :background "#3b4252"
-                    :foreground "#d8dee9"
-                    :box '(:line-width 6 :color "#3b4252")
-                    :overline nil
-                    :underline nil)
+;; (set-face-attribute 'mode-line-inactive nil
+;;                     :background "#3b4252"
+;;                     :foreground "#d8dee9"
+;;                     :box '(:line-width 6 :color "#3b4252")
+;;                     :overline nil
+;;                     :underline nil)
 
 
 ;; ------------------------ MISC
