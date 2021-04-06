@@ -26,6 +26,9 @@
 
 ;;; Code:
 
+;; ========================= EMACS configuration =========================
+
+;; ---------------- Appearances ----------------
 ;; Disable the toolbar at the top.
 (tool-bar-mode -1)
 ;; Disable the menubar at the top.
@@ -58,35 +61,19 @@
 (setq-default show-paren-delay 0.01)
 (show-paren-mode 1)
 
-;; Place all auto-saves and backups in the directory.
-(setq backup-directory-alist
-      `((".*" . ,temporary-file-directory)))
-(setq auto-save-file-name-transforms
-      `((".*" ,temporary-file-directory t)))
-
-;; Do not create a lock file, whose name starts with .#
-(setq create-lockfiles nil)
-
-;; Line-wrap at 80 columns.
-(setq-default fill-column 80)
-
-;; Use spaces instead of tabs when indenting.
-(setq-default indent-tabs-mode nil)
-
-;; Ask for confirmation before killing (C-x C-c) emacs.
-(setq confirm-kill-emacs 'yes-or-no-p)
-
-;; Resize the frame pixelwise, to rid of gaps due to size hints.
-(setq frame-resize-pixelwise t)
-
 ;; If available, use "Source Code Pro" font.
 (when (member "Source Code Pro" (font-family-list))
   (set-face-attribute 'default nil :font "Source Code Pro")
   )
 (set-face-attribute 'default nil :height 100)
 
+;; Resize the frame pixelwise, to rid of gaps due to size hints.
+(setq frame-resize-pixelwise t)
+
+;; Ask for confirmation before killing (C-x C-c) emacs.
+(setq confirm-kill-emacs 'yes-or-no-p)
+
 ;; Use ibuffer instead of buffer menu
-(global-set-key (kbd "C-x C-b") 'ibuffer)
 (setq-default ibuffer-formats
               '(
                 (;; the default format
@@ -111,16 +98,52 @@
                  filename-and-process
                  )))
 
-(add-to-list 'auto-mode-alist '("^/tmp/neomutt-" . mail-mode))
 
-;; ========================= COPY & PASTE
-;; Use the PRIMARY selection (mouse-selected) *and* the CLIPBOARD selection
-;; (copy function selected). When yanking, both will be set. When inserting, the
-;; more recently changed one will be used.
-(setq select-enable-primary t)
-(setq select-enable-clipboard t)
+;; ---------------- Auto-created files ----------------
+;; Place all auto-saves and backups in the directory.
+(setq backup-directory-alist
+      `((".*" . ,temporary-file-directory)))
+(setq auto-save-file-name-transforms
+      `((".*" ,temporary-file-directory t)))
 
-;; ======================== COMPILATION
+;; Do not create a lock file, whose name starts with .#
+(setq create-lockfiles nil)
+
+;; Show menu of recently used files
+(require 'recentf)
+;; Change the file in which recentf saves information from
+;; ~/.recentf to something else
+(setq recentf-save-file "~/.cache/emacs_recentf")
+;; Set the maximum number of items saved
+(setq recentf-max-saved-items 10)
+;; Set the max items on the menu
+(setq recentf-max-menu-items 10)
+(recentf-mode 1)
+;; M-x recentf-open-files
+
+
+;; ---------------- Completion ----------------
+;; Word completion.
+(require 'dabbrev)
+;; Do not ignore case in matches and searches.
+(setq case-fold-search nil
+      dabbrev-case-fold-search nil)
+
+;; (require 'icomplete)
+;; (icomplete-mode t)
+;; (setq completion-ignore-case t
+;;       read-buffer-completion-ignore-case t
+;;       read-file-name-completion-ignore-case t)
+
+;; Spell-check
+(require 'flyspell)
+(setq flyspell-issue-message-flag nil
+      ispell-local-dictionary "en_GB"
+      ispell-program-name "aspell"
+      ispell-extra-args '("--sug-mode=ultra"))
+
+
+;; ---------------- Compilation ----------------
 (require 'compile)
 ;; Don’t ask to kill currently running compilation, just kill it.
 (setq-default compilation-always-kill t)
@@ -137,52 +160,45 @@
 ;; Auto-scroll in the compilation mode, until the first error.
 (setq-default compilation-scroll-output "first-error")
 
+
+;; ---------------- Copy & paste ----------------
+;; Use the PRIMARY selection (mouse-selected) *and* the CLIPBOARD selection
+;; (copy function selected). When yanking, both will be set. When inserting, the
+;; more recently changed one will be used.
+(setq select-enable-primary t)
+(setq select-enable-clipboard t)
+
+
+;; ---------------- Drawing ----------------
+;; automatically revert buffers when files change
+(global-auto-revert-mode 1)
+
+
+;; ---------------- Formatting ----------------
+;; Line-wrap at 80 columns.
+(setq-default fill-column 80)
+
+;; Use spaces instead of tabs when indenting.
+(setq-default indent-tabs-mode nil)
+
+;; ---------------- Key bindings ----------------
+(global-set-key (kbd "C-x C-b") 'ibuffer)
 (global-set-key (kbd "C-3") 'compile-at-makefile)
 (global-set-key (kbd "C-4") 'recompile)
-
-
-;; ======================== COMPLETION
-;; Word completion.
-(require 'dabbrev)
-;; Do not ignore case in matches and searches.
-(setq case-fold-search nil
-      dabbrev-case-fold-search nil)
-
-;; Spell-check
-(require 'flyspell)
-(setq flyspell-issue-message-flag nil
-      ispell-local-dictionary "en_GB"
-      ispell-program-name "aspell"
-      ispell-extra-args '("--sug-mode=ultra"))
-(add-hook 'text-mode-hook 'flyspell-mode)
-(add-hook 'prog-mode-hook 'flyspell-prog-mode)
-
-
-;; ---------------- WINDOW NAVIGATION
+;; `M-p` and `M-n` to scroll without moving the cursor.
+(global-set-key "\M-n" "\C-u1\C-v")
+(global-set-key "\M-p" "\C-u1\M-v")
 ;; Swith to another window.
 (global-set-key (kbd "M-o") 'other-window)
 
 
-;; ======================== DRAWING
-;; automatically revert buffers when files change
-(global-auto-revert-mode 1)
-
-;; ;; Show trailing whitespaces.
-;; (require 'whitespace)
-;; (setq-default whitespace-style '(face trailing tabs))
-;; (setq-default show-trailing-whitespace t)
-;; (global-whitespace-mode)
-;; ;; Don't show whitespaces in certain major modes.
-;; (add-hook 'eshell-mode-hook (lambda () (setq show-trailing-whitespace nil)))
-;; (add-hook 'term-mode-hook (lambda () (setq show-trailing-whitespace nil)))
-;; (add-hook 'compilation-mode-hook (lambda () (setq show-trailing-whitespace nil)))
-;; (add-hook 'calendar-mode-hook (lambda () (setq show-trailing-whitespace nil)))
-
-;; Enable the continuous scrolling in the dov-view mode.
-(setq-default doc-view-continuous t)
+;; ---------------- Modes ----------------
+(add-to-list 'auto-mode-alist '("^/tmp/neomutt-" . mail-mode))
+(add-hook 'text-mode-hook 'flyspell-mode)
+(add-hook 'prog-mode-hook 'flyspell-prog-mode)
 
 
-;; ================ PACKAGE CONFIGURATION
+;; ========================= THIRD-PARTY PACKAGE configurations =========================
 ;; Load the functions and variables defined in `package`.
 (require 'package)
 ;; Add MELPA to the list of package archives.
@@ -202,62 +218,23 @@
   (package-install 'use-package))
 (require 'use-package)
 
-;; ---------------- KEY BINDINGS
 
-;; `M-p` and `M-n` to scroll without moving the cursor.
-(global-set-key "\M-n" "\C-u1\C-v")
-(global-set-key "\M-p" "\C-u1\M-v")
-
-(use-package undo-tree
-  :ensure t
-  :config (global-undo-tree-mode))
-
-
-;; ---------------- EMAIL
-(autoload 'notmuch "notmuch" "notmuch mail" t)
-
-;; ---------------- PROGRAMMING SUPPORT
-
-;; Use the completion framework.
-;; (use-package company
-;;   :ensure t
-;;   :config (progn
-;;             (global-company-mode 1)
-;;             (setq company-idle-delay 0.01)))
-
-
-(use-package icomplete-vertical
-  :ensure t
-  :demand t
-  :custom
-  (completion-styles '(partial-completion substring))
-  (completion-category-overrides '((file (styles basic substring))))
-  (read-file-name-completion-ignore-case t)
-  (read-buffer-completion-ignore-case t)
-  (completion-ignore-case t)
-  :config
-  (icomplete-mode)
-  (icomplete-vertical-mode)
-  :bind (:map icomplete-minibuffer-map
-              ("<down>" . icomplete-forward-completions)
-              ("C-n" . icomplete-forward-completions)
-              ("<up>" . icomplete-backward-completions)
-              ("C-p" . icomplete-backward-completions)
-              ("C-v" . icomplete-vertical-toggle)))
-
-
-
+;; ---------------- Appearances ----------------
 ;; Whenever the window scrolls a light will shine on top of your cursor so you
 ;; know where it is.
 (use-package beacon
   :ensure t
   :config (beacon-mode 1))
 
-;; (use-package all-the-icons
-;;   :ensure t)
-;; To install icons, `M-x all-the-icons-install-fonts`.
 
-;; Filename completion.
+;; ---------------- Completion ----------------
+;; Use the completion framework.
+(use-package company
+  :ensure t
+  :config (progn
+            (global-company-mode 1)
+            (setq company-idle-delay 0.01)))
+
 ;; (use-package counsel
 ;;   :ensure t
 ;;   :init (progn
@@ -279,55 +256,42 @@
 ;;           )
 ;;   :config (ivy-mode 1))
 
-;; (use-package all-the-icons-ivy
-;;   :ensure t
-;;   :init (add-hook 'after-init-hook 'all-the-icons-ivy-setup))
 
-;; (use-package all-the-icons-dired
-;;   :ensure t
-;;   :init (add-hook 'dired-mode-hook 'all-the-icons-dired-mode))
-
-;; (use-package eglot
-;;   :ensure t
-;;   :init (progn
-;;           ;; Disable documentation on hover
-;;           (setq eglot-ignored-server-capabilites '(:hoverProvider))
-;;           (add-hook 'scala-mode-hook 'eglot-ensure)
-;;           (add-hook 'python-mode-hook 'eglot-ensure)))
-
-(use-package lsp-mode
+;; C-j to select the first completion in the list.
+;; M-TAB will select the first completion in the list, without exiting the minibuffer, so you can edit it further.
+;; C-. and C-, to rotate the list until the desired buffer is first.
+;; M-n and M-p are mapped to rotate the list.
+(use-package icomplete-vertical
   :ensure t
-  :init (progn
-          ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
-          (setq lsp-keymap-prefix "C-c l")
-          ;; Performance tuning for lsp-mode
-          (setq gc-cons-threshold 100000000)
-          (setq read-process-output-max (* 1024 1024)) ;; 1mb
-          (setq lsp-headerline-breadcrumb-enable nil)
-          (setq lsp-enable-file-watchers nil)
-          (setq lsp-log-io nil) ; if set to true can cause a performance hit
-          )
-  :hook (
-         ;; (python-mode . lsp)
-         (scala-mode . lsp)
-         )
-  :commands lsp)
+  :demand t
+  :custom
+  (completion-styles '(partial-completion substring))
+  (completion-category-overrides '((file (styles basic substring))))
+  (read-file-name-completion-ignore-case t)
+  (read-buffer-completion-ignore-case t)
+  (completion-ignore-case t)
+  :config
+  (icomplete-mode t)
+  (icomplete-vertical-mode t)
+  :bind (:map icomplete-minibuffer-map
+              ("M-n" . icomplete-forward-completions)
+              ("M-p" . icomplete-backward-completions)
+              ("C-v" . icomplete-vertical-toggle)))
 
-(use-package lsp-pyright
+
+;; ---------------- Formatting ----------------
+;; Use code-formatter. To auto-format on save, we use the minor mode
+;; format-all-mode. This minor mode is enabled individually for each major mode.
+(use-package format-all
   :ensure t
-  :hook (python-mode . (lambda ()
-                         (require 'lsp-pyright)
-                         (lsp))))
+  :hook ((emacs-lisp-mode . format-all-mode)
+         (python-mode . format-all-mode)
+         (markdown-mode . format-all-mode)
+         (gfm-mode . format-all-mode)
+         ))
 
-(use-package lsp-metals
-  :ensure t)
 
-;; Use code-linter.
-(use-package flycheck
-  :ensure t
-  ;; :init (global-flycheck-mode)
-  ;; flycheck does not work great for some languages (e.g., Scala). So do not enable globally.
-  :hook ((python-mode . flycheck-mode)))
+;; ---------------- Programming language modes ----------------
 
 (add-hook 'python-mode-hook (lambda() (setq fill-column 88)))
 
@@ -365,19 +329,49 @@
 (use-package jinja2-mode
   :ensure t)
 
-;; Use code-formatter. To auto-format on save, we use the minor mode
-;; format-all-mode. This minor mode is enabled individually for each major mode.
-(use-package format-all
-  :ensure t
-  :hook ((emacs-lisp-mode . format-all-mode)
-         (python-mode . format-all-mode)
-         (markdown-mode . format-all-mode)
-         (gfm-mode . format-all-mode)
-         ))
 
+;; ---------------- Programming language protocol server ----------------
+;; Use code-linter.
+(use-package flycheck
+  :ensure t
+  ;; :init (global-flycheck-mode)
+  ;; flycheck does not work great for some languages (e.g., Scala). So do not enable globally.
+  :hook ((python-mode . flycheck-mode)))
+
+(use-package lsp-mode
+  :ensure t
+  :init (progn
+          ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
+          (setq lsp-keymap-prefix "C-c l")
+          ;; Performance tuning for lsp-mode
+          (setq gc-cons-threshold 100000000)
+          (setq read-process-output-max (* 1024 1024)) ;; 1mb
+          (setq lsp-headerline-breadcrumb-enable nil)
+          (setq lsp-enable-file-watchers nil)
+          (setq lsp-log-io nil) ; if set to true can cause a performance hit
+          )
+  :commands lsp)
+
+(use-package lsp-pyright
+  :ensure t
+  :hook (python-mode . (lambda () (require 'lsp-pyright) (lsp))))
+
+(use-package lsp-metals
+  :ensure t
+  :hook (scala-mode . (lambda () (require 'lsp-metals) (lsp))))
+
+
+;; ---------------- Version control ----------------
 (use-package magit
   :ensure t
   :bind (("C-x g" . magit-status)))
+
+
+;; ---------------- Undo-tree ----------------
+
+(use-package undo-tree
+  :ensure t
+  :config (global-undo-tree-mode))
 
 
 ;; ------------------------ COLORS
