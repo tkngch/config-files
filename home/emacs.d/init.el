@@ -129,11 +129,20 @@
 (setq case-fold-search nil
       dabbrev-case-fold-search nil)
 
-;; (require 'icomplete)
-;; (icomplete-mode t)
-;; (setq completion-ignore-case t
-;;       read-buffer-completion-ignore-case t
-;;       read-file-name-completion-ignore-case t)
+(require 'icomplete)
+(require 'minibuffer)
+;; C-j to select the first completion in the list.
+;; M-TAB will select the first completion in the list, without exiting the minibuffer, so you can edit it further.
+;; C-. and C-, to rotate the list until the desired buffer is first.
+;; M-n and M-p are mapped to rotate the list.
+(icomplete-mode t)
+(setq completion-styles '(partial-completion substring)
+      completion-category-overrides '((file (styles basic substring)))
+      completion-ignore-case t
+      read-buffer-completion-ignore-case t
+      read-file-name-completion-ignore-case t)
+(bind-key "M-n" 'icomplete-forward-completions icomplete-minibuffer-map)
+(bind-key "M-p" 'icomplete-backward-completions icomplete-minibuffer-map)
 
 ;; Spell-check
 (require 'flyspell)
@@ -235,47 +244,13 @@
             (global-company-mode 1)
             (setq company-idle-delay 0.01)))
 
-;; (use-package counsel
-;;   :ensure t
-;;   :init (progn
-;;           (setq ivy-count-format "(%d/%d) ")
-;;           (setq ivy-extra-directories ())  ;; Remove ./ and ../ from find-file completion.
-;;           (global-set-key (kbd "C-s") 'swiper-isearch)
-;;           (global-set-key (kbd "M-x") 'counsel-M-x)
-;;           (global-set-key (kbd "C-x C-f") 'counsel-find-file)
-;;           (global-set-key (kbd "M-y") 'counsel-yank-pop)
-;;           (global-set-key (kbd "<f1> f") 'counsel-describe-function)
-;;           (global-set-key (kbd "<f1> v") 'counsel-describe-variable)
-;;           (global-set-key (kbd "<f1> l") 'counsel-find-library)
-;;           (global-set-key (kbd "<f2> i") 'counsel-info-lookup-symbol)
-;;           (global-set-key (kbd "<f2> u") 'counsel-unicode-char)
-;;           (global-set-key (kbd "<f2> j") 'counsel-set-variable)
-;;           (global-set-key (kbd "C-x b") 'ivy-switch-buffer)
-;;           (global-set-key (kbd "C-c v") 'ivy-push-view)
-;;           (global-set-key (kbd "C-c V") 'ivy-pop-view)
-;;           )
-;;   :config (ivy-mode 1))
-
-
-;; C-j to select the first completion in the list.
-;; M-TAB will select the first completion in the list, without exiting the minibuffer, so you can edit it further.
-;; C-. and C-, to rotate the list until the desired buffer is first.
-;; M-n and M-p are mapped to rotate the list.
 (use-package icomplete-vertical
   :ensure t
   :demand t
-  :custom
-  (completion-styles '(partial-completion substring))
-  (completion-category-overrides '((file (styles basic substring))))
-  (read-file-name-completion-ignore-case t)
-  (read-buffer-completion-ignore-case t)
-  (completion-ignore-case t)
   :config
   (icomplete-mode t)
   (icomplete-vertical-mode t)
   :bind (:map icomplete-minibuffer-map
-              ("M-n" . icomplete-forward-completions)
-              ("M-p" . icomplete-backward-completions)
               ("C-v" . icomplete-vertical-toggle)))
 
 
