@@ -115,9 +115,9 @@
 ;; ~/.recentf to something else
 (setq recentf-save-file "~/.cache/emacs_recentf")
 ;; Set the maximum number of items saved
-(setq recentf-max-saved-items 10)
+(setq recentf-max-saved-items 100)
 ;; Set the max items on the menu
-(setq recentf-max-menu-items 10)
+(setq recentf-max-menu-items 100)
 (recentf-mode 1)
 ;; M-x recentf-open-files
 
@@ -137,12 +137,12 @@
 ;; M-n and M-p are mapped to rotate the list.
 (icomplete-mode t)
 (setq ;; completion-styles '(partial-completion substring)
-      ;; completion-category-overrides '((file (styles basic substring)))
-      ;; completion-ignore-case t
-      read-buffer-completion-ignore-case t
-      read-file-name-completion-ignore-case t)
-(bind-key "M-n" 'icomplete-forward-completions icomplete-minibuffer-map)
-(bind-key "M-p" 'icomplete-backward-completions icomplete-minibuffer-map)
+ ;; completion-category-overrides '((file (styles basic substring)))
+ ;; completion-ignore-case t
+ read-buffer-completion-ignore-case t
+ read-file-name-completion-ignore-case t)
+(define-key icomplete-minibuffer-map (kbd "M-n") 'icomplete-forward-completions)
+(define-key icomplete-minibuffer-map (kbd "M-p") 'icomplete-backward-completions)
 
 ;; Spell-check
 (require 'flyspell)
@@ -195,8 +195,8 @@
 (global-set-key (kbd "C-3") 'compile-at-makefile)
 (global-set-key (kbd "C-4") 'recompile)
 ;; `M-p` and `M-n` to scroll without moving the cursor.
-(global-set-key "\M-n" "\C-u1\C-v")
-(global-set-key "\M-p" "\C-u1\M-v")
+(global-set-key (kbd "M-n") 'scroll-up-line)
+(global-set-key (kbd "M-p") 'scroll-down-line)
 ;; Swith to another window.
 (global-set-key (kbd "M-o") 'other-window)
 
@@ -248,10 +248,7 @@
               ("RET" . nil)  ;; for emacs in terminal
               ("<return>" . nil)  ;; for gui emacs
               ;; enable selection with meta-tab
-              ("M-<tab>" . company-complete-selection)
-              ;; ("M-<return>" . company-complete-selection)
-              )
-  )
+              ("M-<tab>" . company-complete-selection)))
 
 (use-package icomplete-vertical
   :ensure t
@@ -315,12 +312,12 @@
 
 
 ;; ---------------- Programming language protocol server ----------------
-;; Use code-linter.
-(use-package flycheck
-  :ensure t
-  ;; :init (global-flycheck-mode)
-  ;; flycheck does not work great for some languages (e.g., Scala). So do not enable globally.
-  :hook ((python-mode . flycheck-mode)))
+;; ;; Use code-linter.
+;; (use-package flycheck
+;;   :ensure t
+;;   ;; :init (global-flycheck-mode)
+;;   ;; flycheck does not work great for some languages (e.g., Scala). So do not enable globally.
+;;   :hook ((python-mode . flycheck-mode)))
 
 (use-package lsp-mode
   :ensure t
@@ -432,10 +429,8 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(custom-safe-themes
-   '("37768a79b479684b0756dec7c0fc7652082910c37d8863c35b702db3f16000f8" default))
  '(package-selected-packages
-   '(jinja2-mode kotlin-mode beacon all-the-icons dired-sidebar lua-mode pyvenv magit use-package scala-mode format-all flycheck)))
+   '(color-theme-sanityinc-tomorrow undo-tree magit lsp-metals lsp-pyright lsp-mode jinja2-mode dockerfile-mode yaml-mode markdown-mode ess lua-mode scala-mode kotlin-mode pyvenv format-all icomplete-vertical company beacon use-package)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
