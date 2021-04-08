@@ -136,9 +136,9 @@
 ;; C-. and C-, to rotate the list until the desired buffer is first.
 ;; M-n and M-p are mapped to rotate the list.
 (icomplete-mode t)
-(setq completion-styles '(partial-completion substring)
-      completion-category-overrides '((file (styles basic substring)))
-      completion-ignore-case t
+(setq ;; completion-styles '(partial-completion substring)
+      ;; completion-category-overrides '((file (styles basic substring)))
+      ;; completion-ignore-case t
       read-buffer-completion-ignore-case t
       read-file-name-completion-ignore-case t)
 (bind-key "M-n" 'icomplete-forward-completions icomplete-minibuffer-map)
@@ -242,7 +242,16 @@
   :ensure t
   :config (progn
             (global-company-mode 1)
-            (setq company-idle-delay 0.01)))
+            (setq company-idle-delay 0.1))
+  :bind (:map company-active-map
+              ;; disable selection with return key
+              ("RET" . nil)  ;; for emacs in terminal
+              ("<return>" . nil)  ;; for gui emacs
+              ;; enable selection with meta-tab
+              ("M-<tab>" . company-complete-selection)
+              ;; ("M-<return>" . company-complete-selection)
+              )
+  )
 
 (use-package icomplete-vertical
   :ensure t
