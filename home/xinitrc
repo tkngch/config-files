@@ -44,6 +44,8 @@ exec_awesome() {
     test "$(command -v pasystray)" && pasystray &
     # cbatticon is a battery indicator that sits on the systray.
     test "$(command -v cbatticon)" && cbatticon -i 'symbolic' -n &
+    # clipboard manager
+    test "$(command -v copyq)" && copyq &
     exec awesome
 }
 
