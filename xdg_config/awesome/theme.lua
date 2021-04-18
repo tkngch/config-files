@@ -67,6 +67,13 @@ theme.border_normal = theme.bg_normal
 theme.border_focus  = theme.bg_focus
 theme.border_marked = colours.base01
 
+theme.wallpaper_colours = {
+   colours.base00, colours.base01, colours.base02, colours.base03,
+   colours.base04, colours.base05, colours.base06, colours.base07,
+   colours.base08, colours.base09, colours.base0A, colours.base0B,
+   colours.base0C, colours.base0D, colours.base0E, colours.base0F
+}
+
 -- -- Disable the tasklist client titles.
 -- theme.tasklist_disable_task_name = true
 -- -- Disable the extra tasklist client property notification icons.
@@ -122,13 +129,13 @@ local icon_window_close = icon_directory.."window-close.svg"
 theme.titlebar_close_button_normal = icon_window_close
 theme.titlebar_close_button_focus = icon_window_close
 
-local icon_window_maximize = icon_directory.."window-maximize.svg"
-theme.titlebar_maximized_button_normal_inactive = icon_window_maximize
-theme.titlebar_maximized_button_focus_inactive  = icon_window_maximize
-theme.titlebar_maximized_button_normal_active = icon_window_maximize
-theme.titlebar_maximized_button_focus_active  = icon_window_maximize
+-- local icon_window_maximize = icon_directory.."window-maximize.svg"
+-- theme.titlebar_maximized_button_normal_inactive = icon_window_maximize
+-- theme.titlebar_maximized_button_focus_inactive  = icon_window_maximize
+-- theme.titlebar_maximized_button_normal_active = icon_window_maximize
+-- theme.titlebar_maximized_button_focus_active  = icon_window_maximize
 
-theme.wallpaper = themes_path.."default/background.png"
+-- theme.wallpaper = themes_path.."default/background.png"
 
 -- Generate Awesome icon:
 theme.awesome_icon = theme_assets.awesome_icon(

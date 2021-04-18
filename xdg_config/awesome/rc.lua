@@ -66,6 +66,38 @@ awful.layout.layouts = {
 -- }}}
 
 
+-- {{{ Wallpaper
+local wallpaper_colour = {
+   _index = 1,
+   _max_index = #beautiful.wallpaper_colours
+}
+function wallpaper_colour:next()
+   new_index = self._index + 1
+   if new_index > self._max_index then
+      new_index = 1
+   end
+   self._index = new_index
+   return beautiful.wallpaper_colours[new_index]
+end
+
+local reset_wallpaper_colour = function()
+    gears.wallpaper.set(beautiful.bg_normal)
+end
+
+local change_wallpaper_colours = function()
+   local colour = wallpaper_colour:next()
+   gears.wallpaper.set(colour)
+end 
+
+reset_wallpaper_colour()
+root.buttons(gears.table.join(
+      awful.button({}, 1, change_wallpaper_colours),
+      awful.button({}, 3, reset_wallpaper_colour)
+   )
+)
+--}}}
+
+
 -- {{{ Wibar
 
 -- Create a textclock widget
@@ -94,9 +126,6 @@ end
 
 -- Create a wibox for each screen and add it
 awful.screen.connect_for_each_screen(function(s)
-    -- Wallpaper
-    gears.wallpaper.set(beautiful.bg_normal)
-
     -- Each screen has its own tag table.
     awful.tag({ "壱", "弐", "参", "肆", "伍", "陸", "漆", "捌", "玖" }, s, awful.layout.layouts[1])
 
@@ -387,7 +416,7 @@ client.connect_signal("request::titlebars", function(c)
             layout  = wibox.layout.flex.horizontal
         },
         { -- Right
-            awful.titlebar.widget.maximizedbutton(c),
+            -- awful.titlebar.widget.maximizedbutton(c),
             awful.titlebar.widget.closebutton    (c),
             layout = wibox.layout.fixed.horizontal()
         },
