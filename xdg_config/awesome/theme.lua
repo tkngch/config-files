@@ -121,6 +121,7 @@ theme.menu_width  = dpi(100)
 
 theme.wibar_height = dpi(25)
 theme.taglist_empty_tag_opacity = 0.3
+theme.systray_icon_spacing = dpi(2)
 
 -- Define the image to load
 -- local icon_window_close = "/usr/share/icons/Adwaita/16x16/ui/window-close-symbolic.symbolic.png"

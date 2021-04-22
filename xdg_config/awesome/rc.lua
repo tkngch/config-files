@@ -101,12 +101,12 @@ root.buttons(gears.table.join(
 -- {{{ Wibar
 
 -- Create a textclock widget
-mytextclock = wibox.widget.textclock("<b>%a %d %b %H:%M</b>")
+local mytextclock = wibox.widget.textclock("<b>%a %d %b %H:%M</b>")
 mytextclock:set_refresh(10)  -- How often the clock is updated, in seconds
 local mycalendar = awful.widget.calendar_popup.month { margin = 5, start_sunday = true }
 mycalendar:attach( mytextclock, "tc" )
 
-mysystray = wibox.widget {
+local mysystray = wibox.widget {
     {
         wibox.widget.systray(),
         margins = 2,
@@ -140,9 +140,7 @@ awful.screen.connect_for_each_screen(function(s)
            awful.button({ }, 3, function(t)
                  if client.focus then client.focus:move_to_tag(t) end end)
         ),
-        layout   = {
-            layout  = wibox.layout.fixed.horizontal
-        },
+        layout = wibox.layout.fixed.horizontal,
         widget_template = {
             {
                 wibox.widget.base.make_widget(),

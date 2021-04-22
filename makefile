@@ -5,6 +5,7 @@ dryrun:
 
 install:
 	python install.py
+	update-desktop-database ~/.local/share/applications
 
 check:
 	mypy install.py

@@ -7,9 +7,8 @@
 
 xrdb -merge ~/.Xresources
 
-# xset dpms 0 0 0  # disable standby, suspend, and off
 xset s 1200 1200  # Change screen save blank time to 20 minutes
-# xset s 0 0  # disable screen saver blanking
+# xset dpms 0 0 0  # disable standby, suspend, and off
 
 # capslock as ctrl key
 test "$(command -v map_capslock_to_ctrl)" && map_capslock_to_ctrl &
@@ -37,6 +36,10 @@ export XMODIFIERS=@im=fcitx
 
 
 exec_awesome() {
+    # Lock the screen 10 minutes of inactivity, using i3lock
+    xset s 600
+    test "$(command -v xss-lock)" && test "$(command -v i3lock)" && xss-lock -- i3lock -n -c 3b4252 &
+
     test "$(command -v fcitx)" && fcitx -d
     test "$(command -v picom)" && picom -C --config ~/.config/picom/picom.conf &
     test "$(command -v nm-applet)" && nm-applet &
@@ -44,8 +47,7 @@ exec_awesome() {
     test "$(command -v pasystray)" && pasystray &
     # cbatticon is a battery indicator that sits on the systray.
     test "$(command -v cbatticon)" && cbatticon -i 'symbolic' -n &
-    # clipboard manager
-    test "$(command -v copyq)" && copyq &
+
     exec awesome
 }
 

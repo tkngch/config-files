@@ -1,0 +1,30 @@
+#!/bin/bash
+
+# --caps.drop=all
+#    Drop all capabilities for the processes running in the sandbox.  This
+#    option is recommended for running GUI programs or any other program that
+#    doesn't require root privileges.
+
+# --disable-mnt
+#    Disable /mnt, /media, /run/mount and /run/media access.
+
+# --noroot
+#    Install a user namespace with a single user - the current user.  root user
+#    does not exist in the new namespace.
+
+# --private-tmp
+#    Mount an empty temporary filesystem on top of /tmp directory whitelisting
+#    X11 and PulseAudio sockets.
+
+# --quiet
+#    Turn off Firejail's output.
+
+sandbox_name=telegram
+sandbox_dir=${HOME}/sandbox/${sandbox_name}
+cmd=/usr/bin/telegram-desktop
+
+mkdir -p ${sandbox_dir}
+
+firejail --caps.drop=all --disable-mnt --noroot --private-tmp --quiet \
+    --name="${sandbox_name}" --private="${sandbox_dir}" --whitelist=~/.config/fcitx \
+    --seccomp --protocol=unix,inet,inet6,netlink ${cmd}

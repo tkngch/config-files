@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=Terminal
+Comment=Terminal emulator
+Keywords=shell;prompt;command;commandline;
+Exec=sh -c "\${LOCAL_BIN}/terminal"
+# Icon=terminology
+Icon=org.xfce.terminal
+Categories=System;TerminalEmulator;
+StartupWMClass=terminal
