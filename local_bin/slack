@@ -4,4 +4,4 @@
 sandbox_dir=${HOME}/sandbox/slack
 
 firejail --noprofile --caps.drop=all --disable-mnt --noroot --private-tmp --quiet \
-    --name=slack --private="${sandbox_dir}" /usr/bin/slack --silent 1>&2 2> /dev/null &
+    --name=slack --private="${sandbox_dir}" /usr/bin/slack "$@" --silent 1>&2 2> /dev/null &

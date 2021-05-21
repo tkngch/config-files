@@ -3,7 +3,9 @@
 
 test "$(command -v map_capslock_to_ctrl)" && map_capslock_to_ctrl
 
-if command -v terminology > /dev/null; then
+if command -v kitty > /dev/null; then
+    kitty
+elif command -v terminology > /dev/null; then
     terminology
 elif command -v alacritty > /dev/null; then
     alacritty
