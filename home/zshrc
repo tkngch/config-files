@@ -9,9 +9,9 @@ HISTFILE=$HOME/.cache/zsh.hist
 ## Default applications
 export TERM="xterm-256color"
 export BROWSER=""
-export EDITOR="emacs"
-export SYSTEMD_EDITOR="/bin/vim"
-export VISUAL="/bin/vim"
+export EDITOR="nvim"
+export SYSTEMD_EDITOR="/bin/nvim"
+export VISUAL="/bin/nvim"
 export PAGER="/bin/less"
 export SDCV_PAGER="/bin/less"
 ## Paths
@@ -31,16 +31,10 @@ export R_DEFAULT_PACKAGES=NULL  # do not let R preload anything
 export GREP_COLOR='1;33'  # color grep output in yellow
 export SDCV_HISTSIZE=0
 
-# export MATPLOTLIBRC="$HOME/.config/matplotlib/"
-# export PYTHONPATH="$HOME/lib/python/"
-# export PYTHONUSERBASE="$HOME/lib/python/"  # directory for pip -user
-# export KEYTIMEOUT=1  # 10ms after Esc key press before entering the normal mode in zsh
-# export IPYTHONDIR="$XDG_CONFIG_HOME/ipython"
-# export JUPYTER_CONFIG_DIR="$XDG_CONFIG_HOME/jupyter"
 
 # KEYBINDINGS
 # ===========
-bindkey -e  # use emacs mode
+# bindkey -e  # use emacs mode
 
 # create a zkbd compatible hash;
 # to add other keys to this hash, see: man 5 terminfo
@@ -91,16 +85,6 @@ zle -N down-line-or-beginning-search
 [[ -n "${key[Up]}"   ]] && bindkey -- "${key[Up]}"   up-line-or-beginning-search
 [[ -n "${key[Down]}" ]] && bindkey -- "${key[Down]}" down-line-or-beginning-search
 
-# Rebind Ctrl+l, to trigger precmd.
-function clear2() {
-    clear;
-    precmd;
-    zle reset-prompt;
-    zle redisplay
-}
-zle -N clear2
-bindkey '^l' clear2
-
 
 # AUTO COMPLETION
 # ===============
@@ -118,27 +102,27 @@ setopt COMPLETE_ALIASES
 # DIRSTACK
 # ========
 DIRSTACKFILE="$HOME/.cache/zsh.dirs"
-DIRSTACKSIZE=10
+DIRSTACKSIZE=0
 
-autoload -Uz add-zsh-hook
-
-if [[ -f "$DIRSTACKFILE" ]] && (( ${#dirstack} == 0 )); then
-    dirstack=("${(@f)"$(< "$DIRSTACKFILE")"}")
-    [[ -d "${dirstack[1]}" ]] && cd -- "${dirstack[1]}"
-fi
-
-chpwd_dirstack() {
-    print -l -- "$PWD" "${(u)dirstack[@]}" > "$DIRSTACKFILE"
-}
-add-zsh-hook -Uz chpwd chpwd_dirstack
-setopt AUTO_PUSHD PUSHD_SILENT PUSHD_TO_HOME
-
-## Remove duplicate entries
-setopt PUSHD_IGNORE_DUPS
-
-## This reverts the +/- operators.
-setopt PUSHD_MINUS
-
+# autoload -Uz add-zsh-hook
+#
+# if [[ -f "$DIRSTACKFILE" ]] && (( ${#dirstack} == 0 )); then
+#     dirstack=("${(@f)"$(< "$DIRSTACKFILE")"}")
+#     [[ -d "${dirstack[1]}" ]] && cd -- "${dirstack[1]}"
+# fi
+#
+# chpwd_dirstack() {
+#     print -l -- "$PWD" "${(u)dirstack[@]}" > "$DIRSTACKFILE"
+# }
+# add-zsh-hook -Uz chpwd chpwd_dirstack
+# setopt AUTO_PUSHD PUSHD_SILENT PUSHD_TO_HOME
+#
+# ## Remove duplicate entries
+# setopt PUSHD_IGNORE_DUPS
+#
+# ## This reverts the +/- operators.
+# setopt PUSHD_MINUS
+#
 
 # ALIASES
 # =======
@@ -152,63 +136,62 @@ alias grep='grep --color=always'
 
 # PROMPT
 # ======
-# Print the elapsed time after a long process
 autoload -Uz vcs_info
 
-preexec () {
-    CMD=$1
-    # Note the date when the command started, in unix time.
-    CMD_START_DATE=$(date +%s)
-}
-
+# preexec () {
+#     CMD=$1
+#     # Note the date when the command started, in unix time.
+#     CMD_START_DATE=$(date +%s)
+# }
+#
 precmd () {
+    print ""
     vcs_info
-    if ! [ $CMD ]; then
-        # If no command has run, clear start date so that elapsed time is not
-        # calculated.
-        unset CMD_START_DATE
-    fi
-    unset CMD
+#     if ! [ $CMD ]; then
+#         # If no command has run, clear start date so that elapsed time is not
+#         # calculated.
+#         unset CMD_START_DATE
+#     fi
+#     unset CMD
 }
-
-get_last_cmd_info() {
-    local LAST_EXIT_CODE=$?
-
-    if [[ -v CMD_START_DATE ]]; then
-        # Note current date in unix time
-        local CMD_END_DATE=$(date +%s)
-        # Store the difference between the last command start date vs. current date.
-        local CMD_ELAPSED_TIME=$(($CMD_END_DATE - $CMD_START_DATE))
-        # Store an arbitrary threshold, in seconds.
-        local CMD_NOTIFY_THRESHOLD=1
-
-        if [[ $CMD_ELAPSED_TIME -gt $CMD_NOTIFY_THRESHOLD ]]; then
-            # print elapsed time if the elapsed time (in seconds) is greater than threshold
-            local HOURS=$(($CMD_ELAPSED_TIME / 3600))
-            local REMAINING_SECONDS=$(($CMD_ELAPSED_TIME % 3600))
-            local MINUTES=$(($REMAINING_SECONDS / 60))
-            local SECONDS=$(($REMAINING_SECONDS % 60))
-            local ELAPSED_TIME=" Elapsed $HOURS:$(printf %02d $MINUTES):$(printf %02d $SECONDS)."
-        fi
-    fi
-
-    if [[ $LAST_EXIT_CODE -ne 0 ]]; then
-        local LAST_CMD_STATUS=" Exit Code $LAST_EXIT_CODE."
-    fi
-
-    if [ -n $ELAPSED_TIME ] || [ -n $LAST_CMD_STATUS ]; then
-        echo -e "$ELAPSED_TIME$LAST_CMD_STATUS"
-    fi
-}
-
+#
+# get_last_cmd_info() {
+#     local LAST_EXIT_CODE=$?
+#
+#     if [[ -v CMD_START_DATE ]]; then
+#         # Note current date in unix time
+#         local CMD_END_DATE=$(date +%s)
+#         # Store the difference between the last command start date vs. current date.
+#         local CMD_ELAPSED_TIME=$(($CMD_END_DATE - $CMD_START_DATE))
+#         # Store an arbitrary threshold, in seconds.
+#         local CMD_NOTIFY_THRESHOLD=1
+#
+#         if [[ $CMD_ELAPSED_TIME -gt $CMD_NOTIFY_THRESHOLD ]]; then
+#             # print elapsed time if the elapsed time (in seconds) is greater than threshold
+#             local HOURS=$(($CMD_ELAPSED_TIME / 3600))
+#             local REMAINING_SECONDS=$(($CMD_ELAPSED_TIME % 3600))
+#             local MINUTES=$(($REMAINING_SECONDS / 60))
+#             local SECONDS=$(($REMAINING_SECONDS % 60))
+#             local ELAPSED_TIME=" Elapsed $HOURS:$(printf %02d $MINUTES):$(printf %02d $SECONDS)."
+#         fi
+#     fi
+#
+#     if [[ $LAST_EXIT_CODE -ne 0 ]]; then
+#         local LAST_CMD_STATUS=" Exit Code $LAST_EXIT_CODE."
+#     fi
+#
+#     if [ -n $ELAPSED_TIME ] || [ -n $LAST_CMD_STATUS ]; then
+#         echo -e "$ELAPSED_TIME$LAST_CMD_STATUS"
+#     fi
+# }
+#
 ## Format the vcs_info_msg_0_ variable
 zstyle ':vcs_info:git:*' check-for-changes true
 zstyle ':vcs_info:git:*' unstagedstr 𝚫
 zstyle ':vcs_info:git:*' stagedstr 𝛅
 zstyle ':vcs_info:git:*' formats 'git: %b %u%c'
 setopt PROMPT_SUBST
-PROMPT='${(l:COLUMNS:: :)$(get_last_cmd_info)}
-${vcs_info_msg_0_}
+PROMPT='${vcs_info_msg_0_}
 %F{white}%d
 %F{blue}▷%F{white} '
 
@@ -223,16 +206,6 @@ stty -ixon
 if [[ -d /usr/share/zsh/plugins/zsh-syntax-highlighting ]]; then
     ## activate zsh-syntax-highlighting
     source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-fi
-
-if [[ -d /usr/share/fzf ]]; then
-    # Enable fzf keybindings
-    # <CTRL+T> list files+folders in current directory (e.g., git commit <CTRL+T>, select a few files using <TAB>, finally <Return>)
-    # <CTRL+R> search history of shell commands
-    # <ALT+C> fuzzy change directory
-    source /usr/share/fzf/key-bindings.zsh
-    # Enable fzf completion. **<TAB> has the same effect as <CTRL+T> above.
-    source /usr/share/fzf/completion.zsh
 fi
 
 if [[ -d ${HOME}/var/google-cloud-sdk ]]; then
