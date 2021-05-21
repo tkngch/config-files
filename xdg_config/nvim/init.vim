@@ -38,3 +38,11 @@ nnoremap ; :
 " Minimal number of screen lines to keep above and below the cursor.
 set scrolloff=8
 
+
+
+" Third-party plugins
+" Requires vim-plug: https://github.com/junegunn/vim-plug
+
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+Plug 'airblade/vim-rooter'
