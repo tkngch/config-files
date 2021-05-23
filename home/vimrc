@@ -35,12 +35,12 @@ Plug 'honza/vim-snippets'
 " Plug 'w0rp/ale'  " Asynchronous Lint Engine
 " Plug 'maverickg/stan.vim'  " Vim syntax highlighting for Stan modeling language
 " Plug 'lervag/vimtex'  " provides support for writing LaTeX
-Plug 'chriskempson/base16-vim'
-
-if executable('fzf')
-    Plug 'junegunn/fzf.vim'  " Requires fzf on $PATH
-endif
-
+" Plug 'chriskempson/base16-vim'
+"
+" if executable('fzf')
+"     Plug 'junegunn/fzf.vim'  " Requires fzf on $PATH
+" endif
+"
 " Initialize plugin system
 call plug#end()
 
@@ -75,10 +75,10 @@ call plug#end()
 " Color Scheme        "
 """""""""""""""""""""""
 
-syntax enable
+" syntax enable
 " set background=dark
 
-colorscheme base16-snazzy
+" colorscheme base16-snazzy
 
 " " Enable true color support
 " if has('termguicolors')
@@ -179,10 +179,10 @@ augroup end
 """"""""""""""""""
 
 " line numbers
-set number
+" set number
 
 " show the line number relative to the line with the cursor in front of each line
-set relativenumber
+" set relativenumber
 
 " show (partial) command in the last line of the screen
 " set showcmd
