@@ -7,7 +7,7 @@
 
 xrdb -merge ~/.Xresources
 
-xset s 1200 1200  # Change screen save blank time to 20 minutes
+# xset s 1200 1200  # Change screen save blank time to 20 minutes
 # xset dpms 0 0 0  # disable standby, suspend, and off
 
 # capslock as ctrl key
@@ -33,14 +33,16 @@ test "$(command -v flameshot)" && flameshot &
 export GTK_IM_MODULE=fcitx
 export QT_IM_MODULE=fcitx
 export XMODIFIERS=@im=fcitx
+export GLFW_IM_MODULE=ibus  # to use fcitx5 with kitty terminal emulator
 
 
 exec_awesome() {
     # Lock the screen 10 minutes of inactivity, using i3lock
+    xset s on
     xset s 600
     test "$(command -v xss-lock)" && test "$(command -v i3lock)" && xss-lock -- i3lock -n -c 3b4252 &
 
-    test "$(command -v fcitx)" && fcitx -d
+    test "$(command -v fcitx5)" && fcitx5 -d
     test "$(command -v picom)" && picom -C --config ~/.config/picom/picom.conf &
     test "$(command -v nm-applet)" && nm-applet &
     # pulseaudio systray applet
