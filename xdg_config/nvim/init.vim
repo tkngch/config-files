@@ -25,11 +25,30 @@ set showbreak=↳\
 " Enable mouse support for all the modes.
 set mouse=a
 
-" Smart way to move btw. windows
-map <C-j> <C-W>j
-map <C-k> <C-W>k
-map <C-h> <C-W>h
-map <C-l> <C-W>l
+" Minimal number of screen lines to keep above and below the cursor.
+set scrolloff=8
+
+
+" map <Esc> to exit terminal-mode:
+tnoremap <Esc> <C-\><C-n>
+
+" use `ALT+{h,j,k,l}` to navigate windows from any mode:
+tnoremap <A-h> <C-\><C-N><C-w>h
+tnoremap <A-j> <C-\><C-N><C-w>j
+tnoremap <A-k> <C-\><C-N><C-w>k
+tnoremap <A-l> <C-\><C-N><C-w>l
+inoremap <A-h> <C-\><C-N><C-w>h
+inoremap <A-j> <C-\><C-N><C-w>j
+inoremap <A-k> <C-\><C-N><C-w>k
+inoremap <A-l> <C-\><C-N><C-w>l
+nnoremap <A-h> <C-w>h
+nnoremap <A-j> <C-w>j
+nnoremap <A-k> <C-w>k
+nnoremap <A-l> <C-w>l
+
+" Alt+Tab to audo-complete
+inoremap <A-Tab> <C-n>
+inoremap <A-S-Tab> <C-p>
 
 " Get the standard keys to work with wrap
 map <silent> k gk
@@ -39,10 +58,6 @@ map <silent> $ g$
 
 nnoremap ; :
 let mapleader=' '
-
-" Minimal number of screen lines to keep above and below the cursor.
-set scrolloff=8
-
 
 
 " Third-party plugins
@@ -75,4 +90,7 @@ map <leader>fs :Rg<CR>
 map <leader>tt :NERDTreeToggle<CR>
 
 " onedark
-colorscheme onedark
+try
+    colorscheme onedark
+catch
+endtry
