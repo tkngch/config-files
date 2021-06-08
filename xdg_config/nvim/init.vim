@@ -69,13 +69,14 @@ call plug#begin(stdpath('data') . '/plugged')
 
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
+
 Plug 'airblade/vim-rooter'
 
 Plug 'tomtom/tcomment_vim'
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
-" Plug 'tpope/vim-fugitive'
+Plug 'mhinz/vim-signify'
 
 Plug 'preservim/nerdtree'
 
