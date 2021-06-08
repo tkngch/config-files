@@ -28,6 +28,9 @@ set mouse=a
 " Minimal number of screen lines to keep above and below the cursor.
 set scrolloff=8
 
+" Use the clipboard for all operations
+set clipboard+=unnamedplus
+
 
 " map <Esc> to exit terminal-mode:
 tnoremap <Esc> <C-\><C-n>
