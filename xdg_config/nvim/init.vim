@@ -31,6 +31,9 @@ set scrolloff=8
 " Use the clipboard for all operations
 set clipboard+=unnamedplus
 
+" Highlight the yanked text
+au TextYankPost * lua vim.highlight.on_yank()
+
 
 " map <Esc> to exit terminal-mode:
 tnoremap <Esc> <C-\><C-n>
@@ -67,28 +70,48 @@ let mapleader=' '
 " Requires vim-plug: https://github.com/junegunn/vim-plug
 call plug#begin(stdpath('data') . '/plugged')
 
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
-
+" lua module, required by telescope
+Plug 'nvim-lua/plenary.nvim'
+" fuzzy finder for files, buffers, and more
+Plug 'nvim-telescope/telescope.nvim'
+" configurations for Neovim's built-in language server client
+Plug 'neovim/nvim-lspconfig'
+" to change the working directory to the project root
 Plug 'airblade/vim-rooter'
-
+" to comment/uncomment code
 Plug 'tomtom/tcomment_vim'
-
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-
+" to enable syntax-highlighting for many languages
+Plug 'sheerun/vim-polyglot'
+" to indicate added, modified and removed lines with a version control system
 Plug 'mhinz/vim-signify'
-
+" file system explorer
 Plug 'preservim/nerdtree'
-
+" color scheme
 Plug 'joshdick/onedark.vim'
 
 " Initialize plugin system
 call plug#end()
 
-" fzf
-map <leader>ff :Files<CR>
-map <leader>fb :Buffers<CR>
-map <leader>fs :Rg<CR>
+" LSP
+lua << EOF
+require('lspconfig').pyright.setup{}
+EOF
+
+" Find files using Telescope command-line sugar.
+nnoremap <leader>fd <cmd>Telescope file_browser<cr>
+nnoremap <leader>ff <cmd>Telescope find_files<cr>
+nnoremap <leader>fs <cmd>Telescope live_grep<cr>
+nnoremap <leader>fb <cmd>Telescope buffers<cr>
+
+lua << EOF
+require('telescope').setup{
+  defaults = {
+    sorting_strategy = "ascending",
+    layout_strategy = "vertical",
+    layout_config = { vertical = { mirror = true, }, },
+  }
+}
+EOF
 
 " nerdtree
 map <leader>tt :NERDTreeToggle<CR>

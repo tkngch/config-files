@@ -16,7 +16,6 @@ export PAGER="/bin/less"
 export SDCV_PAGER="/bin/less"
 ## Paths
 export LOCAL_BIN="${HOME}/.local/bin"
-export MAILDIR="${HOME}/var/emails"
 export XDG_CONFIG_HOME="$HOME/.config"
 export LESSHISTFILE="$HOME/.cache/less.hist"
 export PYLINTHOME="$HOME/.cache/pylint.d"  # Directory to cache pylint results.
@@ -25,6 +24,7 @@ export R_PROFILE_USER="$HOME/.Rprofile"
 export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$HOME/lib/cpp/"
 export STARDICT_DATA_DIR="$HOME/var/stardict/dic"
 export PATH="${LOCAL_BIN}:${PATH}"
+# export MAILDIR="${HOME}/var/emails"  # Ignored by notmuch, as of version 0.32.1
 ## others
 export LESS="-r"  # color support
 export R_DEFAULT_PACKAGES=NULL  # do not let R preload anything

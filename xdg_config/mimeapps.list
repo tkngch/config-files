@@ -1,4 +1,2 @@
 [Default Applications]
-x-scheme-handler/http=null.desktop
-x-scheme-handler/https=null.desktop
 application/pdf=evince.desktop;

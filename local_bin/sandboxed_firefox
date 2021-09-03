@@ -1,4 +1,4 @@
 #!/bin/sh
 
 firejail --caps.drop=all --disable-mnt --noroot --quiet --private --seccomp \
-    /usr/bin/chromium --no-sandbox "$@"
+    /usr/bin/firefox --no-remote --new-instance "$@"

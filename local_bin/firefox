@@ -1,6 +1,0 @@
-#!/bin/sh
-# Open Firefox inside the sandbox.
-
-URL=${1:-http://localhost:33876}
-
-"${LOCAL_BIN}/sandbox" /usr/bin/firefox --no-remote --new-instance "$URL" 2> /dev/null &

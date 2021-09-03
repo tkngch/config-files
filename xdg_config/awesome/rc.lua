@@ -79,8 +79,12 @@ function wallpaper_colour:next()
    self._index = new_index
    return beautiful.wallpaper_colours[new_index]
 end
+function wallpaper_colour:reset()
+   self._index = 1
+end
 
 local reset_wallpaper_colour = function()
+    wallpaper_colour:reset()
     gears.wallpaper.set(beautiful.bg_normal)
 end
 
