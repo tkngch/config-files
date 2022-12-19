@@ -1,0 +1,72 @@
+" vimrc
+
+""""""""""""""
+" Behaviours "
+""""""""""""""
+
+" Enable file type detection
+filetype on
+
+" Number of spaces to use for each step of (auto)indent.
+set shiftwidth=4
+
+" Number of spaces that a <Tab> counts for while performing editing
+" operations.
+set softtabstop=4
+
+" Use the appropriate number of spaces to insert a <Tab>.
+set expandtab
+
+" Round indent to multiple of `shiftwidth`.
+set shiftround
+
+" Enable mouse support for all the modes.
+set mouse=a
+
+" Minimal number of screen lines to keep above and below the cursor.
+set scrolloff=8
+
+" Get the standard keys to work with wrap
+map <silent> k gk
+map <silent> j gj
+map <silent> 0 g0
+map <silent> $ g$
+
+nnoremap ; :
+
+
+"""""""""""""""
+" Appearances "
+"""""""""""""""
+
+" Turn on syntax highlighting
+syntax enable
+
+" Precede each line with its line number.
+set number
+
+" Show the line number relative to the line with the cursor.
+set relativenumber
+
+" Turn off the match highlighting.
+set nohlsearch
+
+" List mode to display tabs and spaces.
+set list
+set listchars=tab:→\ ,extends:⇉,precedes:⇇,trail:␠,nbsp:␣
+
+" string to put at the start of lines that have been wrapped
+set showbreak=↳\
+
+" the last window always have the statusline
+set laststatus=2
+
+" status line
+set statusline=
+set statusline+=%n:  " buffer number
+set statusline+=\ %f  " relative path
+set statusline+=\ %m%r%h%w  " flags
+set statusline+=%=  " seperate between right- and left-aligned
+set statusline+=%{&spelllang}
+set statusline+=\ %y  " file type
+set statusline+=\ (row:%l/%L,\ col:%c)  " line and column

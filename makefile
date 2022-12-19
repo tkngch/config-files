@@ -1,12 +1,5 @@
-.PHONY: install dryrun check
-
-dryrun:
-	python install.py --dry-run
+.PHONEY: install
 
 install:
-	python install.py
-	update-desktop-database ~/.local/share/applications
-
-check:
-	mypy install.py
-	pylint install.py
+	ln -f -s $(CURDIR)/vim/vimrc ~/.vimrc
+	ln -f -s $(CURDIR)/zsh/zshrc ~/.zshrc
