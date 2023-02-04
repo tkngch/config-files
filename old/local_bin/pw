@@ -1,3 +1,0 @@
-#!/usr/bin/env sh
-
-vim -u $HOME/.vimrc_passwordfile -x $HOME/var/passwords.txt

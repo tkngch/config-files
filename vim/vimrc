@@ -26,11 +26,12 @@ set mouse=a
 " Minimal number of screen lines to keep above and below the cursor.
 set scrolloff=8
 
+" Disable bell
+set belloff=all
+
 " Get the standard keys to work with wrap
 map <silent> k gk
 map <silent> j gj
-map <silent> 0 g0
-map <silent> $ g$
 
 nnoremap ; :
 
@@ -53,12 +54,12 @@ set nohlsearch
 
 " List mode to display tabs and spaces.
 set list
-set listchars=tab:→\ ,extends:⇉,precedes:⇇,trail:␠,nbsp:␣
+set listchars=tab:→\ ,trail:␣
 
 " string to put at the start of lines that have been wrapped
 set showbreak=↳\
 
-" the last window always have the statusline
+" the last window always have the status-line
 set laststatus=2
 
 " status line
@@ -66,7 +67,7 @@ set statusline=
 set statusline+=%n:  " buffer number
 set statusline+=\ %f  " relative path
 set statusline+=\ %m%r%h%w  " flags
-set statusline+=%=  " seperate between right- and left-aligned
+set statusline+=%=  " separate between right- and left-aligned
 set statusline+=%{&spelllang}
 set statusline+=\ %y  " file type
 set statusline+=\ (row:%l/%L,\ col:%c)  " line and column

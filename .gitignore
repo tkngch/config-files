@@ -2,3 +2,4 @@ home/msmtprc
 home/notmuch*
 xdg_config/getmail
 .venv
+nvim/plugin/packer_compiled.lua

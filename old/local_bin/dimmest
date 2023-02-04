@@ -1,1 +1,0 @@
-sudo sh -c "echo $(($(cat /sys/class/backlight/intel_backlight/max_brightness) / 5)) > /sys/class/backlight/intel_backlight/brightness"

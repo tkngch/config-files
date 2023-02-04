@@ -1,9 +1,0 @@
-#!/usr/bin/bash
-
-databases=(${HOME}/var/password*/*.kdbx)
-
-if [ -f ${databases[0]} ]; then
-   keepassxc ${databases[0]}
-else
-   keepassxc
-fi
