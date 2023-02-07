@@ -5,6 +5,11 @@
 export LESS="-r"  # color support
 export GREP_COLOR='1;33'  # color grep output in yellow
 
+typeset -U path  # Keep only the unique elements in PATH
+if [ -d /opt/homebrew/bin ]; then
+    path+=/opt/homebrew/bin
+fi
+
 # ALIASES
 # =======
 alias ls='/bin/ls --color=auto'
@@ -14,11 +19,32 @@ alias cp='cp -i -p'
 alias rm='rm -iv'
 alias grep='grep --color=always'
 
-# HISTORY
-# =======
+
+# HOMEBREW
+# ========
+if type brew &>/dev/null; then
+    # opt out of Homebrew’s analytics
+    export HOMEBREW_NO_ANALYTICS=1
+
+    # Set PATH, MANPATH, etc., for Homebrew.
+    eval "$(brew shellenv)"
+
+    # Enable completions. FPATH needs to be set before `compinit` is called.
+    FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
+
+    SYNTAX_FILE="$(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+    if [ -f "$SYNTAX_FILE" ]; then
+        source "$SYNTAX_FILE"
+    fi
+fi
+
+
+# COMMAND HISTORY
+# ===============
 HISTSIZE=10000
 SAVEHIST=10000
 setopt SHARE_HISTORY  # share history between sessions
+
 
 # KEYBINDINGS
 # ===========
@@ -40,10 +66,11 @@ zle -N down-line-or-beginning-search
 [[ -n ${key[Up]} ]] && bindkey "${key[Up]}" up-line-or-beginning-search
 [[ -n ${key[Down]} ]] && bindkey "${key[Down]}" down-line-or-beginning-search
 
-# AUTO COMPLETION
-# ===============
-autoload -Uz compinit
-compinit -d $HOME/.cache/zsh.compdump
+
+# COMPLETION SYSTEM
+# =================
+# man zshcompsys
+autoload -U compinit
 # move the cursor around the list of completions to select one
 zstyle ':completion:*' menu select
 # This way you tell zsh comp to take the first part of the path to be exact,
@@ -52,16 +79,49 @@ zstyle ':completion:*' accept-exact '*(N)'
 # autocomplete aliases
 setopt COMPLETE_ALIASES
 
+
+# REMEMBERING RECENT DIRECTORIES
+# ==============================
+# man zshcontrib
+#
+# The function cdr allows you to change the working directory to a previous
+# working directory from a list maintained automatically.
+
+autoload -Uz chpwd_recent_dirs cdr add-zsh-hook
+add-zsh-hook chpwd chpwd_recent_dirs
+zstyle ':completion:*:*:cdr:*:*' menu selection
+
+
 # DIRSTACK
 # ========
 DIRSTACKSIZE=0
 
+
+# GATHERING INFORMATION FROM VERSION CONTROL SYSTEMS
+# ==================================================
+# man zshcontrib
+autoload -Uz vcs_info
+# Format parameters
+# %s     The VCS in use (git, hg, svn, etc.).
+# %b     Information about the current branch.
+# %a     An identifier that describes the action. Only makes sense in actionformats.
+zstyle ':vcs_info:git:*' formats '%s: %F{magenta}%b%f'
+# A list of formats, used on a special action (e.g., an interactive rebase and a merge conflict).
+zstyle ':vcs_info:git:*' actionformats '%s: %a|%b'
+setopt PROMPT_SUBST  # To use '${vcs_info_msg_0_}' in the prompt
+
+
 # PROMPT
 # ======
-# See https://zsh.sourceforge.io/Doc/Release/Prompt-Expansion.html
+# man zshmisc
+precmd() { vcs_info }
+# %B (%b) Start (stop) boldface mode.
+# %F (%f) Start (stop) using a different foreground colour.
 PROMPT='
-%d
+${vcs_info_msg_0_}
+%B%d%b
 %# '
+
 
 # MISC
 # ====
@@ -69,8 +129,3 @@ unsetopt beep
 
 # disable XON/XOFF flow control (^s/^q)
 stty -ixon
-
-# set PATH, MANPATH, etc., for Homebrew.
-eval "$(/opt/homebrew/bin/brew shellenv)"
-
-source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
