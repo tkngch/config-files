@@ -31,11 +31,6 @@ if type brew &>/dev/null; then
 
     # Enable completions. FPATH needs to be set before `compinit` is called.
     FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
-
-    SYNTAX_FILE="$(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
-    if [ -f "$SYNTAX_FILE" ]; then
-        source "$SYNTAX_FILE"
-    fi
 fi
 
 
@@ -78,6 +73,8 @@ zstyle ':completion:*' menu select
 zstyle ':completion:*' accept-exact '*(N)'
 # autocomplete aliases
 setopt COMPLETE_ALIASES
+# initialise
+compinit
 
 
 # REMEMBERING RECENT DIRECTORIES
@@ -129,3 +126,7 @@ unsetopt beep
 
 # disable XON/XOFF flow control (^s/^q)
 stty -ixon
+
+# zsh-syntax-highlighting.zsh must be sourced at the end:
+# https://github.com/zsh-users/zsh-syntax-highlighting#why-must-zsh-syntax-highlightingzsh-be-sourced-at-the-end-of-the-zshrc-file
+source "$HOME/.config/zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
