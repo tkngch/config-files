@@ -11,9 +11,9 @@ do -- Appearance
 
     -- List mode to display tabs and spaces.
     vim.opt.list = true
-    vim.opt.listchars = { tab = '→ ', trail = '␣' }
+    vim.opt.listchars = { tab = "→ ", trail = "␣" }
     -- string to put at the start of lines that have been wrapped
-    vim.opt.showbreak = '↳\\'
+    vim.opt.showbreak = "↳\\"
 
     -- Turn off the match highlighting.
     vim.opt.hlsearch = false
@@ -21,7 +21,7 @@ do -- Appearance
     -- Enables 24-bit RGB color in the TUI.
     vim.opt.termguicolors = true
     -- Set the default colour-scheme. To be shadowed by the package below.
-    vim.cmd.colorscheme('slate')
+    vim.cmd.colorscheme("slate")
 
     if vim.g.neovide then
         vim.opt.guifont = { "Monaco", "h12" }
@@ -30,7 +30,7 @@ end
 
 do -- Behaviour
     -- Spell-check with British English
-    vim.opt_local.spell.spelllang = 'en_gb'
+    vim.opt_local.spell.spelllang = "en_gb"
     vim.opt.spell = true
 
     -- Number of spaces to use for each step of (auto)indent.
@@ -43,102 +43,116 @@ do -- Behaviour
     vim.opt.shiftround = true
 
     -- Use the clipboard for all operations
-    vim.opt.clipboard = 'unnamedplus'
+    vim.opt.clipboard = "unnamedplus"
 
-    vim.g.mapleader = ' '
-    vim.g.maplocalleader = ' '
-    vim.keymap.set('n', ';', ':')
+    vim.g.mapleader = " "
+    vim.g.maplocalleader = " "
+    vim.keymap.set("n", ";", ":")
 
     -- Get the standard keys to work with wrap
-    vim.keymap.set('', 'j', 'gj', { silent = true })
-    vim.keymap.set('', 'k', 'gk', { silent = true })
+    vim.keymap.set("", "j", "gj", { silent = true })
+    vim.keymap.set("", "k", "gk", { silent = true })
     -- Exit the terminal-mode with Escape key
-    vim.keymap.set('t', '<esc>', '<C-\\><C-n>')
+    vim.keymap.set("t", "<esc>", "<C-\\><C-n>")
 
     -- Enable mouse support for all the modes
-    vim.opt.mouse = 'a'
+    vim.opt.mouse = "a"
 
     -- Highlight the yanked text
-    vim.api.nvim_create_autocmd(
-        'TextYankPost',
-        { callback = function() vim.highlight.on_yank() end }
-    )
+    vim.api.nvim_create_autocmd("TextYankPost", {
+        callback = function()
+            vim.highlight.on_yank()
+        end,
+    })
 end
 
-require('packer').startup(
-    function(use)
-        -- package manager for neovim
-        use 'wbthomason/packer.nvim'
+require("packer").startup(function(use)
+    -- package manager for neovim
+    use("wbthomason/packer.nvim")
 
-        use { --  fuzzy finder for files, buffers, and more
-            'nvim-telescope/telescope.nvim',
-            tag = '0.1.1',
-            requires = { {'nvim-lua/plenary.nvim'} },
-            config = function() configure_telescope() end
-        }
+    use({ --  fuzzy finder for files, buffers, and more
+        "nvim-telescope/telescope.nvim",
+        tag = "0.1.1",
+        requires = { { "nvim-lua/plenary.nvim" } },
+        config = function()
+            configure_telescope()
+        end,
+    })
 
-        use { -- file explorer
-            'SidOfc/carbon.nvim',
-            config = function() configure_carbon() end
-        }
+    use({ -- file explorer
+        "SidOfc/carbon.nvim",
+        config = function()
+            configure_carbon()
+        end,
+    })
 
-        -- to change the working directory to the project root
-        use 'airblade/vim-rooter'
+    -- to change the working directory to the project root
+    use("airblade/vim-rooter")
 
-        use { -- to comment and uncomment code
-            'numToStr/Comment.nvim',
-            config = function() configure_comment() end
-        }
+    use({ -- to comment and uncomment code
+        "numToStr/Comment.nvim",
+        config = function()
+            configure_comment()
+        end,
+    })
 
-        use { -- autoformat code
-            'mhartington/formatter.nvim',
-            config = function() configure_formatter() end
-        }
+    use({ -- autoformat code
+        "mhartington/formatter.nvim",
+        config = function()
+            configure_formatter()
+        end,
+    })
 
-        use { -- syntax highlighting and more
-            'nvim-treesitter/nvim-treesitter',
-            run = function() update_treesitter_parsers() end,
-            config = function() configure_treesitter() end
-        }
+    use({ -- syntax highlighting and more
+        "nvim-treesitter/nvim-treesitter",
+        run = function()
+            update_treesitter_parsers()
+        end,
+        config = function()
+            configure_treesitter()
+        end,
+    })
 
-        use { -- git decorations
-            'lewis6991/gitsigns.nvim',
-            config = function() configure_gitsigns() end
-        }
+    use({ -- git decorations
+        "lewis6991/gitsigns.nvim",
+        config = function()
+            configure_gitsigns()
+        end,
+    })
 
-        use { -- colour scheme
-            'EdenEast/nightfox.nvim',
-            config = function() vim.cmd.colorscheme('nightfox') end
-        }
-
-    end
-)
+    use({ -- colour scheme
+        "EdenEast/nightfox.nvim",
+        config = function()
+            vim.cmd.colorscheme("nightfox")
+        end,
+    })
+end)
 
 function configure_telescope()
-    local actions = require('telescope.actions')
-    local builtin = require('telescope.builtin')
+    local actions = require("telescope.actions")
+    local builtin = require("telescope.builtin")
 
-    require('telescope').setup {
+    require("telescope").setup({
         defaults = {
-            sorting_strategy = 'ascending',
-            layout_strategy = 'vertical',
-            layout_config = { vertical = { mirror = true, }, },
+            sorting_strategy = "ascending",
+            layout_strategy = "vertical",
+            layout_config = { vertical = { mirror = true } },
             mappings = {
                 i = {
                     -- Exit with Escape key
-                    ['<esc>'] = actions.close
+                    ["<esc>"] = actions.close,
                 },
-            }
-        }
-    }
+            },
+        },
+    })
 
-    vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
-    vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
-    vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
+    vim.keymap.set("n", "<leader>ff", builtin.find_files, {})
+    vim.keymap.set("n", "<leader>fg", builtin.live_grep, {})
+    vim.keymap.set("n", "<leader>fb", builtin.buffers, {})
     -- list available help tags to show the help info
-    vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
+    vim.keymap.set("n", "<leader>fh", builtin.help_tags, {})
     -- list previously open files
-    vim.keymap.set('n', '<leader>fr', builtin.oldfiles, {})
+    vim.keymap.set("n", "<leader>fr", builtin.oldfiles, {})
 end
 
 function configure_carbon()
@@ -146,28 +160,29 @@ function configure_carbon()
     vim.g.loaded_netrw = 1
     vim.g.loaded_netrwPlugin = 1
 
-    require('carbon').setup {
+    require("carbon").setup({
         keep_netrw = false,
         indicators = {
-            expand = '▸',
-            collapse = '-'
-        }
-    }
+            expand = "▸",
+            collapse = "-",
+        },
+    })
 
-    vim.keymap.set('', '<leader>tt', '<cmd>ToggleSidebarCarbon<cr>')
+    vim.keymap.set("", "<leader>tt", "<cmd>ToggleSidebarCarbon<cr>")
 end
 
 function configure_comment()
-    require('Comment').setup()
+    require("Comment").setup()
 end
 
 function configure_formatter()
-    require('formatter').setup {
+    require("formatter").setup({
         filetype = {
-            markdown = require('formatter.filetypes.markdown').prettier,
-            ['*'] = require('formatter.filetypes.any').remove_trailing_whitespace
-        }
-    }
+            lua = require("formatter.filetypes.lua").stylua,
+            markdown = require("formatter.filetypes.markdown").prettier,
+            ["*"] = require("formatter.filetypes.any").remove_trailing_whitespace,
+        },
+    })
     -- format and write after save asynchronously
     vim.cmd([[
         augroup FormatAutogroup
@@ -178,30 +193,33 @@ function configure_formatter()
 end
 
 function update_treesitter_parsers()
-    local ts_update = require('nvim-treesitter.install').update({ with_sync = true })
+    local ts_update = require("nvim-treesitter.install").update({ with_sync = true })
     ts_update()
 end
 
 function configure_treesitter()
-    require('nvim-treesitter.configs').setup {
+    require("nvim-treesitter.configs").setup({
         highlight = {
             enable = true,
-            additional_vim_regex_highlighting = false
-        }
-    }
+            additional_vim_regex_highlighting = false,
+        },
+        indent = {
+            enable = true,
+        },
+    })
 end
 
 function configure_gitsigns()
-    require('gitsigns').setup {
+    require("gitsigns").setup({
         signs = {
-            add          = { text = '+' },
-            change       = { text = '│' },
-            delete       = { text = '_' },
-            topdelete    = { text = '‾' },
-            changedelete = { text = '~' },
-            untracked    = { text = '┆' },
-        }
-    }
+            add = { text = "+" },
+            change = { text = "│" },
+            delete = { text = "_" },
+            topdelete = { text = "‾" },
+            changedelete = { text = "~" },
+            untracked = { text = "┆" },
+        },
+    })
 end
 
 function reload_init()
