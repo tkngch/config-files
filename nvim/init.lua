@@ -80,9 +80,12 @@ require("packer").startup(function(use)
     })
 
     use({ -- file explorer
-        "SidOfc/carbon.nvim",
+        "nvim-tree/nvim-tree.lua",
+        -- requires = {
+        --     "nvim-tree/nvim-web-devicons", -- optional
+        -- },
         config = function()
-            configure_carbon()
+            configure_nvim_tree()
         end,
     })
 
@@ -155,20 +158,51 @@ function configure_telescope()
     vim.keymap.set("n", "<leader>fr", builtin.oldfiles, {})
 end
 
-function configure_carbon()
+function configure_nvim_tree()
     -- disable netrw
     vim.g.loaded_netrw = 1
     vim.g.loaded_netrwPlugin = 1
 
-    require("carbon").setup({
-        keep_netrw = false,
-        indicators = {
-            expand = "▸",
-            collapse = "-",
+    require("nvim-tree").setup({
+        view = {
+            -- dynamically sized view, based on the longest line
+            width = {},
+        },
+        update_focused_file = {
+            enable = true,
+        },
+        renderer = {
+            icons = {
+                glyphs = {
+                    default = "",
+                    symlink = "",
+                    modified = "●",
+                    folder = {
+                        arrow_closed = "▷",
+                        arrow_open = "▽",
+                        default = "",
+                        open = "",
+                        empty = "",
+                        empty_open = "",
+                        symlink = "",
+                        symlink_open = "",
+                    },
+                    git = {
+                        unstaged = "✗",
+                        staged = "✓",
+                        unmerged = "★",
+                        renamed = "➜",
+                        untracked = "",
+                        deleted = "⦙",
+                        ignored = "◌",
+                    },
+                },
+            },
         },
     })
 
-    vim.keymap.set("", "<leader>tt", "<cmd>ToggleSidebarCarbon<cr>")
+    vim.keymap.set("", "<leader>tt", "<cmd>NvimTreeToggle<cr>")
+    vim.keymap.set("", "<leader>tc", "<cmd>NvimTreeCollapse<cr>")
 end
 
 function configure_comment()
