@@ -163,6 +163,8 @@ function configure_nvim_tree()
     vim.g.loaded_netrw = 1
     vim.g.loaded_netrwPlugin = 1
 
+    local api = require("nvim-tree.api")
+
     require("nvim-tree").setup({
         view = {
             -- dynamically sized view, based on the longest line
@@ -172,6 +174,7 @@ function configure_nvim_tree()
             enable = true,
         },
         renderer = {
+            group_empty = true,
             icons = {
                 glyphs = {
                     default = "",
@@ -201,8 +204,14 @@ function configure_nvim_tree()
         },
     })
 
-    vim.keymap.set("", "<leader>tt", "<cmd>NvimTreeToggle<cr>")
-    vim.keymap.set("", "<leader>tc", "<cmd>NvimTreeCollapse<cr>")
+    vim.keymap.set("", "<leader>tt", function()
+        if api.tree.is_visible() then
+            api.tree.collapse_all()
+            api.tree.close()
+        else
+            api.tree.open()
+        end
+    end)
 end
 
 function configure_comment()
