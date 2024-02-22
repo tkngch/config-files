@@ -8,6 +8,8 @@ do -- Appearance
     vim.opt.relativenumber = true
     -- Minimal number of screen lines to keep above and below the cursor.
     vim.opt.scrolloff = 8
+    -- Highlight the text line of the cursor.
+    vim.opt.cursorline = true
 
     -- List mode to display tabs and spaces.
     vim.opt.list = true
@@ -15,8 +17,8 @@ do -- Appearance
     -- string to put at the start of lines that have been wrapped
     vim.opt.showbreak = "↳\\"
 
-    -- Turn off the match highlighting.
-    vim.opt.hlsearch = false
+    -- Turn on the match highlighting.
+    vim.opt.hlsearch = true
 
     -- Enables 24-bit RGB color in the TUI.
     vim.opt.termguicolors = true
