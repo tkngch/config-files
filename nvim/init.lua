@@ -66,207 +66,23 @@ do -- Behaviour
     })
 end
 
-require("packer").startup(function(use)
-    -- package manager for neovim
-    use("wbthomason/packer.nvim")
-
-    use({ --  fuzzy finder for files, buffers, and more
-        "nvim-telescope/telescope.nvim",
-        tag = "0.1.4",
-        requires = { { "nvim-lua/plenary.nvim" } },
-        config = function()
-            configure_telescope()
-        end,
-    })
-
-    use({ -- file explorer
-        "nvim-tree/nvim-tree.lua",
-        -- requires = {
-        --     "nvim-tree/nvim-web-devicons", -- optional
-        -- },
-        config = function()
-            configure_nvim_tree()
-        end,
-    })
-
-    -- to change the working directory to the project root
-    use("airblade/vim-rooter")
-
-    use({ -- to comment and uncomment code
-        "numToStr/Comment.nvim",
-        config = function()
-            configure_comment()
-        end,
-    })
-
-    use({ -- autoformat code
-        "mhartington/formatter.nvim",
-        config = function()
-            configure_formatter()
-        end,
-    })
-
-    use({ -- syntax highlighting and more
-        "nvim-treesitter/nvim-treesitter",
-        run = function()
-            update_treesitter_parsers()
-        end,
-        config = function()
-            configure_treesitter()
-        end,
-    })
-
-    use({ -- git decorations
-        "lewis6991/gitsigns.nvim",
-        config = function()
-            configure_gitsigns()
-        end,
-    })
-
-    use({ -- colour scheme
-        "EdenEast/nightfox.nvim",
-        config = function()
-            vim.cmd.colorscheme("nightfox")
-        end,
-    })
-end)
-
-function configure_telescope()
-    local actions = require("telescope.actions")
-    local builtin = require("telescope.builtin")
-
-    require("telescope").setup({
-        defaults = {
-            sorting_strategy = "ascending",
-            layout_strategy = "vertical",
-            layout_config = { vertical = { mirror = true } },
-            mappings = {
-                i = {
-                    -- Exit with Escape key
-                    ["<esc>"] = actions.close,
-                },
-            },
-        },
-    })
-
-    vim.keymap.set("n", "<leader>ff", builtin.find_files, {})
-    vim.keymap.set("n", "<leader>fg", builtin.live_grep, {})
-    vim.keymap.set("n", "<leader>fb", builtin.buffers, {})
-    -- list available help tags to show the help info
-    vim.keymap.set("n", "<leader>fh", builtin.help_tags, {})
-    -- list previously open files
-    vim.keymap.set("n", "<leader>fr", builtin.oldfiles, {})
-end
-
-function configure_nvim_tree()
-    -- disable netrw
-    vim.g.loaded_netrw = 1
-    vim.g.loaded_netrwPlugin = 1
-
-    local api = require("nvim-tree.api")
-
-    require("nvim-tree").setup({
-        view = {
-            -- dynamically sized view, based on the longest line
-            width = {},
-        },
-        update_focused_file = {
-            enable = true,
-        },
-        renderer = {
-            group_empty = true,
-            icons = {
-                glyphs = {
-                    default = "",
-                    symlink = "",
-                    modified = "●",
-                    folder = {
-                        arrow_closed = "▷",
-                        arrow_open = "▽",
-                        default = "",
-                        open = "",
-                        empty = "",
-                        empty_open = "",
-                        symlink = "",
-                        symlink_open = "",
-                    },
-                    git = {
-                        unstaged = "✗",
-                        staged = "✓",
-                        unmerged = "★",
-                        renamed = "➜",
-                        untracked = "",
-                        deleted = "⦙",
-                        ignored = "◌",
-                    },
-                },
-            },
-        },
-    })
-
-    vim.keymap.set("", "<leader>tt", function()
-        if api.tree.is_visible() then
-            api.tree.collapse_all()
-            api.tree.close()
-        else
-            api.tree.open()
-        end
-    end)
-end
-
-function configure_comment()
-    require("Comment").setup()
-end
-
-function configure_formatter()
-    require("formatter").setup({
-        filetype = {
-            lua = require("formatter.filetypes.lua").stylua,
-            markdown = require("formatter.filetypes.markdown").prettier,
-            ["*"] = require("formatter.filetypes.any").remove_trailing_whitespace,
-        },
-    })
-    -- format and write after save asynchronously
-    vim.cmd([[
-        augroup FormatAutogroup
-            autocmd!
-            autocmd BufWritePost * FormatWrite
-        augroup END
-    ]])
-end
-
-function update_treesitter_parsers()
-    local ts_update = require("nvim-treesitter.install").update({ with_sync = true })
-    ts_update()
-end
-
-function configure_treesitter()
-    require("nvim-treesitter.configs").setup({
-        highlight = {
-            enable = true,
-            additional_vim_regex_highlighting = false,
-        },
-        indent = {
-            enable = true,
-        },
+-- Manage packages with lazy.nvim
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+    vim.fn.system({
+        "git",
+        "clone",
+        "--filter=blob:none",
+        "https://github.com/folke/lazy.nvim.git",
+        "--branch=stable", -- latest stable release
+        lazypath,
     })
 end
+vim.opt.rtp:prepend(lazypath)
 
-function configure_gitsigns()
-    require("gitsigns").setup({
-        signs = {
-            add = { text = "+" },
-            change = { text = "│" },
-            delete = { text = "_" },
-            topdelete = { text = "‾" },
-            changedelete = { text = "~" },
-            untracked = { text = "┆" },
-        },
-    })
-end
+-- Load the packages defined in .config/nvim/lua/plugins/*.lua
+require("lazy").setup("plugins")
 
 function reload_init()
     vim.cmd.source(vim.env.MYVIMRC)
-    vim.cmd.PackerCompile()
-    -- vim.cmd.PackerSync()
 end
