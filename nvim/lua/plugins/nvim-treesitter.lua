@@ -6,6 +6,10 @@ return { -- syntax highlighting and more
     end,
     config = function()
         require("nvim-treesitter.configs").setup({
+            ensure_installed = { "lua", "vim", "vimdoc" },
+            -- Install parsers synchronously (only applied to `ensure_installed`)
+            sync_install = false,
+
             highlight = {
                 enable = true,
                 additional_vim_regex_highlighting = false,
@@ -18,9 +22,6 @@ return { -- syntax highlighting and more
                     scope_incremental = "grc",
                     node_decremental = "grm",
                 },
-            },
-            indent = {
-                enable = true,
             },
         })
     end,
