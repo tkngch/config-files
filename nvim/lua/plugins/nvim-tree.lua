@@ -13,6 +13,8 @@ return { -- file explorer
         local api = require("nvim-tree.api")
 
         require("nvim-tree").setup({
+            -- Changes the tree root directory on `DirChanged` and refreshes the tree.
+            sync_root_with_cwd = true,
             view = {
                 -- dynamically sized view, based on the longest line
                 width = {},

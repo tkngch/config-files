@@ -24,10 +24,6 @@ do -- Appearance
     vim.opt.termguicolors = true
     -- Set the default colour-scheme. To be shadowed by the package below.
     vim.cmd.colorscheme("slate")
-
-    if vim.g.neovide then
-        vim.opt.guifont = { "Monaco", "h12" }
-    end
 end
 
 do -- Behaviour
@@ -46,6 +42,9 @@ do -- Behaviour
 
     -- Use the clipboard for all operations
     vim.opt.clipboard = "unnamedplus"
+
+    -- Maximum number of lines kept beyond the visible screen in terminal buffers.
+    vim.opt.scrollback = 100000
 
     vim.g.mapleader = " "
     vim.g.maplocalleader = " "
