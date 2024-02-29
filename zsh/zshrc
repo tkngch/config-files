@@ -130,3 +130,7 @@ stty -ixon
 # zsh-syntax-highlighting.zsh must be sourced at the end:
 # https://github.com/zsh-users/zsh-syntax-highlighting#why-must-zsh-syntax-highlightingzsh-be-sourced-at-the-end-of-the-zshrc-file
 source "$HOME/.config/zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+
+if [ -f "$HOME/.config/zsh/extra.zsh" ]; then
+    source "$HOME/.config/zsh/extra.zsh"
+fi
