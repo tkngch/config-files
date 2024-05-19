@@ -1,3 +1,6 @@
+# https://alacritty.org/config-alacritty.html
+# Shift + Click to open a link
+
 import = [
     "~/.config/alacritty/theme/themes/iterm.toml"
 ]
@@ -24,3 +27,6 @@ style = "Italic"
 [font.bold_italic]
 family = "Hack Nerd Font Mono"
 style = "Bold Italic"
+
+[window]
+padding = { x = 4, y = 0 }
