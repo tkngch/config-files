@@ -46,6 +46,9 @@ do -- Behaviour
     -- Maximum number of lines kept beyond the visible screen in terminal buffers.
     vim.opt.scrollback = 100000
 
+    -- Save undo history to a file and restore undo history from the file on buffer read.
+    vim.opt.undofile = true
+
     vim.g.mapleader = " "
     vim.g.maplocalleader = " "
     vim.keymap.set("n", ";", ":")

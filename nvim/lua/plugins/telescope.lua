@@ -1,6 +1,6 @@
 return { --  fuzzy finder for files, buffers, and more
     "nvim-telescope/telescope.nvim",
-    tag = "0.1.5",
+    tag = "0.1.6",
     dependencies = { "nvim-lua/plenary.nvim" },
     config = function()
         local actions = require("telescope.actions")
@@ -8,13 +8,17 @@ return { --  fuzzy finder for files, buffers, and more
 
         require("telescope").setup({
             defaults = {
-                sorting_strategy = "ascending",
                 layout_strategy = "vertical",
-                layout_config = { vertical = { mirror = true } },
+                layout_config = {
+                    vertical = {
+                        mirror = true,
+                    },
+                },
                 mappings = {
                     i = {
-                        -- Exit with Escape key
                         ["<esc>"] = actions.close,
+                        ["<Down>"] = actions.cycle_history_next,
+                        ["<Up>"] = actions.cycle_history_prev,
                     },
                 },
             },
