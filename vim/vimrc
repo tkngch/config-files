@@ -29,10 +29,6 @@ set scrolloff=8
 " Disable bell
 set belloff=all
 
-" Get the standard keys to work with wrap
-map <silent> k gk
-map <silent> j gj
-
 nnoremap ; :
 
 

@@ -51,9 +51,6 @@ do -- Behaviour
     vim.g.maplocalleader = " "
     vim.keymap.set("n", ";", ":")
 
-    -- Get the standard keys to work with wrap
-    vim.keymap.set("", "j", "gj", { silent = true })
-    vim.keymap.set("", "k", "gk", { silent = true })
     -- Exit the terminal-mode with Escape key
     vim.keymap.set("t", "<esc>", "<C-\\><C-n>")
 
