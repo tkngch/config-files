@@ -2,7 +2,7 @@
 # Shift + Click to open a link
 
 import = [
-    "~/.config/alacritty/theme/themes/iterm.toml"
+    "~/.config/alacritty/theme/themes/zenburn.toml"
 ]
 
 [shell]
@@ -10,7 +10,7 @@ program = "/opt/homebrew/bin/tmux"
 args = ["new", "-A"]
 
 [font]
-size = 12.34
+size = 14
 
 [font.normal]
 family = "Hack Nerd Font Mono"
