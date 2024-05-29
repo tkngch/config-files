@@ -38,5 +38,6 @@ return {
         local lspconfig = require("lspconfig")
         lspconfig.pyright.setup({})
         lspconfig.lua_ls.setup(lua_ls_setup)
+        lspconfig.rust_analyzer.setup({})
     end,
 }
