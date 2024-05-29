@@ -22,8 +22,6 @@ do -- Appearance
 
     -- Enables 24-bit RGB color in the TUI.
     vim.opt.termguicolors = true
-    -- Set the default colour-scheme. To be shadowed by the package below.
-    vim.cmd.colorscheme("slate")
 end
 
 do -- Behaviour
@@ -72,7 +70,7 @@ end
 
 -- Manage packages with lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-if not vim.loop.fs_stat(lazypath) then
+if not (vim.uv or vim.loop).fs_stat(lazypath) then
     vim.fn.system({
         "git",
         "clone",
