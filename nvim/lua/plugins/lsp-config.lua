@@ -36,6 +36,7 @@ return {
     event = { "BufReadPost", "BufNewFile", "BufWritePre" },
     config = function()
         local lspconfig = require("lspconfig")
+        lspconfig.gopls.setup({})
         lspconfig.lua_ls.setup(lua_ls_setup)
         lspconfig.pyright.setup({})
         lspconfig.rust_analyzer.setup({})

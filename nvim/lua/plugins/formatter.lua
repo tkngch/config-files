@@ -3,6 +3,7 @@ return { -- autoformat code
     config = function()
         require("formatter").setup({
             filetype = {
+                go = require("formatter.filetypes.go").gofmt,
                 json = require("formatter.filetypes.json").prettier,
                 lua = require("formatter.filetypes.lua").stylua,
                 markdown = require("formatter.filetypes.markdown").prettier,
