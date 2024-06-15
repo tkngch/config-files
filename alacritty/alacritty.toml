@@ -2,7 +2,7 @@
 # Shift + Click to open a link
 
 import = [
-    "~/.config/alacritty/theme/themes/zenburn.toml"
+    "~/.config/alacritty/theme/themes/rose-pine-dawn.toml"
 ]
 
 [shell]
