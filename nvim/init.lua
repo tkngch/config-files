@@ -47,12 +47,30 @@ do -- Behaviour
     -- Save undo history to a file and restore undo history from the file on buffer read.
     vim.opt.undofile = true
 
+    vim.diagnostic.config({
+        -- Show diagnostics with higher severity before lower severity
+        severity_sort = true,
+    })
+
     vim.g.mapleader = " "
     vim.g.maplocalleader = " "
+
+    local keymap_opts = { silent = false }
     vim.keymap.set("n", ";", ":")
+    vim.keymap.set("n", "<leader>df", vim.diagnostic.open_float, keymap_opts)
+    vim.keymap.set("n", "<leader>dq", vim.diagnostic.setqflist, keymap_opts)
 
     -- Exit the terminal-mode with Escape key
     vim.keymap.set("t", "<esc>", "<C-\\><C-n>")
+
+    vim.api.nvim_create_autocmd("LspAttach", {
+        callback = function()
+            vim.keymap.set("n", "<leader>ld", vim.lsp.buf.definition, keymap_opts)
+            vim.keymap.set("n", "<leader>li", vim.lsp.buf.implementation, keymap_opts)
+            vim.keymap.set("n", "<leader>lu", vim.lsp.buf.references, keymap_opts)
+            vim.keymap.set("n", "<leader>lr", vim.lsp.buf.rename, keymap_opts)
+        end,
+    })
 
     -- Enable mouse support for all the modes
     vim.opt.mouse = "a"
