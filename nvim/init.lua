@@ -47,6 +47,9 @@ do -- Behaviour
     -- Save undo history to a file and restore undo history from the file on buffer read.
     vim.opt.undofile = true
 
+    -- <C-w><C-d> Show diagnostics under the cursor
+    -- [d Jump to the previous diagnostic
+    -- ]d Jump to the next diagnostic
     vim.diagnostic.config({
         -- Show diagnostics with higher severity before lower severity
         severity_sort = true,
@@ -57,8 +60,6 @@ do -- Behaviour
 
     local keymap_opts = { silent = false }
     vim.keymap.set("n", ";", ":")
-    vim.keymap.set("n", "<leader>df", vim.diagnostic.open_float, keymap_opts)
-    vim.keymap.set("n", "<leader>dq", vim.diagnostic.setqflist, keymap_opts)
 
     -- Exit the terminal-mode with Escape key
     vim.keymap.set("t", "<esc>", "<C-\\><C-n>")
