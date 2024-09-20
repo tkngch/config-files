@@ -1,2 +1,6 @@
-old
 iterm2
+old
+zed/.tmp*
+zed/conversations
+zed/embeddings
+zed/prompts
