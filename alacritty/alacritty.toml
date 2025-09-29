@@ -1,3 +1,4 @@
+[general]
 # https://alacritty.org/config-alacritty.html
 # Shift + Click to open a link
 
@@ -5,9 +6,6 @@ import = [
     "~/.config/alacritty/theme/themes/night_owlish_light.toml"
 ]
 
-[shell]
-program = "/opt/homebrew/bin/tmux"
-args = ["new", "-A"]
 
 [font]
 size = 14
@@ -30,3 +28,9 @@ style = "Bold Italic"
 
 [window]
 padding = { x = 4, y = 0 }
+
+[terminal]
+
+[terminal.shell]
+program = "/opt/homebrew/bin/tmux"
+args = ["new", "-A"]

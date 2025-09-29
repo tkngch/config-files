@@ -7,6 +7,12 @@
 // custom settings, run the `open default settings` command
 // from the command palette or from `Zed` application menu.
 {
+  "agent": {
+    "default_model": {
+      "provider": "copilot_chat",
+      "model": "gpt-4.1"
+    }
+  },
   "theme": "One Light",
   "telemetry": {
     "diagnostics": false,
@@ -16,5 +22,7 @@
   "buffer_font_size": 16,
   "vim_mode": true,
   "relative_line_numbers": true,
-  "soft_wrap": "editor_width"
+  "soft_wrap": "editor_width",
+  "format_on_save": "off",
+  "file_scan_exclusions": ["**/.git", "**/.venv"]
 }
