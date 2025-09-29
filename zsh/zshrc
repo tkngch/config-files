@@ -8,11 +8,11 @@ export GREP_COLOR='1;33'  # color grep output in yellow
 typeset -U path  # Keep only the unique elements in PATH
 
 if [ -d /opt/homebrew/bin ]; then
-    # sudo chgrp -R admin /opt/homebrew
-    # sudo chmod -R g+rwX /opt/homebrew
-
     # Load the completion files that homebrew provides, by allowing the
-    # directories owned by another user (i.e., homebrew user).
+    # directories that are group-writable. To allow multiple users to use
+    # homebrew, the homebrew directory needs to be owned by a group:
+    #   sudo chgrp -R admin /opt/homebrew
+    #   sudo chmod -R g+rwX /opt/homebrew
     ZSH_LOAD_INSECURE_COMP=true
 
     # opt out of Homebrew’s analytics
@@ -76,9 +76,9 @@ if [[ "$ZSH_LOAD_INSECURE_COMP" != true ]]; then
   # Load only from secure directories
   compinit
 else
-  # By default, the completion system does not use files that are not owned
-  # by root or by the current user, or files in directories that are world-
-  # or group-writable. With '-u' option, such files or directories are used.
+  # With '-u' option, the completion system uses files that are not owned by
+  # root or by the current user, and files in directories that are world- or
+  # group-writable.
   compinit -u
 fi
 
