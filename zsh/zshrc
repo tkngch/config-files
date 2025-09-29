@@ -6,8 +6,20 @@ export LESS="-r"  # color support
 export GREP_COLOR='1;33'  # color grep output in yellow
 
 typeset -U path  # Keep only the unique elements in PATH
+
 if [ -d /opt/homebrew/bin ]; then
-    path+=/opt/homebrew/bin
+    # sudo chgrp -R admin /opt/homebrew
+    # sudo chmod -R g+rwX /opt/homebrew
+
+    # Load the completion files that homebrew provides, by allowing the
+    # directories owned by another user (i.e., homebrew user).
+    ZSH_LOAD_INSECURE_COMP=true
+
+    # opt out of Homebrew’s analytics
+    export HOMEBREW_NO_ANALYTICS=1
+
+    # Set PATH, MANPATH, etc., for Homebrew.
+    eval "$(/opt/homebrew/bin/brew shellenv)"
 fi
 
 # ALIASES
@@ -18,20 +30,6 @@ alias mv='mv -iv'
 alias cp='cp -i -p'
 alias rm='rm -iv'
 alias grep='grep --color=always'
-
-
-# HOMEBREW
-# ========
-if type brew &>/dev/null; then
-    # opt out of Homebrew’s analytics
-    export HOMEBREW_NO_ANALYTICS=1
-
-    # Set PATH, MANPATH, etc., for Homebrew.
-    eval "$(brew shellenv)"
-
-    # Enable completions. FPATH needs to be set before `compinit` is called.
-    FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
-fi
 
 
 # COMMAND HISTORY
@@ -74,7 +72,15 @@ zstyle ':completion:*' accept-exact '*(N)'
 # autocomplete aliases
 setopt COMPLETE_ALIASES
 # initialise
-compinit
+if [[ "$ZSH_LOAD_INSECURE_COMP" != true ]]; then
+  # Load only from secure directories
+  compinit
+else
+  # By default, the completion system does not use files that are not owned
+  # by root or by the current user, or files in directories that are world-
+  # or group-writable. With '-u' option, such files or directories are used.
+  compinit -u
+fi
 
 
 # REMEMBERING RECENT DIRECTORIES
