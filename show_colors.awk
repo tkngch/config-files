@@ -1,4 +1,4 @@
-#!/bin/awk -f
+#!/usr/bin/awk -f
 
 BEGIN{
     s="/\\/\\/\\/\\/\\"; s=s s s s s s s s;
