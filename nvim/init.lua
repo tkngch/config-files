@@ -100,7 +100,3 @@ vim.opt.rtp:prepend(lazypath)
 
 -- Load the packages defined in .config/nvim/lua/plugins/*.lua
 require("lazy").setup("plugins")
-
-function ReloadInit()
-    vim.cmd.source(vim.env.MYVIMRC)
-end

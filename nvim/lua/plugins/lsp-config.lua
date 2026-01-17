@@ -1,6 +1,5 @@
 return {
     "neovim/nvim-lspconfig",
-    event = { "BufReadPost", "BufNewFile", "BufWritePre" },
     config = function()
         vim.lsp.enable("lua_ls")
         vim.lsp.enable("gopls")
