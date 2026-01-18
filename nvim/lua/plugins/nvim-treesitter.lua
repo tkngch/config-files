@@ -4,8 +4,15 @@ return { -- syntax highlighting and more
     build = ":TSUpdate",
     config = function()
         require("nvim-treesitter.configs").setup({
-            auto_install = true,
+            modules = {},
+            -- A list of parser names, or "all"
             ensure_installed = { "lua", "vim", "vimdoc" },
+            -- Automatically install missing parsers when entering buffer
+            auto_install = true,
+            -- Install parsers synchronously (only applied to `ensure_installed`)
+            sync_install = false,
+            -- List of parsers to ignore installing (for "all")
+            ignore_install = {},
             incremental_selection = {
                 enable = true,
                 keymaps = { -- set to `false` to disable one of the mappings

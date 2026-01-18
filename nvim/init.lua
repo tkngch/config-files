@@ -22,6 +22,8 @@ do -- Appearance
 
     -- Enables 24-bit RGB color in the TUI.
     vim.opt.termguicolors = true
+
+    vim.cmd.colorscheme("wildcharm")
 end
 
 do -- Behaviour
@@ -66,10 +68,10 @@ do -- Behaviour
 
     vim.api.nvim_create_autocmd("LspAttach", {
         callback = function()
-            vim.keymap.set("n", "<leader>ld", vim.lsp.buf.definition, keymap_opts)
+            vim.keymap.set("n", "<C-]>", vim.lsp.buf.definition, keymap_opts)
+            vim.keymap.set("n", "<C-[>", vim.lsp.buf.references, keymap_opts)
+            vim.keymap.set("n", "<F2>", vim.lsp.buf.rename, keymap_opts)
             vim.keymap.set("n", "<leader>li", vim.lsp.buf.implementation, keymap_opts)
-            vim.keymap.set("n", "<leader>lu", vim.lsp.buf.references, keymap_opts)
-            vim.keymap.set("n", "<leader>lr", vim.lsp.buf.rename, keymap_opts)
         end,
     })
 
