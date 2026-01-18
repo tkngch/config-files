@@ -1,5 +1,6 @@
 return { -- file explorer
     "nvim-tree/nvim-tree.lua",
+    dependencies = { "nvim-tree/nvim-web-devicons" },
     config = function()
         -- disable netrw
         vim.g.loaded_netrw = 1
@@ -16,18 +17,22 @@ return { -- file explorer
                 enable = true,
             },
             renderer = {
+                -- Appends a trailing slash to folder names.
+                add_trailing = true,
+                -- Compact folders that only contain a single folder into one node.
                 group_empty = true,
+                -- Enable highlight for git attributes.
+                highlight_git = "name",
                 icons = {
-                    git_placement = "after",
                     show = {
+                        bookmarks = false,
+                        diagnostics = false,
                         file = false,
                         folder = false,
-                        folder_arrow = false,
-                        git = true,
-                        modified = true,
+                        folder_arrow = true,
+                        git = false,
                         hidden = false,
-                        diagnostics = false,
-                        bookmarks = false,
+                        modified = false,
                     },
                 },
             },

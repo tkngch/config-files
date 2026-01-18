@@ -1,7 +1,10 @@
 return { --  fuzzy finder for files, buffers, and more
     "nvim-telescope/telescope.nvim",
-    tag = "0.1.6",
-    dependencies = { "nvim-lua/plenary.nvim" },
+    tag = "v0.2.1",
+    dependencies = {
+        "nvim-lua/plenary.nvim",
+        { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
+    },
     config = function()
         local actions = require("telescope.actions")
         local builtin = require("telescope.builtin")
