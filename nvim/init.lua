@@ -23,6 +23,7 @@ do -- Appearance
     -- Enables 24-bit RGB color in the TUI.
     vim.opt.termguicolors = true
 
+    vim.opt.background = "light"
     vim.cmd.colorscheme("wildcharm")
 end
 
