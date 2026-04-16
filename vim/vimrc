@@ -67,3 +67,5 @@ set statusline+=%=  " separate between right- and left-aligned
 set statusline+=%{&spelllang}
 set statusline+=\ %y  " file type
 set statusline+=\ (row:%l/%L,\ col:%c)  " line and column
+
+colorscheme desert
