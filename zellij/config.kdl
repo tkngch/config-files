@@ -15,6 +15,11 @@ theme "catppuccin-latte"
 //
 on_force_close "quit"
 
+// Choose the mode that zellij uses when starting up.
+// Default: normal
+//
+default_mode "locked"
+
 // Configure the scroll back buffer size
 // This is the number of lines zellij stores for each pane in the scroll back
 // buffer. Excess number of lines are discarded in a FIFO fashion.
