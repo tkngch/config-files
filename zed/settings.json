@@ -7,15 +7,22 @@
 // custom settings, run the `open default settings` command
 // from the command palette or from `Zed` application menu.
 {
+  "disable_ai": true,
   "agent": {
     "default_model": {
-      "provider": "copilot_chat",
-      "model": "gpt-4.1"
+      "provider": "anthropic",
+      "model": "claude-sonnet-4-5-thinking-latest"
     }
+  },
+  "edit_predictions": {
+    "mode": "subtle"
   },
   "telemetry": {
     "diagnostics": false,
     "metrics": false
+  },
+  "terminal": {
+    "dock": "right"
   },
   "vim_mode": true,
   "vim": {
