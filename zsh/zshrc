@@ -125,6 +125,8 @@ ${vcs_info_msg_0_}
 %B%d%b
 %# '
 
+RPROMPT='%F{8}%n%f'
+
 
 # MISC
 # ====
